@@ -1,53 +1,58 @@
 {% extends 'base.html' %}
 
+
 {% block head %}
 {%- if modeSombre == '1': -%}
     {% set mode='--dark-filter' %}
 {%- else -%}
     {% set mode='--light-filter' %}
 {%- endif -%}
-<style> body {
-    background-image: linear-gradient(var({{mode}}),var({{mode}})),url("{{family.img}}");
-}</style>
-{% endblock head %}
-
-{% macro nav(classes='') -%}
-    <div class="pure-u-1-3 {{classes}} is-center"> <a href={{previous}} class="pure-button"> <i class="fa fa-chevron-left"></i> </a> </div>
-    <div class="pure-u-1-3 {{classes}} is-center"> <a href={{home}} class="pure-button"> <i class="far fa-square"></i> </a> </div>
-    <div class="pure-u-1-3 {{classes}} is-center"> <a href={{next}} class="pure-button"> <i class="fa fa-chevron-right"></i> </a> </div>
-{% endmacro -%}
+<style> body { background-image: linear-gradient(var({{mode}}),var({{mode}})),url("{{family.img}}");}</style>
+{%- endblock head -%}
 
 
-{% block servers %}
-                <form class="" method="post">
-                {% for id, server in dictOfServers.items() %}
-                <li class="pure-menu-item recent-link">
-                    <button class="pure-button {{server.state}}" name="{{id}}" value="switch">
-                        <span class="tooltip"><div class="tooltiptext">{{server.name}}</div></span>
-                        <i class="{{ server.faIcon }}"></i>
-                    </button>
-                </li>
-{% endfor %}
+{%- block pageTitle -%}
+<a class="pure-menu-heading" href="/iptv/edit">{{title}}</a>
+{%- endblock pageTitle -%}
+
+
+{%- macro nav(classes='') -%}
+<div class="pure-u-1-3 {{classes}} is-center"> <a href={{previous}} class="pure-button"> <i class="fa fa-chevron-left"></i> </a> </div>
+<div class="pure-u-1-3 {{classes}} is-center"> <a href={{home}} class="pure-button"> <i class="far fa-square"></i> </a> </div>
+<div class="pure-u-1-3 {{classes}} is-center"> <a href={{next}} class="pure-button"> <i class="fa fa-chevron-right"></i> </a> </div>
+{%- endmacro -%}
+
+
+{%- macro servers() -%}
+<form class="" method="post">
+{%- for id, server in dictOfServers.items() %}
+    <li class="pure-menu-item recent-link">
+        <button class="pure-button {{server.state}}" name="{{id}}" value="switch">
+            <span class="tooltip"><div class="tooltiptext">{{server.name}}</div></span>
+            <i class="{{ server.faIcon }}"></i>
+        </button>
+    </li>
+{%- endfor %}
 </form>
-{% endblock servers %}
+{%- endmacro -%}
 
 
-{% block cards %}
-{% for id, card in family.dictOfCards.items() %}
-    <div class="card-wrapper is-center">
-        <div class="card">
-            <div class="card-img" onclick="location.href='{{card.url}}';">
-                <img src="{{card.picture}}" onerror="src='static/img/broken.png'"/> 
-            </div>
-            <div class="card-name is-center">{{id}} <br><b>{{card.name}}</b></div>
+{%- macro cards() -%}
+{%- for id, card in family.dictOfCards.items() -%}
+<div class="card-wrapper is-center">
+    <div class="card">
+        <div class="card-img" onclick="location.href='{{card.url}}';">
+            <img src="{{card.picture}}" onerror="src='static/img/broken.png'"/> 
         </div>
+        <div class="card-name is-center">{{id}} <br><b>{{card.name}}</b></div>
     </div>
-{% endfor %}
+</div>
+{% endfor -%}
 
-    <script type="text/javascript">
-        loadValues({{family.dictOfCards|length}},{{ratio}});
-        updateCardSizes();
-    </script>
-{% endblock cards %}
+<script type="text/javascript">
+    loadValues({{family.dictOfCards|length}},{{ratio}});
+    updateCardSizes();
+</script>
+{%- endmacro -%}
 
 <!-- Improvement: onclick card-name => shows popup with name, img & comments -->
