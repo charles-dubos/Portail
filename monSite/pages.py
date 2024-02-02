@@ -40,6 +40,10 @@ def edit(path):
     """
     global database
 
-    print("Edit page for {}".format(path))
-
-    return redirect(url_for('pages.main', path=path))
+    return render_template('pages/edit.html',
+                           path=path,
+                           database=database,
+                           previous=prevPage(database=database, current=path),
+                           next=nextPage(database=database, current=path),
+                           ratio=1
+                           )

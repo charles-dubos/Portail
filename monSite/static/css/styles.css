@@ -185,6 +185,7 @@ label {
     display: flex;
     flex-direction: column;
     overflow: hidden;
+    line-height: normal;
 }
 .card:hover {
     filter: drop-shadow(0 0 1vw var(--fg-menu-color));

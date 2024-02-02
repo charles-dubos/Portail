@@ -46,7 +46,6 @@ function updateCardSizes() {
       card.style.width = a+'px';
       card.style.height = Math.floor(r*a)+'px';
       card.style.fontSize = Math.floor(a/10)+'px';
-      console.log(card.style.width, card.style.height);
     }
   )
 }
