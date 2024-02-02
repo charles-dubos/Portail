@@ -74,8 +74,7 @@ label {
 }
 .header-menu {
     /* Fixed menus normally have a border at the bottom. */
-    border-bottom: none;
-    padding-bottom: none;
+    padding-bottom: 0;
     /* I need a higher z-index here because of the scroll-over effect. */
     z-index: 4;
 }
@@ -177,6 +176,7 @@ label {
     display: flex;
     justify-content: center;
     align-content: center;
+    overflow: hidden;
 }
 
 .card {

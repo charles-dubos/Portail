@@ -26,14 +26,11 @@ def main(path):
             pass
 
     return render_template('pages/main.html',
-                           title=getTitle(database=database, current=path),
+                           path=path,
+                           database=database,
                            previous=prevPage(database=database, current=path),
-                           home=database.getConfig()['mainPage'],
                            next=nextPage(database=database, current=path),
-                           dictOfServers=database.getServers(),
-                           family=database.families[path],
-                           ratio=1,
-                           modeSombre=database.config['modeSombre']
+                           ratio=1
                            )
 
 

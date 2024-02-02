@@ -41,10 +41,6 @@ def startingChecks(database:Database) -> None:
         value=database.getFamiliesNames()[0])
 
 
-def getTitle(database:Database, current:str):
-  return database.families[current].title
-
-
 ## Navigation
 def nextPage(database:Database,current:str)->str:
   listPages = database.getFamiliesNames()
