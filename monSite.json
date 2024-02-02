@@ -1,0 +1,236 @@
+{
+  "FAMILIES": {
+    "iptv": {
+      "title": "Direct TV",
+      "img": "https://img.oastatic.com/img2/30145455/max/variant.jpg?revbust=547f0b64",
+      "dictOfCards": {
+        "1":{
+          "name": "TF1",
+          "picture": "https://static-cdn.tv.sfr.net/data/logos/tv_services/TF1_color.png",
+          "comments": "La chaîne TF1 en direct",
+          "url": "https://tv.sfr.fr/channel/1"
+        },
+        "2":{
+          "name": "France 2",
+          "picture": "https://static-cdn.tv.sfr.net/data/logos/tv_services/France_2_color.png",
+          "comments": "France 2 en direct",
+          "url": "https://tv.sfr.fr/channel/2"
+        },
+        "3":{
+          "name": "FR3",
+          "picture": "https://static-cdn.tv.sfr.net/data/logos/tv_services/France_3_color.png",
+          "comments": "La 3 en direct",
+          "url": "https://tv.sfr.fr/channel/3"
+        },
+        "4":{
+          "name": "Canal+",
+          "picture": "https://static-cdn.tv.sfr.net/data/logos/tv_services/Canal_color.png",
+          "comments": "",
+          "url": "https://tv.sfr.fr/channel/4"
+        },
+        "5":{
+          "name": "France 5",
+          "picture": "https://static-cdn.tv.sfr.net/data/logos/tv_services/France_5_color.png",
+          "comments": "",
+          "url": "https://tv.sfr.fr/channel/5"
+        },
+        "6":{
+          "name": "M6",
+          "picture": "https://static-cdn.tv.sfr.net/data/img/apps/chaines/logos/M6100x100fondgris.png",
+          "comments": "",
+          "url": "https://tv.sfr.fr/channel/6"
+        },
+        "7":{
+          "name": "Arte",
+          "picture": "https://static-cdn.tv.sfr.net/data/logos/tv_services/Arte_color.png",
+          "comments": "",
+          "url": "https://tv.sfr.fr/channel/7"
+        },
+        "8":{
+          "name": "C8",
+          "picture": "https://static-cdn.tv.sfr.net/data/logos/tv_services/C8_color.png",
+          "comments": "",
+          "url": "https://tv.sfr.fr/channel/8"
+        },
+        "9":{
+          "name": "W9",
+          "picture": "https://static-cdn.tv.sfr.net/data/logos/tv_services/W9_color.png",
+          "comments": "",
+          "url": "https://tv.sfr.fr/channel/9"
+        },
+        "10":{
+          "name": "TMC",
+          "picture": "https://static-cdn.tv.sfr.net/data/logos/tv_services/TMC_color.png",
+          "comments": "",
+          "url": "https://tv.sfr.fr/channel/10"
+        },
+        "11":{
+          "name": "TFX",
+          "picture": "https://static-cdn.tv.sfr.net/data/logos/tv_services/TFX_color.png",
+          "comments": "",
+          "url": "https://tv.sfr.fr/channel/11"
+        },
+        "12":{
+          "name": "NRJ12",
+          "picture": "https://static-cdn.tv.sfr.net/data/logos/tv_services/NRJ12_color.png",
+          "comments": "",
+          "url": "https://tv.sfr.fr/channel/12"
+        },
+        "13":{
+          "name": "LCP",
+          "picture": "https://static-cdn.tv.sfr.net/data/logos/tv_services/LCP_color.png",
+          "comments": "",
+          "url": "https://tv.sfr.fr/channel/13"
+        },
+        "14":{
+          "name": "France 4",
+          "picture": "https://static-cdn.tv.sfr.net/data/logos/tv_services/France_4_color.png",
+          "comments": "",
+          "url": "https://tv.sfr.fr/channel/14"
+        },
+        "15":{
+          "name": "BFM TV",
+          "picture": "https://static-cdn.tv.sfr.net/data/logos/tv_services/BFM_TV_color.png",
+          "comments": "",
+          "url": "https://tv.sfr.fr/channel/15"
+        },
+        "16":{
+          "name": "CNews",
+          "picture": "https://static-cdn.tv.sfr.net/data/logos/tv_services/CNews_color.png",
+          "comments": "",
+          "url": "https://tv.sfr.fr/channel/16"
+        },
+        "17":{
+          "name": "CStar",
+          "picture": "https://static-cdn.tv.sfr.net/data/logos/tv_services/CStar_color.png",
+          "comments": "",
+          "url": "https://tv.sfr.fr/channel/17"
+        },
+        "18":{
+          "name": "Gulli",
+          "picture": "https://static-cdn.tv.sfr.net/data/img/apps/chaines/logos/Gulli100x100Couleur.png",
+          "comments": "",
+          "url": "https://tv.sfr.fr/channel/18"
+        },
+        "19":{
+          "name": "France O",
+          "picture": "",
+          "comments": "",
+          "url": ""
+        },
+        "20":{
+          "name": "TF1 séries films",
+          "picture": "https://static-cdn.tv.sfr.net/data/logos/tv_services/TF1_Series_Films_color.png",
+          "comments": "",
+          "url": "https://tv.sfr.fr/channel/19"
+        },
+        "21":{
+          "name": "L'Equipe TV",
+          "picture": "https://static-cdn.tv.sfr.net/data/logos/tv_services/L_Equipe_color.png",
+          "comments": "",
+          "url": "https://tv.sfr.fr/channel/21"
+        },
+        "22":{
+          "name": "6 Ter",
+          "picture": "https://static-cdn.tv.sfr.net/data/logos/tv_services/6ter_color.png",
+          "comments": "",
+          "url": "https://tv.sfr.fr/channel/22"
+        },
+        "23":{
+          "name": "RMC Story",
+          "picture": "https://static-cdn.tv.sfr.net/data/logos/tv_services/RMC_STORY_color.png",
+          "comments": "",
+          "url": "https://tv.sfr.fr/channel/23"
+        },
+        "24":{
+          "name": "RMC Découverte",
+          "picture": "https://static-cdn.tv.sfr.net/data/logos/tv_services/RMC_Decouverte_color.png",
+          "comments": "",
+          "url": "https://tv.sfr.fr/channel/24"
+        },
+        "25":{
+          "name": "Chérie 25",
+          "picture": "https://static-cdn.tv.sfr.net/data/logos/tv_services/Cherie_25_color.png",
+          "comments": "",
+          "url": "https://tv.sfr.fr/channel/25"
+        },
+        "26":{
+          "name": "LCI",
+          "picture": "https://static-cdn.tv.sfr.net/data/logos/tv_services/LCI_color.png",
+          "comments": "",
+          "url": "https://tv.sfr.fr/channel/26"
+        },
+        "27":{
+          "name": "France Info",
+          "picture": "https://static-cdn.tv.sfr.net/data/logos/tv_services/franceinfo:_color.png",
+          "comments": "",
+          "url": "https://tv.sfr.fr/channel/27"
+        },
+        "40":{
+          "name": "France 24",
+          "picture": "https://static-cdn.tv.sfr.net/data/logos/tv_services/France_24_color.png",
+          "comments": "",
+          "url": "https://tv.sfr.fr/channel/47"
+        },
+        "41":{
+          "name": "Euronews",
+          "picture": "https://static-cdn.tv.sfr.net/data/img/apps/chaines/logos/EURONEWS100x100.png",
+          "comments": "",
+          "url": "https://tv.sfr.fr/channel/48"
+        },
+        "42":{
+          "name": "Sky News",
+          "picture": "https://static-cdn.tv.sfr.net/data/logos/tv_services/Sky_News_color.png",
+          "comments": "",
+          "url": "https://tv.sfr.fr/channel/549"
+        },
+        "43":{
+          "name": "BBC News",
+          "picture": "https://static-cdn.tv.sfr.net/data/img/apps/chaines/logos/BBCNews2022100x100couleur.png",
+          "comments": "",
+          "url": "https://tv.sfr.fr/channel/542"
+        },
+        "44":{
+          "name": "CNN",
+          "picture": "https://static-cdn.tv.sfr.net/data/logos/tv_services/CNN_International_color.png",
+          "comments": "",
+          "url": "https://tv.sfr.fr/channel/541"
+        },
+        "45":{
+          "name": "KTO",
+          "picture": "https://static-cdn.tv.sfr.net/data/logos/tv_services/KTO_color.png",
+          "comments": "",
+          "url": "https://tv.sfr.fr/channel/179"
+        }
+      }
+    },
+    "liens": {
+      "title": "Liens divers",
+      "img": "",
+      "dictOfCards": {
+        "1":{
+          "name": "Google",
+          "picture": "",
+          "comments": "Un moteur de recherche bien connu...",
+          "url": "https://www.google.com"
+        }
+      }
+    }
+  },
+  "SERVERS": {
+    "smb": {
+      "name": "Samba",
+      "faIcon": "fa fa-share-alt",
+      "action": ""
+    },
+    "ssh": {
+      "name": "SSH",
+      "faIcon": "fa fa-terminal",
+      "action": ""
+    }
+  },
+  "CONFIGURATION": {
+    "mainPage": "liens",
+    "modeSombre": "1"
+  }
+}

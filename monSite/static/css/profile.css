@@ -1,0 +1,11 @@
+:root {
+  --fg-color: #7f8c8d;
+  --bg-color: #111f1f;
+
+  --fg-menu-color: #7f8c8d;
+  --bg-menu-color: #2d3e50;
+  --emph-menu-color: white;
+
+  --light-filter: #ffffff88;
+  --dark-filter: #00000088;
+}

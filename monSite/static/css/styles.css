@@ -1,0 +1,213 @@
+@import url("profile.css");
+
+* {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+/*
+ * -- BASE STYLES --
+ * Most of these are inherited from Base, but I want to change a few.
+ */
+body {
+    margin: 0.1px;
+    line-height: 1.7em;
+    color: var(--fg-color);
+    font-size: 13px;
+    background: var(--bg-color);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center top;
+    background-attachment: fixed;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+label {
+    color: var(--fg-color);
+}
+
+
+/*
+ * -- LAYOUT STYLES --
+ * These are some useful classes which I will need
+ */
+.is-left { text-align: left; }
+.is-center { text-align: center; }
+.is-right { text-align: right; }
+
+
+/*
+ * -- PURE BUTTON STYLES --
+ * I want my pure-button elements to look a little different
+ */
+.pure-button {
+    background-color: var(--bg-menu-color);
+    color: var(--emph-menu-color);
+    padding: 0.5em 2em;
+    border-radius: 5px;
+    font-size: 13px;
+}
+.pure-button:hover {
+    background-color:#7f8c8d;
+    color:#252525;
+}
+
+
+/*
+ * -- MENU STYLES --
+ * I want to customize how my .pure-menu looks at the top of the page
+ */
+
+.home-menu {
+    padding: 0.5em;
+    text-align: center;
+    box-shadow: 0 1px 1px rgba(0,0,0, 0.10);
+    background: var(--bg-menu-color);
+    position: fixed;
+    width:100%;
+}
+.header-menu {
+    /* Fixed menus normally have a border at the bottom. */
+    border-bottom: none;
+    padding-bottom: none;
+    /* I need a higher z-index here because of the scroll-over effect. */
+    z-index: 4;
+}
+.pure-menu-heading {
+    color: var(--emph-menu-color);
+}
+
+
+/* This is the class used for the footer */
+.footer {
+    bottom: 0;
+    border-top: none;
+    padding-top: none;
+    z-index: 4;
+}
+
+
+/*
+ * Adaptation of menu depending on screen orientation.
+ */
+
+@media screen and (orientation: portrait) {
+    .portrait { visibility: visible; }
+    .landscape { visibility: hidden; }
+}
+  
+@media screen and (orientation: landscape) {
+    .portrait { visibility: hidden; }
+    .landscape { visibility: visible; }
+}
+
+
+/* 
+ * States of servers
+*/
+.stateON { color:green; }
+.stateOFF { color:red; }
+.stateERR { color:orange; }
+
+
+/* 
+ * Tooltips management
+ */
+.recent-link {
+    position: relative;
+    color: var(--bg-menu-color);
+    font-size: 1rem;
+}
+
+.tooltip { 
+    position: absolute; 
+    opacity: 0; 
+    z-index: 1;
+    left: 50%;
+    top: 150%;
+    transform: translateX(-50%);
+}
+
+.recent-link:hover .tooltip { 
+    opacity: 1; 
+    transition: 0.5s;
+    transition-delay: 0.1s;
+}
+
+.tooltiptext {
+    display: flex; 
+    flex-direction: column; 
+    justify-content: flex-start; 
+    background-color: var(--bg-menu-color);
+    padding: 12px; 
+    border-radius: 3px; 
+    color: var(--emph-menu-color); 
+    line-height: 10px;
+    transition: 1s;
+    width: 100px;
+}
+
+
+/*
+ * -- CONTENT STYLES --
+ * Bunch of cards management
+ */
+.content-wrapper {
+    position: absolute;
+    width: 100%;
+    min-height: 12%;
+    z-index: 2;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: start;
+    align-items: stretch;
+    padding: 0;
+    margin: 0;
+}
+/*
+ * Card management
+ */
+.card-wrapper {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+}
+
+.card {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+.card:hover {
+    filter: drop-shadow(0 0 1vw var(--fg-menu-color));
+    text-shadow: 0 0 1vw var(--fg-menu-color);
+    transform: scale(1.2);
+    transition: transform .1s;
+}
+
+.card-img {
+    padding: 5%;
+    padding-bottom: 0;
+    width: 90%;
+    height: 60%;
+    filter: drop-shadow(0 0 0.1vw var(--emph-menu-color));
+}
+
+img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+.card-name {
+    width: 90%;
+    height: 30%;
+    padding: 5%;
+}
