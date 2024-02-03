@@ -20,29 +20,168 @@
 
 
 {%- macro nav(classes='') -%}
-<div class="pure-u-1-3 {{classes}} is-center"> <a href='edit conf' class="pure-button"> <i class="fa-solid fa-gear"></i> </a> </div>
-<div class="pure-u-1-3 {{classes}} is-center"> <a href='edit family' class="pure-button"> <i class="fa-regular fa-calendar"></i> </a> </div>
-<div class="pure-u-1-3 {{classes}} is-center"> <a href='new family' class="pure-button"> <i class="fa-regular fa-calendar-plus"></i> </a> </div>
+<div class="pure-u-1-3 {{classes}} is-center"> <div class="pure-button" onclick="enableModal('modal-editConf')"> <i class="fa-solid fa-gear"></i> </div> </div>
+<div class="pure-u-1-3 {{classes}} is-center"> <div class="pure-button" onclick="enableModal('modal-editFam')"> <i class="fa-regular fa-calendar"></i> </div> </div>
+<div class="pure-u-1-3 {{classes}} is-center"> <div class="pure-button" onclick="enableModal('modal-newFam')"> <i class="fa-regular fa-calendar-plus"></i> </div> </div>
+<div class="modal" id="modal-editConf">
+    <div class="modal-content">
+        <div class="modal-menu">
+            <h1 >Edition de configuration</h1>
+        </div>
+        <form class="pure-form pure-form-aligned" method="post">
+            <fieldset>
+                {% for key, value in database.config.items() %}
+                <div class="pure-control-group">
+                    <label for="aligned-{{key}}">{{key}}</label>
+                    <input type="text" name="{{key}}" value="{{value}}">
+                </div>
+                {% endfor %}
+                <div class="is-right"> 
+                    <div class="pure-button stateERR close"><i class="fa-solid fa-rotate-left"></i></div>
+                    <button type="submit" name="save-conf" class="pure-button"><i class="fa-regular fa-floppy-disk"></i></button>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+</div>
+<div class="modal" id="modal-editFam">
+    <div class="modal-content">
+        <div class="modal-menu">
+            <h1 >Edition de {{database.families[path].title}}</h1>
+        </div>
+        <form class="pure-form pure-form-aligned" method="post">
+            <fieldset>
+                <input type="hidden" name="current" value="{{path}}" >
+                <div class="pure-control-group">
+                    <label for="aligned-title">Titre</label>
+                    <input type="text" name="title" value="{{database.families[path].title}}">
+                </div>
+                <div class="pure-control-group">
+                    <label for="aligned-famId">Identifiant</label>
+                    <input type="text" name="famId" value="{{path}}" required="">
+                </div>
+                <div class="pure-control-group">
+                    <label for="aligned-img">Image de fond</label>
+                    <input type="text" name="img" value="{{database.families[path].img}}" size="75">
+                </div>
+                <div class="is-right">
+                    <button type="submit" name="delete-fam" class="pure-button stateOFF"><i class="fa-regular fa-trash-can"></i></button>
+                    <div class="pure-button stateERR close"><i class="fa-solid fa-rotate-left"></i></div>
+                    <button type="submit" name="save-fam" class="pure-button"><i class="fa-regular fa-floppy-disk"></i></button>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+</div>
+<div class="modal" id="modal-newFam">
+    <div class="modal-content">
+        <div class="modal-menu">
+            <h1 >Nouvelle famille de liens</h1>
+        </div>
+        <form class="pure-form pure-form-aligned" method="post">
+            <fieldset>
+                <div class="pure-control-group">
+                    <label for="aligned-title">Titre</label>
+                    <input type="text" name="title">
+                </div>
+                <div class="pure-control-group">
+                    <label for="aligned-famId">Identifiant</label>
+                    <input type="text" name="famId" required="">
+                </div>
+                <div class="pure-control-group">
+                    <label for="aligned-img">Image de fond</label>
+                    <input type="text" name="img" size="75">
+                </div>
+                <div class="is-right">
+                    <div class="pure-button stateERR close"><i class="fa-solid fa-rotate-left"></i></div>
+                    <button type="submit" name="new-fam" class="pure-button"><i class="fa-regular fa-floppy-disk"></i></button>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+</div>
 {%- endmacro -%}
 
 
 {%- macro servers() -%}
-<form class="" method="post">
-    <li class="pure-menu-item recent-link">
-        <button class="pure-button" name="Nouveau" value="new">
-            <span class="tooltip"><div class="tooltiptext">Nouv. serv.</div></span>
-            <i class="fas fa-square-plus"></i>
-        </button>
-    </li>
-{%- for id, server in database.getServers().items() %}
-    <li class="pure-menu-item recent-link">
-        <button class="pure-button" name="{{id}}" value="switch">
-            <span class="tooltip"><div class="tooltiptext">{{server.name}}</div></span>
-            <i class="{{ server.faIcon }}"></i>
-        </button>
-    </li>
+<li class="pure-menu-item recent-link">
+    <div class="pure-button" onclick="enableModal('modal-newServ')">
+        <span class="tooltip"><div class="tooltiptext">Nouv. serv.</div></span>
+        <i class="fas fa-square-plus"></i>
+    </div>
+    <div class="modal" id="modal-newServ">
+        <div class="modal-content">
+            <div class="modal-menu">
+                <h1 >Nouveau serveur</h1>
+            </div>
+            <form class="pure-form pure-form-aligned" method="post">
+                <fieldset>
+                    <div class="pure-control-group">
+                        <label for="aligned-id">Identifiant</label>
+                        <input type="text" name="id" required="">
+                    </div>
+                    <div class="pure-control-group">
+                        <label for="aligned-name">Nom du serveur</label>
+                        <input type="text" name="name">
+                    </div>
+                    <div class="pure-control-group">
+                        <label for="aligned-faIcon">fa Icon</label>
+                        <input type="text" name="faIcon">
+                    </div>
+                    <div class="pure-control-group">
+                        <label for="aligned-daemon">Service</label>
+                        <input type="text" name="daemon">
+                    </div>
+                    <div class="is-right">
+                        <div class="pure-button stateERR close"><i class="fa-solid fa-rotate-left"></i></div>
+                        <button type="submit" name="new-serv" class="pure-button"><i class="fa-regular fa-floppy-disk"></i></button>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>    
+</li>
+{%- for id, server in database.servers.items() %}
+<li class="pure-menu-item recent-link">
+    <div class="pure-button" onclick="enableModal('modal-serv{{id}}')">
+        <span class="tooltip"><div class="tooltiptext">{{server.name}}</div></span>
+        <i class="{{ server.faIcon }}"></i>
+    </div>
+    <div class="modal" id="modal-serv{{id}}">
+        <div class="modal-content">
+            <div class="modal-menu">
+                <h1 >{{id}} - {{server.name}}</h1>
+            </div>
+            <form class="pure-form pure-form-aligned" method="post">
+                <fieldset>
+                    <input type="hidden" name="current" value="{{id}}" >
+                    <div class="pure-control-group">
+                        <label for="aligned-id">Identifiant</label>
+                        <input type="text" name="id" value="{{id}}" required="">
+                    </div>
+                    <div class="pure-control-group">
+                        <label for="aligned-name">Nom du serveur</label>
+                        <input type="text" name="name" value="{{server.name}}">
+                    </div>
+                    <div class="pure-control-group">
+                        <label for="aligned-faIcon">fa Icon</label>
+                        <input type="text" name="faIcon" value="{{server.faIcon}}">
+                    </div>
+                    <div class="pure-control-group">
+                        <label for="aligned-daemon">Service</label>
+                        <input type="text" name="daemon" value="{{server.daemon}}">
+                    </div>
+                    <div class="is-right">
+                        <button type="submit" name="delete-serv" class="pure-button stateOFF"><i class="fa-regular fa-trash-can"></i></button>
+                        <div class="pure-button stateERR close"><i class="fa-solid fa-rotate-left"></i></div>
+                        <button type="submit" name="save-serv" class="pure-button"><i class="fa-regular fa-floppy-disk"></i></button>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+</li>
 {%- endfor %}
-</form>
 {%- endmacro -%}
 
 
@@ -84,7 +223,7 @@
                     <label for="aligned-comments">Commentaires</label>
                     <textarea name="comments" rows="5" cols="75">{{card.comments}}</textarea>
                 </div>
-                <div class="is-right"> 
+                <div class="is-right">
                     <button type="submit" name="delete-card" class="pure-button stateOFF"><i class="fa-regular fa-trash-can"></i></button>
                     <div class="pure-button stateERR close"><i class="fa-solid fa-rotate-left"></i></div>
                     <button type="submit" name="save-card" class="pure-button"><i class="fa-regular fa-floppy-disk"></i></button>

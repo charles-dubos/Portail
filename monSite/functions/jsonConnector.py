@@ -6,22 +6,23 @@ class Server:
   """
   name:str = None
   faIcon:str = None
-  action:str = None
+  daemon:str = None
   state:str = 'stateERR'
 
   def __init__(self,
                jsonServer:dict,
                ) -> None:
+    logging.debug(f"Initialisation du serveur '{jsonServer['name']}'")
     self.name = jsonServer['name']
     self.faIcon = jsonServer['faIcon']
-    self.action = jsonServer['action']
+    self.daemon = jsonServer['daemon']
     self.state = self.getState()
 
   def getJson(self) -> dict:
     return {
       'name':   self.name,
       'faIcon': self.faIcon,
-      'action': self.action,
+      'daemon': self.daemon,
     }
   
   def getState(self) -> str:
@@ -29,13 +30,15 @@ class Server:
     # self.state = 'stateON'
     # self.state = 'stateERR'
     # self.state = 'stateOFF'
+    logging.debug(f"Etat du serveur '{self.state}'")
     return self.state
 
   def switchState(self) -> None:
     # Switch de l'état
     states = ['stateERR', 'stateON', 'stateOFF']
     self.state = states[(states.index(self.state)+1)%3]
-  
+    logging.info(f"Changement d'état du serveur {self.name}")
+    logging.debug(f"Nouvel état {self.state}")
   
 class Card:
   """Classe identifiant une carte
@@ -48,6 +51,7 @@ class Card:
   def __init__(self,
                 card:dict,
                 ) -> None:
+    logging.debug(f"Création de la carte #{card['name']}")
     self.name =     card['name']
     self.picture =  card['picture']
     self.comments = card['comments']
@@ -72,9 +76,9 @@ class Family:
   def __init__(self,
                jsonFamily:dict,
                ) -> None:
+    logging.debug(f"Création de la famille '{jsonFamily['title']}'")
     self.title = jsonFamily['title']
     self.img = jsonFamily['img']
-
 
     cards={}
     for number,card  in jsonFamily['dictOfCards'].items():
@@ -91,9 +95,6 @@ class Family:
       jsonFamily['dictOfCards'][number] = card.getJson()
     return jsonFamily
 
-  def getCards(self) -> dict:
-      return self.dictOfCards
-
 
 class Database:
   """Classe permettant la connexion à un fichier JSON 
@@ -106,21 +107,21 @@ class Database:
   def __init__(self,
                path:str,
                ) -> None:
+    logging.debug(f"Initialisation de la base '{path}'")
     self.path = path
-    logging.getLogger("monSite").debug('Chargement de la base.')
     if self.exists(): self.load()
 
   def exists(self) -> bool:
     return pathlib.Path(self.path).exists()
       
   def load(self) -> None:
+    logging.debug(f"Chargement du fichier")
     with open(file=self.path, mode='r', encoding='utf-8') as file:
       content = json.load(fp=file)
       
     # Reload families
     self.families = {}
     for name,jsonFamily  in content['FAMILIES'].items():
-      logging.getLogger("monSite").debug(f'Chargement de la famille {name}.')
       self.families[name] = Family( jsonFamily=jsonFamily )
 
     # Reload Servers
@@ -132,6 +133,7 @@ class Database:
     self.config = content['CONFIGURATION']
 
   def save(self) -> None:
+    logging.info(f"Enregistrement de la base dans le fichier '{self.path}'")
     with open(file=self.path, mode='w', encoding='utf-8') as file:
       content = {
         "FAMILIES":     {},
@@ -152,34 +154,30 @@ class Database:
 
   def newFamily(self, familyId:str, family:Family) -> None:
     if not familyId or familyId in self.getFamiliesNames():
-      raise Exception
+      logging.error(f"Impossible de créer la famille {familyId}")
+      return None
+    logging.warning(f"Création de la famille {familyId}")
     self.families[familyId] = family
     self.save()
 
   def delFamily(self, familyId) -> Family:
+    logging.warning(f"Suppression de la famille {familyId}")
     family = self.families[familyId]
     del self.families[familyId]
     self.save()
     return family
 
   def newServer(self, serverId:str, server:Server) -> None:
-    if not serverId or serverId in list(self.getServers().keys()):
-      raise Exception
+    if not serverId or serverId in list(self.servers.keys()):
+      logging.error(f"Impossible de créer le serveur {serverId}")
+      return None
+    logging.warning(f"Création du serveur {serverId}")
     self.servers[serverId] = server
     self.save()
 
   def delServer(self, serverId) -> Server:
+    logging.warning(f"Suppression du serveur {serverId}")
     server = self.servers[serverId]
     del self.servers[serverId]
     self.save()
     return server
-
-  def getServers(self) -> dict[Server]:
-    return self.servers
-
-  def getConfig(self) -> dict:
-    return self.config
-  
-  def setConfig(self, key:str, value:object) -> None:
-    self.config[key]=value
-    self.save()

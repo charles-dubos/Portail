@@ -1,5 +1,17 @@
 {
   "FAMILIES": {
+    "liens": {
+      "title": "Liens divers",
+      "img": "https://cdt66.media.tourinsoft.eu/upload/sortie-tour-de-madeloc-33-le-24-03-2016-.jpg",
+      "dictOfCards": {
+        "1": {
+          "name": "Google",
+          "picture": "",
+          "comments": "Un moteur de recherche bien connu...",
+          "url": "https://www.google.com"
+        }
+      }
+    },
     "iptv": {
       "title": "Direct TV",
       "img": "https://img.oastatic.com/img2/30145455/max/variant.jpg?revbust=574d5ef8",
@@ -204,29 +216,22 @@
         }
       }
     },
-    "liens": {
-      "title": "Liens divers",
-      "img": "",
-      "dictOfCards": {
-        "1": {
-          "name": "Google",
-          "picture": "",
-          "comments": "Un moteur de recherche bien connu...",
-          "url": "https://www.google.com"
-        }
-      }
+    "replays": {
+      "title": "Les replays",
+      "img": "https://www.communes.com/images/thumbs/languedoc-roussillon/pyrenees-orientales/canohes_66680/730x328/canohes_235829.jpg",
+      "dictOfCards": {}
     }
   },
   "SERVERS": {
     "smb": {
       "name": "Samba",
       "faIcon": "fa fa-share-alt",
-      "action": ""
+      "daemon": ""
     },
     "ssh": {
       "name": "SSH",
       "faIcon": "fa fa-terminal",
-      "action": ""
+      "daemon": ""
     }
   },
   "CONFIGURATION": {

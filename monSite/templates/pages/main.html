@@ -22,14 +22,14 @@
 
 {%- macro nav(classes='') -%}
 <div class="pure-u-1-3 {{classes}} is-center"> <a href={{previous}} class="pure-button"> <i class="fa-solid fa-chevron-left"></i> </a> </div>
-<div class="pure-u-1-3 {{classes}} is-center"> <a href={{database.getConfig()['mainPage']}} class="pure-button"> <i class="fa-solid fa-house"></i> </a> </div>
+<div class="pure-u-1-3 {{classes}} is-center"> <a href={{database.config['mainPage']}} class="pure-button"> <i class="fa-solid fa-house"></i> </a> </div>
 <div class="pure-u-1-3 {{classes}} is-center"> <a href={{next}} class="pure-button"> <i class="fa-solid fa-chevron-right"></i> </a> </div>
 {%- endmacro -%}
 
 
 {%- macro servers() -%}
 <form class="" method="post">
-{%- for id, server in database.getServers().items() %}
+{%- for id, server in database.servers.items() %}
     <li class="pure-menu-item recent-link">
         <button class="pure-button {{server.state}}" name="{{id}}" value="switch">
             <span class="tooltip"><div class="tooltiptext">{{server.name}}</div></span>
