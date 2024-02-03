@@ -51,12 +51,16 @@ label {
     color: var(--emph-menu-color);
     padding: 0.5em 2em;
     border-radius: 5px;
-    font-size: 13px;
+    font-size: 13px;s
 }
 .pure-button:hover {
     background-color:#7f8c8d;
     color:#252525;
 }
+
+.stateON { color:green; }
+.stateOFF { color:red; }
+.stateERR { color:orange; }
 
 
 /*
@@ -80,6 +84,7 @@ label {
 }
 .pure-menu-heading {
     color: var(--emph-menu-color);
+    cursor: pointer;
 }
 
 
@@ -91,10 +96,7 @@ label {
     z-index: 4;
 }
 
-
-/*
- * Adaptation of menu depending on screen orientation.
- */
+/* Adaptation of menu depending on screen orientation. */
 
 @media screen and (orientation: portrait) {
     .portrait { visibility: visible; }
@@ -108,14 +110,7 @@ label {
 
 
 /* 
- * States of servers
-*/
-.stateON { color:green; }
-.stateOFF { color:red; }
-.stateERR { color:orange; }
-
-
-/* 
+ * -- TOOLTIPS --
  * Tooltips management
  */
 .recent-link {
@@ -211,4 +206,51 @@ img {
     width: 90%;
     height: 30%;
     padding: 5%;
+}
+
+
+/*
+ * -- MODAL BOXES --
+ */
+
+/* The Modal (background) */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 6; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: var(--bg-color); /* Fallback color */
+    background-color: var(--dark-filter); /* Black w/ opacity */
+}
+
+/* Modal Content/Box */
+.modal-content {
+    background-color: var(--bg-color);
+    margin: 5% auto; /* 15% from the top and centered */
+    padding: 5px;
+    /* border: 1px solid #888; */
+    width: 80%; /* Could be more or less, depending on screen size */
+}
+  
+  
+.close:hover,
+.close:focus {
+    color: var(--emph-menu-color);
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.modal-menu {
+    font-weight: bold;
+    color: var(--fg-menu-color);
+    background: var(--bg-menu-color);
+    padding: 1%;
+}
+.modal-data {
+    color: var(--fg-color);
+    background: var(--bg-color);
 }

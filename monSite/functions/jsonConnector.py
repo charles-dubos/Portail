@@ -1,4 +1,4 @@
-import json, pathlib
+import json, pathlib, logging
 
 
 class Server:
@@ -84,6 +84,7 @@ class Family:
   def getJson(self) -> dict:
     jsonFamily = {
       'title':       self.title,
+      'img':         self.img,
       'dictOfCards': {},
     }
     for number, card in self.dictOfCards.items():
@@ -106,6 +107,7 @@ class Database:
                path:str,
                ) -> None:
     self.path = path
+    logging.getLogger("monSite").debug('Chargement de la base.')
     if self.exists(): self.load()
 
   def exists(self) -> bool:
@@ -118,6 +120,7 @@ class Database:
     # Reload families
     self.families = {}
     for name,jsonFamily  in content['FAMILIES'].items():
+      logging.getLogger("monSite").debug(f'Chargement de la famille {name}.')
       self.families[name] = Family( jsonFamily=jsonFamily )
 
     # Reload Servers
@@ -138,7 +141,7 @@ class Database:
       for familyId, family in self.families.items():
         content['FAMILIES'][familyId] = family.getJson()
       for serverId, server in self.servers.items():
-        content['FAMILIES'][serverId] = server.getJson()
+        content['SERVERS'][serverId] = server.getJson()
       json.dump(
         obj=content,
         fp=file,
