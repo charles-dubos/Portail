@@ -10,10 +10,10 @@ def index():
     """Page principale -> redirection vers la page paramétrée
     """
     logging.info('Redirection vers "{}"'.format(
-        Database(DATABASE_NAME).getConfig()['mainPage']
+        Database(DATABASE_NAME).config['mainPage']
     ))
     
-    return redirect(Database(DATABASE_NAME).getConfig()['mainPage'])
+    return redirect(Database(DATABASE_NAME).config['mainPage'])
 
 
 @bp.route('/<path>', methods=['GET','POST'])
@@ -46,6 +46,7 @@ def edit(path):
     if request.method == 'POST':
         data = dict(request.form.items(multi=False))
         logging.debug(f'Méthode POST utilisée avec les données {data.keys()}')
+
         if 'delete-card' in data.keys() :
             deleteCard(
                 database=database,
@@ -53,6 +54,7 @@ def edit(path):
                 cardId=data['current']
             )
             database.save()
+
         elif 'save-card' in data.keys():
             if data['current'] != data['number']:
                 if data['number'] in database.families[path].dictOfCards.keys():
@@ -71,6 +73,7 @@ def edit(path):
                     data=data
                 )
                 database.save()
+                
         elif 'new-card' in data.keys():
             if data['number'] in database.families[path].dictOfCards.keys():
                 return
@@ -82,6 +85,16 @@ def edit(path):
                 data=data
             )
             database.save()
+
+        elif 'save-conf' in data.keys():
+            for key in data.keys():
+                if key != 'save-conf' \
+                    and data[key] != database.config[key]:
+                    logging.info(f"Enregistrement de la clé de configuration {key}")
+                    logging.debug(f"à la valeur {data[key]} en remplacement de {database.config[key]}")
+                    database.config[key]=data[key]
+                    database.save()
+
 
     return render_template('pages/edit.html',
                            path=path,
