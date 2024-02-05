@@ -226,17 +226,12 @@
     "smb": {
       "name": "Samba",
       "faIcon": "fa fa-share-alt",
-      "daemon": ""
+      "daemon": "smbd"
     },
     "ssh": {
       "name": "SSH",
       "faIcon": "fa fa-terminal",
-      "daemon": ""
-    },
-    "cron": {
-      "name": "Cron",
-      "faIcon": "fa-regular fa-clock",
-      "daemon": "cron"
+      "daemon": "sshd"
     }
   },
   "CONFIGURATION": {
@@ -244,6 +239,6 @@
     "modeSombre": "1",
     "logFile": "monSite.log",
     "logLevel": "DEBUG",
-    "serverManagerUrl": "http://127.0.0.1:80"
+    "serverManagerUrl": "http://127.0.0.1:1805"
   }
 }
