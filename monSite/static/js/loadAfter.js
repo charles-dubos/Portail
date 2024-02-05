@@ -25,6 +25,9 @@ function enableModal(id) {
   }
 
   modal.style.display = "block";
+  
+  focusIt = modal.getElementsByTagName('input');
+  if (focusIt.length != 0 ) {focusIt[0].focus()}
 }
 
 // When the user clicks anywhere outside of the modal, close it

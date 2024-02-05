@@ -63,7 +63,7 @@
             <div class="pure-u-1 pure-u-md-2-3"><p>{{card.comments}}</p></div>
         </div>
         <div class="is-right">
-            <div class="pure-button stateERR close is-right"><i class="fa-solid fa-rotate-left"></i></div>
+            <div class="pure-button amber close is-right"><i class="fa-solid fa-rotate-left"></i></div>
         </div>
     </div>
 </div>
@@ -73,3 +73,5 @@
     loadValues({{database.families[path].dictOfCards|length}},{{ratio}});
 </script>
 {%- endmacro -%}
+
+{% block postscript %}{% endblock postscript %}

@@ -6,7 +6,8 @@ DATABASE_NAME='monSite.json'
 DEFAULT_CONF={
     "modeSombre": "1",
     "logFile": "monSite.log",
-    "logLevel": "DEBUG"
+    "logLevel": "DEBUG",
+    "serverManagerUrl": "http://127.0.0.1:80"
 }
 # Generating logging
 logging.basicConfig(
@@ -69,7 +70,6 @@ def startingChecks(database:Database) -> None:
   database.save()
 
 
-
 ## Navigation
 def nextPage(database:Database,current:str)->str:
   listPages = database.getFamiliesNames()
@@ -82,7 +82,7 @@ def prevPage(database:Database,current:str)->str:
 
 
 def firstAvailable(database:Database,current:str)->str:
-  for i in range(1, len(database.families[current].dictOfCards)+2):
+  for i in range(1, len(database.families[current])+2):
     if not str(i) in database.families[current].dictOfCards.keys():
       logging.debug(f"Premier nombre dispo: {str(i)}")
       return str(i)

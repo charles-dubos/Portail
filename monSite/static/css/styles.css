@@ -58,9 +58,9 @@ label {
     color:#252525;
 }
 
-.stateON { color:green; }
-.stateOFF { color:red; }
-.stateERR { color:orange; }
+.red { color:red; }
+.amber { color:orange; }
+.green { color:green; }
 
 
 /*
@@ -233,7 +233,7 @@ img {
     margin: 5% auto; /* 15% from the top and centered */
     padding: 5px;
     /* border: 1px solid #888; */
-    width: 80%; /* Could be more or less, depending on screen size */
+    width: fit-content; /* Could be more or less, depending on screen size */
 }
   
   

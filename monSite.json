@@ -232,12 +232,18 @@
       "name": "SSH",
       "faIcon": "fa fa-terminal",
       "daemon": ""
+    },
+    "cron": {
+      "name": "Cron",
+      "faIcon": "fa-regular fa-clock",
+      "daemon": "cron"
     }
   },
   "CONFIGURATION": {
     "mainPage": "liens",
     "modeSombre": "1",
     "logFile": "monSite.log",
-    "logLevel": "DEBUG"
+    "logLevel": "DEBUG",
+    "serverManagerUrl": "http://127.0.0.1:80"
   }
 }

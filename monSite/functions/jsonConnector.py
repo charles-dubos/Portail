@@ -1,4 +1,4 @@
-import json, pathlib, logging
+import json, pathlib, logging, requests
 
 
 class Server:
@@ -7,7 +7,7 @@ class Server:
   name:str = None
   faIcon:str = None
   daemon:str = None
-  state:str = 'stateERR'
+  state:str = 'amber'
 
   def __init__(self,
                jsonServer:dict,
@@ -16,7 +16,6 @@ class Server:
     self.name = jsonServer['name']
     self.faIcon = jsonServer['faIcon']
     self.daemon = jsonServer['daemon']
-    self.state = self.getState()
 
   def getJson(self) -> dict:
     return {
@@ -25,20 +24,38 @@ class Server:
       'daemon': self.daemon,
     }
   
-  def getState(self) -> str:
-    # Evaluation de l'état du serveur
-    # self.state = 'stateON'
-    # self.state = 'stateERR'
-    # self.state = 'stateOFF'
-    logging.debug(f"Etat du serveur '{self.state}'")
+  def getState(self, config) -> str:
+    logging.info(f"Requête d'état du serveur '{self.name}'")
+    response = requests.post(
+      config["serverManagerUrl"]+"/status",
+      data={ self.daemon:"" }
+    ).json()
+    print(response)
+
+    try:
+      self.state = ['green','red'][response[self.daemon]]
+    except Exception:
+      self.state = 'amber'
+
+    logging.debug(f"Etat du serveur: '{self.state}'")
     return self.state
 
-  def switchState(self) -> None:
-    # Switch de l'état
-    states = ['stateERR', 'stateON', 'stateOFF']
-    self.state = states[(states.index(self.state)+1)%3]
-    logging.info(f"Changement d'état du serveur {self.name}")
-    logging.debug(f"Nouvel état {self.state}")
+  def switchState(self, config) -> str:
+    logging.warning(f"Requête de changement d'état du serveur '{self.name}'")
+    logging.debug("Adresse: " + config["serverManagerUrl"]+"/switch")
+    logging.debug( "Données: "+str({ self.daemon:"" }))
+    response = requests.put(
+      config["serverManagerUrl"]+"/switch",
+      data={ self.daemon:"" }
+    ).json()
+
+    try:
+      self.state = ['green','red'][response[self.daemon]]
+    except Exception:
+      self.state = 'amber'
+
+    logging.debug(f"Nouvel état du serveur: '{self.state}'")
+    return self.state
   
 class Card:
   """Classe identifiant une carte
@@ -85,6 +102,9 @@ class Family:
       cards[number] = Card( card=card )
     self.dictOfCards = cards
 
+  def __len__(self):
+    return len(self.dictOfCards)
+
   def getJson(self) -> dict:
     jsonFamily = {
       'title':       self.title,
@@ -114,23 +134,32 @@ class Database:
   def exists(self) -> bool:
     return pathlib.Path(self.path).exists()
       
+
   def load(self) -> None:
     logging.debug(f"Chargement du fichier")
     with open(file=self.path, mode='r', encoding='utf-8') as file:
       content = json.load(fp=file)
       
+    # Reload config
+    self.config = content['CONFIGURATION']
+
     # Reload families
     self.families = {}
     for name,jsonFamily  in content['FAMILIES'].items():
-      self.families[name] = Family( jsonFamily=jsonFamily )
+      self.newFamily(
+        familyId=name, 
+        family=Family( jsonFamily=jsonFamily )
+      )
 
     # Reload Servers
     self.servers = {}
     for id, jsonServer in content['SERVERS'].items():
-      self.servers[id] = Server( jsonServer=jsonServer )
+      self.newServer(
+        serverId=id,
+        server=Server( jsonServer=jsonServer )
+      )
+      self.getServerState(id)
 
-    # Reload config
-    self.config = content['CONFIGURATION']
 
   def save(self) -> None:
     logging.info(f"Enregistrement de la base dans le fichier '{self.path}'")
@@ -181,3 +210,13 @@ class Database:
     del self.servers[serverId]
     self.save()
     return server
+  
+  def getServerState(self, serverId) -> str:
+    return self\
+      .servers[serverId]\
+        .getState(self.config)
+
+  def switchServerState(self, serverId) -> str:
+    return self\
+      .servers[serverId]\
+        .switchState(self.config)

@@ -37,8 +37,8 @@
                 </div>
                 {% endfor %}
                 <div class="is-right"> 
-                    <div class="pure-button stateERR close"><i class="fa-solid fa-rotate-left"></i></div>
-                    <button type="submit" name="save-conf" class="pure-button"><i class="fa-regular fa-floppy-disk"></i></button>
+                    <div class="pure-button amber close"><i class="fa-solid fa-rotate-left"></i></div>
+                    <button type="submit" name="save-conf" class="pure-button green"><i class="fa-regular fa-floppy-disk"></i></button>
                 </div>
             </fieldset>
         </form>
@@ -51,7 +51,6 @@
         </div>
         <form class="pure-form pure-form-aligned" method="post">
             <fieldset>
-                <input type="hidden" name="current" value="{{path}}" >
                 <div class="pure-control-group">
                     <label for="aligned-title">Titre</label>
                     <input type="text" name="title" value="{{database.families[path].title}}">
@@ -65,9 +64,9 @@
                     <input type="text" name="img" value="{{database.families[path].img}}" size="75">
                 </div>
                 <div class="is-right">
-                    <button type="submit" name="delete-fam" class="pure-button stateOFF"><i class="fa-regular fa-trash-can"></i></button>
-                    <div class="pure-button stateERR close"><i class="fa-solid fa-rotate-left"></i></div>
-                    <button type="submit" name="save-fam" class="pure-button"><i class="fa-regular fa-floppy-disk"></i></button>
+                    <button type="submit" name="delete-fam" class="pure-button red"><i class="fa-regular fa-trash-can"></i></button>
+                    <div class="pure-button amber close"><i class="fa-solid fa-rotate-left"></i></div>
+                    <button type="submit" name="save-fam" class="pure-button green"><i class="fa-regular fa-floppy-disk"></i></button>
                 </div>
             </fieldset>
         </form>
@@ -93,8 +92,8 @@
                     <input type="text" name="img" size="75">
                 </div>
                 <div class="is-right">
-                    <div class="pure-button stateERR close"><i class="fa-solid fa-rotate-left"></i></div>
-                    <button type="submit" name="new-fam" class="pure-button"><i class="fa-regular fa-floppy-disk"></i></button>
+                    <div class="pure-button amber close"><i class="fa-solid fa-rotate-left"></i></div>
+                    <button type="submit" name="new-fam" class="pure-button green"><i class="fa-regular fa-floppy-disk"></i></button>
                 </div>
             </fieldset>
         </form>
@@ -133,8 +132,8 @@
                         <input type="text" name="daemon">
                     </div>
                     <div class="is-right">
-                        <div class="pure-button stateERR close"><i class="fa-solid fa-rotate-left"></i></div>
-                        <button type="submit" name="new-serv" class="pure-button"><i class="fa-regular fa-floppy-disk"></i></button>
+                        <div class="pure-button amber close"><i class="fa-solid fa-rotate-left"></i></div>
+                        <button type="submit" name="new-serv" class="pure-button green"><i class="fa-regular fa-floppy-disk"></i></button>
                     </div>
                 </fieldset>
             </form>
@@ -154,7 +153,6 @@
             </div>
             <form class="pure-form pure-form-aligned" method="post">
                 <fieldset>
-                    <input type="hidden" name="current" value="{{id}}" >
                     <div class="pure-control-group">
                         <label for="aligned-id">Identifiant</label>
                         <input type="text" name="id" value="{{id}}" required="">
@@ -171,10 +169,11 @@
                         <label for="aligned-daemon">Service</label>
                         <input type="text" name="daemon" value="{{server.daemon}}">
                     </div>
+                    <input type="hidden" name="current" value="{{id}}" >
                     <div class="is-right">
-                        <button type="submit" name="delete-serv" class="pure-button stateOFF"><i class="fa-regular fa-trash-can"></i></button>
-                        <div class="pure-button stateERR close"><i class="fa-solid fa-rotate-left"></i></div>
-                        <button type="submit" name="save-serv" class="pure-button"><i class="fa-regular fa-floppy-disk"></i></button>
+                        <button type="submit" name="delete-serv" class="pure-button red"><i class="fa-regular fa-trash-can"></i></button>
+                        <div class="pure-button amber close"><i class="fa-solid fa-rotate-left"></i></div>
+                        <button type="submit" name="save-serv" class="pure-button green"><i class="fa-regular fa-floppy-disk"></i></button>
                     </div>
                 </fieldset>
             </form>
@@ -202,7 +201,6 @@
         </div>
         <form class="pure-form pure-form-aligned" method="post">
             <fieldset>
-                <input type="hidden" name="current" value="{{id}}" >
                 <div class="pure-control-group">
                     <label for="aligned-number">Number</label>
                     <input type="text" name="number" value="{{id}}" size="5">
@@ -223,10 +221,11 @@
                     <label for="aligned-comments">Commentaires</label>
                     <textarea name="comments" rows="5" cols="75">{{card.comments}}</textarea>
                 </div>
+                <input type="hidden" name="current" value="{{id}}" >
                 <div class="is-right">
-                    <button type="submit" name="delete-card" class="pure-button stateOFF"><i class="fa-regular fa-trash-can"></i></button>
-                    <div class="pure-button stateERR close"><i class="fa-solid fa-rotate-left"></i></div>
-                    <button type="submit" name="save-card" class="pure-button"><i class="fa-regular fa-floppy-disk"></i></button>
+                    <button type="submit" name="delete-card" class="pure-button red"><i class="fa-regular fa-trash-can"></i></button>
+                    <div class="pure-button amber close"><i class="fa-solid fa-rotate-left"></i></div>
+                    <button type="submit" name="save-card" class="pure-button green"><i class="fa-regular fa-floppy-disk"></i></button>
                 </div>
             </fieldset>
         </form>
@@ -269,8 +268,8 @@
                     <textarea name="comments" placeholder="Commentaires libres" rows="5" cols="75"></textarea>
                 </div>
                 <div class="is-right"> 
-                    <div class="pure-button stateERR close"><i class="fa-solid fa-rotate-left"></i></div>
-                    <button type="submit" name="new-card" class="pure-button"><i class="fa-regular fa-floppy-disk"></i></button>
+                    <div class="pure-button amber close"><i class="fa-solid fa-rotate-left"></i></div>
+                    <button type="submit" name="new-card" class="pure-button green"><i class="fa-regular fa-floppy-disk"></i></button>
                 </div>
             </fieldset>
         </form>
@@ -281,3 +280,20 @@
     loadValues({{database.families[path].dictOfCards|length}}+1,{{ratio}});
 </script>
 {%- endmacro -%}
+
+{% block postscript %}
+{% if message: %}
+<div class="modal" id="message">
+    <div class="modal-content">
+        <div class="modal-menu is-center">
+            <h1><i class="fa-solid fa-triangle-exclamation red is-center"></i> Erreur </h1>
+        </div>
+        <div class="modal-data">
+            {{ message|safe }}
+        </div>
+    <div class="is-right"><div class="pure-button amber close"><i class="fa-solid fa-rotate-left"></i></div></div>
+    </div>
+</div>
+<script>enableModal("message")</script>
+{% endif %}
+{% endblock postscript %}

@@ -26,7 +26,7 @@ def main(path):
         postKey = list(request.form.keys())[0]
         logging.debug( f'Méthode POST utilisée avec les données {postKey}' )
         if postKey in database.servers.keys():
-            database.servers[postKey].switchState()
+            database.switchServerState(postKey)
 
     return render_template('pages/main.html',
                            path=path,
@@ -42,6 +42,7 @@ def edit(path):
     """Page d'édition par identifiant de famille
     """
     global database
+    message = None
 
     if request.method == 'POST':
         data = dict( request.form.items( multi=False ) )
@@ -58,14 +59,26 @@ def edit(path):
         elif 'save-card' in data.keys():
             if data['current'] != data['number']:
                 if data['number'] in database.families[path].dictOfCards.keys():
-                    return 
-                    # TODO: retour popup erreur carte existante
+                    message = f"Impossible de changer le numéro de la carte de '{data['current']}'.</br>Le numéro '{data['number']}' est déjà attribué."
                 else:
                     deleteCard(
                         database=database,
                         familyId=path,
                         cardId=data['current']
                     )
+                    data['current'] = data['number']
+            editCard(
+                database=database,
+                familyId=path,
+                cardId=data['current'],
+                data=data
+            )
+            database.save()
+                
+        elif 'new-card' in data.keys():
+            if data['number'] in database.families[path].dictOfCards.keys():
+                message = f"Impossible de créer la carte avec le numéro '{data['number']}'.</br>Le numéro '{data['number']}' est déjà attribué."
+            else:
                 editCard(
                     database=database,
                     familyId=path,
@@ -73,39 +86,27 @@ def edit(path):
                     data=data
                 )
                 database.save()
-                
-        elif 'new-card' in data.keys():
-            if data['number'] in database.families[path].dictOfCards.keys():
-                return
-                # TODO: retour popup erreur carte existante
-            editCard(
-                database=database,
-                familyId=path,
-                cardId=data['number'],
-                data=data
-            )
-            database.save()
 
         elif 'save-conf' in data.keys():
             for key in data.keys():
                 if key != 'save-conf' \
-                    and data[key] != database.config[key]:
+                and data[key] != database.config[key]:
                     logging.info( f"Enregistrement de la clé de configuration {key}" )
                     logging.debug( f"à la valeur {data[key]} en remplacement de {database.config[key]}" )
-                    database.config[key]=data[key]
-                    database.save()
+                    database.config[key] = data[key]
+            database.save()
 
         elif 'save-fam' in data.keys():
-            if data['current'] != data['famId']:
+            if path != data['famId']:
                 if data['famId'] in database.families.keys():
-                    return 
-                    # TODO: retour popup erreur famille existante
-                logging.info( f"Déplacement de la famille {path} vers {data['famId']}" )
-                database.newFamily(
-                    familyId=data['famId'],
-                    family=database.delFamily( familyId=data['current'] )
-                )
-                path = data['famId']
+                    message = f"Impossible de changer la famille de '{path}'.</br>Le nom '{data['famId']}' est déjà attribué."
+                else:
+                    logging.info( f"Déplacement de la famille {path} vers {data['famId']}" )
+                    database.newFamily(
+                        familyId=data['famId'],
+                        family=database.delFamily( familyId=path )
+                    )
+                    path = data['famId']
             if database.families[path].title != data['title']:
                 logging.debug( f"Mise à jour de {database.families[path].title} en {data['title']}" )
                 database.families[path].title = data['title']
@@ -116,39 +117,41 @@ def edit(path):
 
         elif 'delete-fam' in data.keys():
             if len( database.families ) == 1:
-                return
-                # ToDO popup erreur base minimaliste
-            path=nextPage( database=database, current=path )
-            database.delFamily( data['current'] )
+                message = "Impossible de supprimer la famille.</br>Il en faut une au minimum."
+            elif len( database.families[path] ) != 0:
+                message = "Impossible de supprimer une famille non vide.</br>Supprimez les cartes auparavant."
+            else:
+                path = nextPage( database=database, current=path )
+                database.delFamily( familyId=data['current'] )
 
         elif 'new-fam' in data.keys():
             if data['famId'] in database.families.keys():
-                return 
-                # TODO: retour popup erreur famille existante
-            logging.info( f"Création de la famille {data['famId']}" )
-            logging.debug( f"avec les valeurs '{data['title']}', '{data['img']}'" )
-            database.newFamily(
-                familyId=data['famId'],
-                family=Family( {
-                    'title': data['title'],
-                    'img': data['img'],
-                    'dictOfCards': {},
-                } )
-            )
-            database.save()
-            path = data['famId']
+                message = f"Impossible de créer la famille.</br>L'identifiant '{data['famiId']}' déjà utilisé."
+            else:
+                logging.info( f"Création de la famille {data['famId']}" )
+                logging.debug( f"avec les valeurs '{data['title']}', '{data['img']}'" )
+                database.newFamily(
+                    familyId=data['famId'],
+                    family=Family( {
+                        'title': data['title'],
+                        'img': data['img'],
+                        'dictOfCards': {},
+                    } )
+                )
+                path = data['famId']
 
         elif 'save-serv' in data.keys():
+            serverId = data['id']
             if data['current'] != data['id']:
                 if data['id'] in database.servers.keys():
-                    return 
-                    # TODO: retour popup erreur serveur existant
-                logging.info( f"Déplacement du serveur {data['current']} vers {data['id']}" )
-                database.newServer(
-                    serverId=data['id'],
-                    server=database.delServer( serverId=data['current'] )
-                )
-            serverId = data['id']
+                    message = f"Impossible de changer le serveur de '{data['current']}'.</br>Le nom '{serverId}' est déjà attribué."
+                    serverId = data['current']
+                else:
+                    logging.info( f"Déplacement du serveur {data['current']} vers {serverId}" )
+                    database.newServer(
+                        serverId=serverId,
+                        server=database.delServer( serverId=data['current'] )
+                    )
             if database.servers[serverId].name != data['name']:
                 logging.debug( f"Mise à jour de {database.servers[serverId].name} en {data['name']}" )
                 database.servers[serverId].name = data['name']
@@ -165,19 +168,18 @@ def edit(path):
 
         elif 'new-serv' in data.keys():
             if data['id'] in database.servers.keys():
-                return 
-                # TODO: retour popup erreur serveur existant
-            logging.info( f"Création du serveur '{data['id']}'" )
-            logging.debug( f"avec les valeurs '{data['name']}', '{data['faIcon']}', '{data['daemon']}'" )
-            database.newServer(
-                serverId=data['id'],
-                server=Server( {
-                    'name': data['name'],
-                    'faIcon': data['faIcon'],
-                    'daemon': data['daemon'],
-                } )
-            )
-            database.save()
+                message = f"Impossible de créer le serveur.</br>L'identifiant '{data['id']}' est déjà utilisé."
+            else:
+                logging.info( f"Création du serveur '{data['id']}'" )
+                logging.debug( f"avec les valeurs '{data['name']}', '{data['faIcon']}', '{data['daemon']}'" )
+                database.newServer(
+                    serverId=data['id'],
+                    server=Server( {
+                        'name': data['name'],
+                        'faIcon': data['faIcon'],
+                        'daemon': data['daemon'],
+                    } )
+                )
 
     return render_template('pages/edit.html',
                            path=path,
@@ -185,5 +187,6 @@ def edit(path):
                            previous=prevPage(database=database, current=path),
                            next=nextPage(database=database, current=path),
                            ratio=1,
-                           newNumber=firstAvailable(database=database, current=path)
+                           newNumber=firstAvailable(database=database, current=path),
+                           message=message
                            )
