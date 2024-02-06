@@ -26,13 +26,12 @@ class Server:
   
   def getState(self, config) -> str:
     logging.info(f"Requête d'état du serveur '{self.name}'")
-    response = requests.post(
-      config["serverManagerUrl"]+"/status",
-      data={ self.daemon:"" }
-    ).json()
-    print(response)
 
     try:
+      response = requests.post(
+        config["serverManagerUrl"]+"/status",
+        data={ self.daemon:"" }
+      ).json()
       self.state = ['green','red'][response[self.daemon]]
     except Exception:
       self.state = 'amber'
@@ -44,12 +43,12 @@ class Server:
     logging.warning(f"Requête de changement d'état du serveur '{self.name}'")
     logging.debug("Adresse: " + config["serverManagerUrl"]+"/switch")
     logging.debug( "Données: "+str({ self.daemon:"" }))
-    response = requests.put(
-      config["serverManagerUrl"]+"/switch",
-      data={ self.daemon:"" }
-    ).json()
 
     try:
+      response = requests.put(
+        config["serverManagerUrl"]+"/switch",
+        data={ self.daemon:"" }
+      ).json()
       self.state = ['green','red'][response[self.daemon]]
     except Exception:
       self.state = 'amber'

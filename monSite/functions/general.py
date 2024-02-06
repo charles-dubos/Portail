@@ -1,14 +1,36 @@
 from monSite.functions.jsonConnector import *
 import logging
+from os.path import abspath, dirname, join
+from os import pardir
+
 
 # 'CONSTANTES paramétrables'
-DATABASE_NAME='monSite.json'
+MAIN_DIR=abspath(join(dirname(__file__), '../..'))
+DATABASE_NAME=f'{MAIN_DIR}/monSite.json'
 DEFAULT_CONF={
     "modeSombre": "1",
-    "logFile": "monSite.log",
+    "host":"127.0.0.1",
+    "port":"80",
+    "logFile": f"{MAIN_DIR}/monSite.log",
     "logLevel": "DEBUG",
     "serverManagerUrl": "http://127.0.0.1:80"
 }
+APACHE2 = """
+ServerName {host}
+<VirtualHost {host}:{port}>
+
+  WSGIDaemonProcess monSite user={user}
+  # En cas d'utilisation en environnement virtuel, ajouter à WSGIDaemonProcess
+  # python-home={apiPath}/venv 
+  WSGIScriptAlias / {apiPath}/monSite.wsgi
+
+  <Directory {apiPath}>
+    WSGIProcessGroup monSite
+    Require ip {host}
+  </Directory>
+</VirtualHost>
+"""
+
 # Generating logging
 logging.basicConfig(
   format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
@@ -17,6 +39,22 @@ logging.basicConfig(
 
 
 # FONCTIONS
+
+## Génération conf Apache 
+def generateApacheConf(user:str, fileName:str):
+  database = loadDatabase()
+  logging.info(f'Génération de la conf Apache dans {fileName}.')
+  with open(file=fileName, mode='w', encoding='utf-8') as file:
+    file.write(
+      APACHE2.format(
+        host=    database.config['host'],
+        port=    database.config['port'],
+        user=    user,
+        apiPath= MAIN_DIR
+      )
+    )
+
+
 ## Chargement
 def loadDatabase() -> Database:
   logging.info("Chargement de la base {}".format(DATABASE_NAME))
