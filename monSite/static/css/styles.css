@@ -171,7 +171,7 @@ label {
     display: flex;
     justify-content: center;
     align-content: center;
-    overflow: hidden;
+    /* overflow: hidden; */
 }
 
 .card {
@@ -187,6 +187,7 @@ label {
     text-shadow: 0 0 1vw var(--fg-menu-color);
     transform: scale(1.2);
     transition: transform .1s;
+    overflow:visible;
 }
 
 .card-img {
