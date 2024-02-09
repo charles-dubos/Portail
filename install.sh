@@ -12,7 +12,7 @@ sudo printf ""
 printf "> Installation de Apache "
 sudo apt update > ${LOG_FILE} 2>&1 && \
 sudo apt -y install apache2 libapache2-mod-wsgi-py3 >> ${LOG_FILE} 2>&1 && \
-sudo a2enmod wsgi >> ${LOG_FILE} 2>&1
+sudo a2enmod wsgi ssl headers >> ${LOG_FILE} 2>&1
 
 
 printf "[DONE]\n> Installation des dépendances python"
@@ -33,4 +33,4 @@ EOF
 python3 -c "from monSite.functions.general import generateApacheConf; generateApacheConf('${USER}', '${APACHE_CONF_NAME}')" >> ${LOG_FILE} 2>&1 &&\
 sudo mv -f ${APACHE_CONF_NAME} ${APACHE_SITE_DIR} >> ${LOG_FILE} 2>&1 &&\
 sudo a2ensite ${SITE_NAME} >> ${LOG_FILE} 2>&1; \
-sudo systemctl restart apache2 >> ${LOG_FILE} 2>&1
+sudo systemctl reload apache2 >> ${LOG_FILE} 2>&1
