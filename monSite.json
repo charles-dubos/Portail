@@ -5,16 +5,34 @@
       "img": "https://cdt66.media.tourinsoft.eu/upload/sortie-tour-de-madeloc-33-le-24-03-2016-.jpg",
       "dictOfCards": {
         "1": {
+          "name": "Apprenez-nous \u00e0 prier",
+          "picture": "https://www.appreneznousaprier.fr/wp-content/uploads/2023/04/logo-250.png",
+          "comments": "",
+          "url": "https://www.appreneznousaprier.fr/calendrier-liturgique/"
+        },
+        "2": {
+          "name": "TotalEnergies",
+          "picture": "https://www.totalenergies.fr/typo3conf/ext/de_site_package/Resources/Public/Dist/Images/Logo/totalenergies--vertical.svg",
+          "comments": "",
+          "url": "https://www.totalenergies.fr/clients/connexion"
+        },
+        "11": {
+          "name": "Qwant",
+          "picture": "https://extensions.gnome.org/extension-data/icons/icon_1389.png",
+          "comments": "",
+          "url": "https://www.qwant.com"
+        },
+        "12": {
           "name": "Google",
           "picture": "https://www.google.fr/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png",
           "comments": "Un moteur de recherche bien connu...",
           "url": "https://www.google.com"
         },
-        "2": {
-          "name": "Apprenez-nous \u00e0 prier",
-          "picture": "https://www.appreneznousaprier.fr/wp-content/uploads/2023/04/logo-250.png",
+        "21": {
+          "name": "AdminBox",
+          "picture": "https://static.s-sfr.fr/media/red-img-boxplus.webp",
           "comments": "",
-          "url": "https://www.appreneznousaprier.fr/calendrier-liturgique/"
+          "url": "https://box.pi.dubs"
         }
       }
     },
@@ -129,12 +147,6 @@
           "picture": "https://static-cdn.tv.sfr.net/data/img/apps/chaines/logos/Gulli100x100Couleur.png",
           "comments": "",
           "url": "https://tv.sfr.fr/channel/18"
-        },
-        "19": {
-          "name": "France O",
-          "picture": "",
-          "comments": "",
-          "url": ""
         },
         "20": {
           "name": "TF1 s\u00e9ries films",
@@ -291,18 +303,24 @@
           "picture": "https://is1-ssl.mzstatic.com/image/thumb/Purple116/v4/67/cb/14/67cb149c-3e53-1036-21aa-9e5ffb03210f/AppIcon-0-0-1x_U007epad-0-0-0-85-220.png/230x0w.webp",
           "comments": "",
           "url": "https://fr.euronews.com/bulletin"
-        }
-      }
-    },
-    "vod": {
-      "title": "VOD",
-      "img": "https://nypost.com/wp-content/uploads/sites/2/2013/10/movietheater.jpg",
-      "dictOfCards": {
-        "1": {
-          "name": "Canal VOD",
+        },
+        "51": {
+          "name": "Canal+ VOD",
           "picture": "https://thumb.canalplus.pro/http/unsafe/164x32/filters:quality(80)/static.canal-plus.net/resources/mycanal/canalvod-logo-mob.svg",
           "comments": "",
           "url": "https://vod.canalplus.com/"
+        },
+        "52": {
+          "name": "Youtube Videos",
+          "picture": "https://1000logos.net/wp-content/uploads/2017/05/Red-YouTube-logo-500x281.png",
+          "comments": "",
+          "url": "https://www.youtube.com/video"
+        },
+        "53": {
+          "name": "Prime Videos",
+          "picture": "https://logodownload.org/wp-content/uploads/2018/07/prime-video-10.png",
+          "comments": "",
+          "url": "https://www.primevideo.com/"
         }
       }
     }
