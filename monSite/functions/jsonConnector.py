@@ -101,7 +101,7 @@ class Family:
       cards[number] = Card( card=card )
     self.dictOfCards = cards
 
-  def __len__(self):
+  def __len__(self) -> int:
     return len(self.dictOfCards)
 
   def getJson(self) -> dict:
@@ -113,6 +113,9 @@ class Family:
     for number, card in self.dictOfCards.items():
       jsonFamily['dictOfCards'][number] = card.getJson()
     return jsonFamily
+  
+  def sortCards(self) -> None:
+    self.dictOfCards = dict(sorted(self.dictOfCards.items(), key=lambda item: int(item[0])))
 
 
 class Database:
@@ -160,7 +163,10 @@ class Database:
       self.getServerState(id)
 
 
-  def save(self) -> None:
+  def save(self, sortFamily=None) -> None:
+    if sortFamily:
+      logging.debug(f"Tri des cartes de {sortFamily}")
+      self.families[sortFamily].sortCards()
     logging.info(f"Enregistrement de la base dans le fichier '{self.path}'")
     with open(file=self.path, mode='w', encoding='utf-8') as file:
       content = {

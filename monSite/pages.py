@@ -73,7 +73,7 @@ def edit(path):
                 cardId=data['current'],
                 data=data
             )
-            database.save()
+            database.save(sortFamily=path)
                 
         elif 'new-card' in data.keys():
             if data['number'] in database.families[path].dictOfCards.keys():
@@ -85,7 +85,7 @@ def edit(path):
                     cardId=data['number'],
                     data=data
                 )
-                database.save()
+                database.save(sortFamily=path)
 
         elif 'save-conf' in data.keys():
             for key in data.keys():
@@ -122,7 +122,7 @@ def edit(path):
                 message = "Impossible de supprimer une famille non vide.</br>Supprimez les cartes auparavant."
             else:
                 path = nextPage( database=database, current=path )
-                database.delFamily( familyId=data['current'] )
+                database.delFamily( familyId=data['famId'] )
 
         elif 'new-fam' in data.keys():
             if data['famId'] in database.families.keys():

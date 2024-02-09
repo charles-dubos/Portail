@@ -13,11 +13,20 @@ DEFAULT_CONF={
     "port":"80",
     "logFile": f"{MAIN_DIR}/monSite.log",
     "logLevel": "DEBUG",
-    "serverManagerUrl": "http://127.0.0.1:80"
+    "serverManagerUrl": "http://127.0.0.1:5000"
 }
 APACHE2 = """
 ServerName {host}
 <VirtualHost {host}:{port}>
+  ServerAlias www.{host}
+
+  # directives obligatoires pour TLS
+  SSLEngine on
+  SSLProtocol -all +TLSv1.2
+  SSLCertificateFile /etc/ssl/private/dubsHTTPS.pem
+  SSLCertificateKeyFile /etc/ssl/private/dubsHTTPS.pem
+  SSLCACertificateFile /etc/ssl/certs/RA.pem
+  # SSLCARevocationFile /etc/ssl/certs/crl.pem
 
   WSGIDaemonProcess monSite user={user}
   # En cas d'utilisation en environnement virtuel, ajouter à WSGIDaemonProcess
@@ -25,9 +34,15 @@ ServerName {host}
   WSGIScriptAlias / {apiPath}/monSite.wsgi
 
   <Directory {apiPath}>
+    SSLCipherSuite HIGH:!aNULL:!MD5
+    SSLVerifyClient require
+    SSLVerifyDepth 2
+
     WSGIProcessGroup monSite
     Require ip {host}
   </Directory>
+
+  Header always set Strict-Transport-Security \"max-age=15768000\"
 </VirtualHost>
 """
 
