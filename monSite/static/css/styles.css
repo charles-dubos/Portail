@@ -202,6 +202,7 @@ img {
     width: 100%;
     height: 100%;
     object-fit: contain;
+    filter: none;
 }
 .card-name {
     width: 90%;
@@ -225,7 +226,7 @@ img {
     height: 100%; /* Full height */
     overflow: auto; /* Enable scroll if needed */
     background-color: var(--bg-color); /* Fallback color */
-    background-color: var(--dark-filter); /* Black w/ opacity */
+    background-color: var(--bg-filter); /* Black w/ opacity */
 }
 
 /* Modal Content/Box */

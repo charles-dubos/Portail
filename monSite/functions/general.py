@@ -8,7 +8,6 @@ from os import pardir
 MAIN_DIR=abspath(join(dirname(__file__), '../..'))
 DATABASE_NAME=f'{MAIN_DIR}/monSite.json'
 DEFAULT_CONF={
-    "modeSombre": "1",
     "host":"pi.dubs",
     "port":"443",
     "logFile": f"{MAIN_DIR}/monSite.log",

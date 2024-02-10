@@ -2,16 +2,11 @@
 
 
 {% block head %}
-{%- if database.config['modeSombre'] == '1': -%}
-    {% set mode='--dark-filter' %}
-{%- else -%}
-    {% set mode='--light-filter' %}
-{%- endif -%}
-    <style>
-    body { 
-        background-image: linear-gradient(var({{mode}}),var({{mode}})),url("{{database.families[path].img}}");
-    }
-    </style>
+<style>
+body { 
+    background-image: linear-gradient(var(--bg-filter),var(--bg-filter)),url("{{database.families[path].img}}");
+}
+</style>
 {%- endblock head -%}
 
 

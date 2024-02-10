@@ -1,15 +1,38 @@
+/* Dark mode par défaut */
 :root {
-  --fg-color: #7f8c8d;
-  --bg-color: #111f1f;
+  /* Menus */
+  --fg-menu-color: #dda1f7;
+  --bg-menu-color: #3C0753;
+  --emph-menu-color:  #eed0fb;
 
-  --fg-menu-color: #7f8c8d;
-  --bg-menu-color: #2d3e50;
-  --emph-menu-color: white;
+  /* Mode normal */
+  --fg-color: #b6b9fc;
+  --bg-color: #030637;
+  --bg-filter: #03063788;
 
-  --light-filter: #ffffff88;
-  --dark-filter: #00000088;
-  --edit-color: #ff0000;
-  --edit-filter: #ff000088;
+  /* Mode édition */
+  --edit-color: #910A67;
+  --edit-filter: #910A6788;
+
+  /* Pas de déformation des images */
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+  /* Menus */
+  --fg-menu-color: #660000;
+  --bg-menu-color: #FF9B9B;
+  --emph-menu-color: #330000;
+
+  /* Mode normal */
+  --fg-color: #666400;
+  --bg-color: #FFFEC4;
+  --bg-filter: #FFFEC488;
+
+  /* Mode édition */
+  --edit-color: #FFD6A5;
+  --edit-filter: #FFD6A588;
+  }
 }
 
 body {
