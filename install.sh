@@ -12,7 +12,7 @@ sudo printf ""
 printf "> Installation de Apache "
 sudo apt update > ${LOG_FILE} 2>&1 && \
 sudo apt -y install apache2 libapache2-mod-wsgi-py3 >> ${LOG_FILE} 2>&1 && \
-sudo a2enmod wsgi ssl headers proxy proxy_http >> ${LOG_FILE} 2>&1
+sudo a2enmod wsgi ssl >> ${LOG_FILE} 2>&1
 
 
 printf "[DONE]\n> Installation des dépendances python"
