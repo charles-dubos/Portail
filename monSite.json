@@ -16,6 +16,12 @@
           "comments": "",
           "url": "https://www.totalenergies.fr/clients/connexion"
         },
+        "3": {
+          "name": "RED",
+          "picture": "https://static.s-sfr.fr/img/red.svg",
+          "comments": "",
+          "url": "https://www.red-by-sfr.fr/mon-espace-client/"
+        },
         "11": {
           "name": "Qwant",
           "picture": "https://extensions.gnome.org/extension-data/icons/icon_1389.png",
@@ -30,9 +36,15 @@
         },
         "21": {
           "name": "AdminBox",
-          "picture": "https://static.s-sfr.fr/media/red-img-boxplus.webp",
+          "picture": "https://static.thenounproject.com/png/1875875-200.png",
           "comments": "",
-          "url": "https://pi.dubs/box"
+          "url": "https://box.pi.dubs"
+        },
+        "22": {
+          "name": "Cockpit",
+          "picture": "https://cdn.icon-icons.com/icons2/2899/PNG/512/dashboard_icon_182989.png",
+          "comments": "",
+          "url": "https://cockpit.pi.dubs"
         }
       }
     },
