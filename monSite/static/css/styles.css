@@ -236,6 +236,7 @@ img {
     padding: 5px;
     /* border: 1px solid #888; */
     width: fit-content; /* Could be more or less, depending on screen size */
+    max-width: 95%;
 }
   
   
@@ -255,4 +256,9 @@ img {
 .modal-data {
     color: var(--fg-color);
     background: var(--bg-color);
+}
+
+input,
+textarea {
+    max-width: 90%;
 }
