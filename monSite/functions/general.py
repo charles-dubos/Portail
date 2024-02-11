@@ -16,6 +16,7 @@ DEFAULT_CONF={
 }
 APACHE2 = """
 ServerName {host}
+NameVirtualHost {host}:{port}
 <VirtualHost {host}:{port}>
   ServerAlias www.{host}
 
