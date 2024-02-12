@@ -2,10 +2,16 @@ const TIME_OUT = 3000; // Timeout par défaut en millisecondes
 let selectedChannel = "";
 
 function linkTo( e, dom ) {
-  if ( dom.nodeName == "A" ) {
-    window.location.href = dom.href;
-  } else if ( dom.nodeName == "BUTTON" ) {
-    dom.submit()
+  switch ( dom.nodeName ) {
+    case 'A':
+      window.location.href = dom.href;
+      break;
+    case 'BUTTON':
+      dom.submit()
+      break;
+    case 'DIV':
+      dom.onclick()
+      break;
   }
   if ( e ) e.preventDefault();
 }
