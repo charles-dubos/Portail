@@ -48,14 +48,13 @@ label {
  */
 .pure-button {
     background-color: var(--bg-menu-color);
-    color: var(--emph-menu-color);
+    color: var(--fg-menu-color);
     padding: 0.5em 2em;
     border-radius: 5px;
     font-size: 13px;s
 }
 .pure-button:hover {
-    background-color:#7f8c8d;
-    color:#252525;
+    color: var(--emph-menu-color);
 }
 
 .red { color:red; }
@@ -261,4 +260,24 @@ img {
 input,
 textarea {
     max-width: 90%;
+}
+
+
+/*
+ * -- REMOTE --
+ */
+
+#selectedChannel:empty {
+  display: none;
+}
+
+#selectedChannel {
+  position:absolute;
+  bottom:0;
+  right:0;
+  background-color: var(--bg-menu-color);
+  color: var(--bg-menu-color);
+  padding: 5px;
+  border-radius: 5px;
+  z-index: 2;
 }
