@@ -87,12 +87,11 @@ function handleTouchStart(e) {
   initialX = e.touches[0].clientX;
   initialY = e.touches[0].clientY;
   e.preventDefault();
+  document.removeEventListener('touchstart', handleTouchStart, false);
+  document.addEventListener('touchmove', handleTouchMove, false);
 }
 
 function handleTouchMove(e) {
-  if ( ! initialX || ! initialY ) {
-    return;
-  }
 
   let diffX = initialX - e.touches[0].clientX;
   let diffY = initialY - e.touches[0].clientY;
@@ -116,7 +115,8 @@ function handleTouchMove(e) {
   initialX = null;
   initialY = null;
   e.preventDefault()
+  document.addEventListener('touchstart', handleTouchStart, false);
+  document.removeEventListener('touchmove', handleTouchMove, false);
 }
 
 document.addEventListener('touchstart', handleTouchStart, false);
-document.addEventListener('touchmove', handleTouchMove, false);
