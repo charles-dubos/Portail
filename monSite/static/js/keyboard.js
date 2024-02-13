@@ -6,8 +6,11 @@ const TIME_OUT = 3000; // Timeout par défaut en millisecondes
 /* Variables globales */
 
 let selectedChannel = "";
-let initialX = null;
-let initialY = null;
+let startX
+let startY
+let endX
+let endY
+const treshold = 100; //this sets the minimum swipe distance, to avoid noise and to filter actual swipes from just moving fingers
 
 
 /* Touches clavier */
@@ -82,41 +85,25 @@ document.onkeydown = function(e) {
 
 /* Gestion des mouvements sur écran tactile */
 
-function handleTouchStart(e) {
-  // Définit les variables de position initiale
-  initialX = e.changedTouches[0].touches.pageX;
-  initialY = e.changedTouches[0].touches.pageY;
-  e.preventDefault();
-  document.removeEventListener('touchstart', handleTouchStart, false);
-  document.addEventListener('touchmove', handleTouchMove, false);
+//configs the elements on load
+window.onload = function(){
+  window.addEventListener('touchstart', function(e){
+    //console.log(e);
+    startX = e.touches[0].clientX;
+    startY = e.touches[0].clientY;
+  })
+  
+  window.addEventListener('touchend', function(e){
+    //console.log(event);
+    endX = e.changedTouches[0].clientX;
+    endY = e.changedTouches[0].clientY;
+    let xDist = endX - startX;
+    let yDist = endY - startY;
+ 
+    if(endX - startX < 0){
+      linkTo(null, document.getElementById('kbdPageDown'));
+    }else{
+      linkTo(null, document.getElementById('kbdPageUp'));
+    };
+  })
 }
-
-function handleTouchMove(e) {
-
-  let diffX = initialX - e.changedTouches[0].touches.pageX;
-  let diffY = initialY - e.changedTouches[0].touches.pageY;
-
-  if ( Math.abs( diffX ) > Math.abs( diffY ) ) {/*most significant*/
-    if ( diffX > 0 ) {
-      /* right swipe */
-      linkTo( null, document.getElementById('kbdPageDown'));
-    } else {
-      /* left swipe */
-      linkTo( null, document.getElementById('kbdPageUp'));
-    }
-  } else {
-    if ( diffY > 0 ) {
-      /* down swipe */
-    } else {
-      /* up swipe */
-    }
-  }
-  /* reset values */
-  initialX = null;
-  initialY = null;
-  e.preventDefault()
-  document.addEventListener('touchstart', handleTouchStart, false);
-  document.removeEventListener('touchmove', handleTouchMove, false);
-}
-
-document.addEventListener('touchstart', handleTouchStart, false);
