@@ -90,10 +90,6 @@ function handleTouchStart(e) {
 }
 
 function handleTouchMove(e) {
-  e.preventDefault();
-}
-
-function handleTouchEnd(e) {
   if ( ! initialX || ! initialY ) {
     return;
   }
@@ -124,4 +120,3 @@ function handleTouchEnd(e) {
 
 document.addEventListener('touchstart', handleTouchStart, false);
 document.addEventListener('touchmove', handleTouchMove, false);
-document.addEventListener('touchend', handleTouchEnd, false);
