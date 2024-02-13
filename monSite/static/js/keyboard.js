@@ -1,7 +1,19 @@
+/* Constantes */
+
 const TIME_OUT = 3000; // Timeout par défaut en millisecondes
+
+
+/* Variables globales */
+
 let selectedChannel = "";
+let initialX = null;
+let initialY = null;
+
+
+/* Touches clavier */
 
 function linkTo( e, dom ) {
+  // En fonction du type, redirige vers le lien, exécute le submit ou le onclick
   switch ( dom.nodeName ) {
     case 'A':
       window.location.href = dom.href;
@@ -16,13 +28,15 @@ function linkTo( e, dom ) {
   if ( e ) e.preventDefault();
 }
 
-document.onkeinitialY = function(e) {
+document.onkeydown = function(e) {
   console.log(e.key)
   if ( isNaN(e.key) ) {
+    // S'il ne s'agit pas d'un numéro, cherche un id en kbdXXX
     domKeyboardElements = document.querySelectorAll('[id^=kbd'+e.key+']');
     if ( domKeyboardElements.length !== 0 ) {
       linkTo(e, domKeyboardElements[0]);
     } else  {
+      // Touches spéciales
       switch (e.key) {
 
         case 'Enter':
@@ -39,14 +53,14 @@ document.onkeinitialY = function(e) {
             document.getElementById('selectedChannel').innerHTML = selectedChannel;
             break;
 
-            case 'Escape':
-              // Echap, quitte la fenêtre
-              window.close();
-              break;
+          case 'Escape':
+            // Echap, quitte la fenêtre
+            window.close();
+            break;
         }
     }
   } else {
-    // Ne pas prendre en compte le cas du 0 si vide
+    // Ne pas prendre en compte le cas du 0 initial
     if ( e.key != '0' || selectedChannel.length !=0 ) {
       selectedChannel = selectedChannel + e.key;
       document.getElementById('selectedChannel').innerHTML = selectedChannel;
@@ -59,29 +73,29 @@ document.onkeinitialY = function(e) {
           linkTo(null, domKeyboardElement);
         }
       }, TIME_OUT);
+      
+      e.preventDefault();
     }
   }
 }
 
-// Gestion des mouvements sur écran tactile
-document.addEventListener('touchstart', handleTouchStart, false);
-document.addEventListener('touchmove', handleTouchMove, false);
 
-var initialX = null;
-var initialY = null;
+/* Gestion des mouvements sur écran tactile */
 
 function handleTouchStart(e) {
+  // Définit les variables de position initiale
   initialX = e.touches[0].clientX;
   initialY = e.touches[0].clientY;
-};
+  e.preventDefault();
+}
 
-function handleTouchMove(e) {
+function handleTouchEnd(e) {
   if ( ! initialX || ! initialY ) {
     return;
   }
 
-  var diffX = initialX - e.touches[0].clientX;
-  var diffY = initialY - e.touches[0].clientY;
+  let diffX = initialX - e.touches[0].clientX;
+  let diffY = initialY - e.touches[0].clientY;
 
   if ( Math.abs( diffX ) > Math.abs( diffY ) ) {/*most significant*/
     if ( diffX > 0 ) {
@@ -101,4 +115,7 @@ function handleTouchMove(e) {
   /* reset values */
   initialX = null;
   initialY = null;
-};
+}
+
+document.addEventListener('touchstart', handleTouchStart, false);
+document.addEventListener('touchend', handleTouchEnd, false);
