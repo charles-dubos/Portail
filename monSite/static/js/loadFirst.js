@@ -8,7 +8,7 @@ let r;
 function loadValues(number, ratio) {
   n=number;
   r=ratio;
-  document.getElementsByClassName('content-wrapper')[0].style.top = 
+  document.getElementById('content-wrapper').style.top = 
     document.getElementsByClassName("header-menu")[0].offsetHeight+'px';
 }
 

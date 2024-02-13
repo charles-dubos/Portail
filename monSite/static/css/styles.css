@@ -51,7 +51,7 @@ label {
     color: var(--fg-menu-color);
     padding: 0.5em 2em;
     border-radius: 5px;
-    font-size: 13px;s
+    font-size: 13px;
 }
 .pure-button:hover {
     color: var(--emph-menu-color);
@@ -151,7 +151,7 @@ label {
  * -- CONTENT STYLES --
  * Bunch of cards management
  */
-.content-wrapper {
+#content-wrapper {
     position: absolute;
     width: 100%;
     min-height: 12%;

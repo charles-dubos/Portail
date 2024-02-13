@@ -89,7 +89,7 @@ function handleTouchStart(e) {
   e.preventDefault();
 }
 
-function handleTouchEnd(e) {
+function handleTouchMove(e) {
   if ( ! initialX || ! initialY ) {
     return;
   }
@@ -117,5 +117,5 @@ function handleTouchEnd(e) {
   initialY = null;
 }
 
-document.addEventListener('touchstart', handleTouchStart, false);
-document.addEventListener('touchend', handleTouchEnd, false);
+document.getElementById('content-wrapper').addEventListener('touchstart', handleTouchStart, false);
+document.getElementById('content-wrapper').addEventListener('touchmove', handleTouchMove, false);
