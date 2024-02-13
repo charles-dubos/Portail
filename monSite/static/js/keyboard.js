@@ -84,8 +84,8 @@ document.onkeydown = function(e) {
 
 function handleTouchStart(e) {
   // Définit les variables de position initiale
-  initialX = e.touches[0].clientX;
-  initialY = e.touches[0].clientY;
+  initialX = e.changedTouches[0].touches.pageX;
+  initialY = e.changedTouches[0].touches.pageY;
   e.preventDefault();
   document.removeEventListener('touchstart', handleTouchStart, false);
   document.addEventListener('touchmove', handleTouchMove, false);
@@ -93,8 +93,8 @@ function handleTouchStart(e) {
 
 function handleTouchMove(e) {
 
-  let diffX = initialX - e.touches[0].clientX;
-  let diffY = initialY - e.touches[0].clientY;
+  let diffX = initialX - e.changedTouches[0].touches.pageX;
+  let diffY = initialY - e.changedTouches[0].touches.pageY;
 
   if ( Math.abs( diffX ) > Math.abs( diffY ) ) {/*most significant*/
     if ( diffX > 0 ) {
