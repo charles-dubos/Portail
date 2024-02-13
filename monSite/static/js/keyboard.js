@@ -117,5 +117,5 @@ function handleTouchMove(e) {
   initialY = null;
 }
 
-document.getElementById('content-wrapper').addEventListener('touchstart', handleTouchStart, false);
-document.getElementById('content-wrapper').addEventListener('touchmove', handleTouchMove, false);
+document.addEventListener('touchstart', handleTouchStart, false);
+document.addEventListener('touchmove', handleTouchMove, false);
