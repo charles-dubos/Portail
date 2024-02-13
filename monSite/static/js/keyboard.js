@@ -16,7 +16,7 @@ function linkTo( e, dom ) {
   if ( e ) e.preventDefault();
 }
 
-document.onkeydown = function(e) {
+document.onkeinitialY = function(e) {
   console.log(e.key)
   if ( isNaN(e.key) ) {
     domKeyboardElements = document.querySelectorAll('[id^=kbd'+e.key+']');
@@ -63,46 +63,42 @@ document.onkeydown = function(e) {
   }
 }
 
-// Gestion des mouvements Android
-document.addEventListener('touchstart', handleTouchStart, false);        
+// Gestion des mouvements sur écran tactile
+document.addEventListener('touchstart', handleTouchStart, false);
 document.addEventListener('touchmove', handleTouchMove, false);
 
-var xDown = null;                                                        
-var yDown = null;
-                                                                         
-function handleTouchStart(evt) {
-  const firstTouch = evt.touches[0];                                      
-  xDown = firstTouch.clientX;                                      
-  yDown = firstTouch.clientY;                                      
-};                                                
-                                                                         
-function handleTouchMove(evt) {
-  if ( ! xDown || ! yDown ) {
+var initialX = null;
+var initialY = null;
+
+function handleTouchStart(e) {
+  initialX = e.touches[0].clientX;
+  initialY = e.touches[0].clientY;
+};
+
+function handleTouchMove(e) {
+  if ( ! initialX || ! initialY ) {
     return;
   }
 
-  var xUp = evt.touches[0].clientX;                                    
-  var yUp = evt.touches[0].clientY;
+  var diffX = initialX - e.touches[0].clientX;
+  var diffY = initialY - e.touches[0].clientY;
 
-  var xDiff = xDown - xUp;
-  var yDiff = yDown - yUp;
-                                                                         
-  if ( Math.abs( xDiff ) > Math.abs( yDiff ) ) {/*most significant*/
-    if ( xDiff > 0 ) {
-      /* right swipe */ 
+  if ( Math.abs( diffX ) > Math.abs( diffY ) ) {/*most significant*/
+    if ( diffX > 0 ) {
+      /* right swipe */
       linkTo( null, document.getElementById('kbdPageDown'));
     } else {
       /* left swipe */
       linkTo( null, document.getElementById('kbdPageUp'));
-    }                       
+    }
   } else {
-    if ( yDiff > 0 ) {
+    if ( diffY > 0 ) {
       /* down swipe */
-    } else { 
+    } else {
       /* up swipe */
-    }                                                                 
+    }
   }
   /* reset values */
-  xDown = null;
-  yDown = null;                                             
+  initialX = null;
+  initialY = null;
 };
