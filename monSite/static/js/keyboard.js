@@ -10,7 +10,7 @@ let startX
 let startY
 let endX
 let endY
-const treshold = 100; //this sets the minimum swipe distance, to avoid noise and to filter actual swipes from just moving fingers
+const threshold = 100; //this sets the minimum swipe distance, to avoid noise and to filter actual swipes from just moving fingers
 
 
 /* Touches clavier */
@@ -100,10 +100,10 @@ window.onload = function(){
     let xDist = endX - startX;
     let yDist = endY - startY;
  
-    if(endX - startX < 0){
-      linkTo(null, document.getElementById('kbdPageDown'));
-    }else{
+    if(startX - endX > threshold){
       linkTo(null, document.getElementById('kbdPageUp'));
+    }else if(endX - startX > threshold){
+      linkTo(null, document.getElementById('kbdPageDown'));
     };
   })
 }
