@@ -9,30 +9,17 @@ MAIN_DIR=abspath(join(dirname(__file__), '../..'))
 DATABASE_NAME=f'{MAIN_DIR}/monSite.json'
 DEFAULT_CONF={
     "host":"pi.dubs",
-    "port":"443",
+    "port":"8443",
     "logFile": f"{MAIN_DIR}/monSite.log",
     "logLevel": "DEBUG",
     "serverManagerUrl": "http://127.0.0.1:1805"
 }
 APACHE2 = """
+Listen {port} # A commenter si directive preexistante
 ServerName {host}
-NameVirtualHost {host}:{port}
 <VirtualHost {host}:{port}>
   ServerAlias www.{host}
-
-  ## directives obligatoires pour TLS
-  SSLEngine on
-  SSLProtocol -all +TLSv1.2
-  SSLCertificateFile /etc/ssl/private/dubsHTTPS.pem
-  SSLCertificateKeyFile /etc/ssl/private/dubsHTTPS.pem
-  SSLCACertificateFile /etc/ssl/certs/RA.pem
-  # SSLCARevocationFile /etc/ssl/certs/crl.pem
-
-  ## mTLS config
-  SSLCipherSuite HIGH:!aNULL:!MD5
-  SSLVerifyClient require
-  SSLVerifyDepth 2
-
+  
   ## Directives pour le site WSGI
   WSGIDaemonProcess monSite user={user}
   # En cas d'utilisation en environnement virtuel, ajouter à WSGIDaemonProcess
@@ -40,13 +27,7 @@ NameVirtualHost {host}:{port}
   WSGIScriptAlias / {apiPath}/monSite.wsgi
   <Directory {apiPath}>
     WSGIProcessGroup monSite
-    Require ip {host}
   </Directory>
-
-  ## Reverse proxy vers la box
-  ProxyPass "/box" "http://192.168.1.1"
-  ProxyPassReverse "/box" "http://192.168.1.1" 
-  Header always set Strict-Transport-Security \"max-age=15768000\"
 </VirtualHost>
 """
 
