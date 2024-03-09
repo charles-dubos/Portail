@@ -28,23 +28,17 @@
           "comments": "",
           "url": "https://www.qwant.com"
         },
-        "12": {
-          "name": "Google",
-          "picture": "https://www.google.fr/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png",
-          "comments": "Un moteur de recherche bien connu...",
-          "url": "https://www.google.com"
-        },
         "21": {
           "name": "AdminBox",
-          "picture": "https://static.thenounproject.com/png/1875875-200.png",
+          "picture": "https://cdn-icons-png.flaticon.com/128/12203/12203819.png",
           "comments": "",
           "url": "https://box.pi.dubs"
         },
         "22": {
-          "name": "Cockpit",
-          "picture": "https://cdn.icon-icons.com/icons2/2899/PNG/512/dashboard_icon_182989.png",
+          "name": "Grafana",
+          "picture": "https://projects.task.gda.pl/uploads/-/system/project/avatar/321/grafana_logo.png?width=96",
           "comments": "",
-          "url": "https://cockpit.pi.dubs"
+          "url": "https://upnp.pi.dubs"
         }
       }
     },
@@ -335,6 +329,114 @@
           "url": "https://www.primevideo.com/"
         }
       }
+    },
+    "radios": {
+      "title": "Radios",
+      "img": "https://swello.com/fr/blog/wp-content/uploads/2020/10/collioures.png",
+      "dictOfCards": {
+        "1": {
+          "name": "France Info",
+          "picture": "https://www.radio.fr/images/broadcasts/3b/24/4232/1/c300.png",
+          "comments": "",
+          "url": "https://www.radio.fr/s/franceinfo"
+        },
+        "2": {
+          "name": "Nostalgie",
+          "picture": "https://www.radio.fr/images/broadcasts/25/b0/8108/7/c300.png",
+          "comments": "",
+          "url": "https://www.radio.fr/s/nostalgie"
+        },
+        "3": {
+          "name": "Ch\u00e9rie FM",
+          "picture": "https://www.radio.fr/images/broadcasts/68/88/8315/8/c300.png",
+          "comments": "",
+          "url": "https://www.radio.fr/s/cheriefm"
+        },
+        "4": {
+          "name": "",
+          "picture": "https://www.radio.fr/images/broadcasts/2e/94/169368/1/c300.png",
+          "comments": "",
+          "url": "https://www.radio.fr/s/mfm-926"
+        },
+        "5": {
+          "name": "RTL2",
+          "picture": "https://www.radio.fr/images/broadcasts/1f/50/5170/2/c300.png",
+          "comments": "",
+          "url": "https://www.radio.fr/s/rtl2"
+        },
+        "6": {
+          "name": "France Musique",
+          "picture": "https://www.radio.fr/images/broadcasts/07/f7/3366/2/c300.png",
+          "comments": "",
+          "url": "https://www.radio.fr/s/francemusique"
+        },
+        "7": {
+          "name": "Classique",
+          "picture": "https://www.radio.fr/images/broadcasts/d7/65/1838/1/c300.png",
+          "comments": "",
+          "url": "https://www.radio.fr/s/radioclassique"
+        },
+        "8": {
+          "name": "RTL",
+          "picture": "https://www.radio.fr/images/broadcasts/88/5b/5168/c300.png",
+          "comments": "",
+          "url": "https://www.radio.fr/s/rtl"
+        },
+        "9": {
+          "name": "Europe 1",
+          "picture": "https://www.radio.fr/images/broadcasts/85/69/2865/1/c300.png",
+          "comments": "",
+          "url": "https://www.radio.fr/s/europe1"
+        },
+        "10": {
+          "name": "Culture",
+          "picture": "https://www.radio.fr/images/broadcasts/47/25/4233/2/c300.png",
+          "comments": "",
+          "url": "https://www.radio.fr/s/franceculture"
+        },
+        "11": {
+          "name": "Flaixbac",
+          "picture": "https://www.radio.fr/images/broadcasts/5d/cd/4229/1/c300.png",
+          "comments": "",
+          "url": "https://www.radio.fr/s/flaixbac"
+        },
+        "51": {
+          "name": "Jazz channel",
+          "picture": "https://i.ytimg.com/vi/Dx5qFachd3A/hqdefault_live.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLBi9qSbglSuV_B9qNAD3akrcnYKaA",
+          "comments": "",
+          "url": "https://www.youtube.com/watch?v=SORD03t7nlo"
+        },
+        "52": {
+          "name": "Paris Caf\u00e9",
+          "picture": "https://i.ytimg.com/vi/tkjlYxUf4-M/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLDVaWo8_uD9qF3eSCQh4piR6IOaGg",
+          "comments": "",
+          "url": "https://www.youtube.com/watch?v=tkjlYxUf4-M"
+        },
+        "53": {
+          "name": "Indie Folk channel",
+          "picture": "https://i.ytimg.com/vi/nif7-fGMSAs/hqdefault_live.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLCZwcD8yA0KsJ4SYfg3YwjorNPW7Q",
+          "comments": "",
+          "url": "https://www.youtube.com/watch?v=nif7-fGMSAs"
+        },
+        "54": {
+          "name": "Chillout Lounge",
+          "picture": "https://i.ytimg.com/vi/sgEJ4sOwboM/hqdefault_live.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLDbdO8lSzFxPJmeIUUK4uFcAdYDFA",
+          "comments": "",
+          "url": "https://www.youtube.com/watch?v=sgEJ4sOwboM"
+        },
+        "55": {
+          "name": "Bossa Nova Channel",
+          "picture": "https://i.ytimg.com/vi/K6jhR2yKYtI/hq720.jpg?sqp=-oaymwEcCNAFEJQDSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLCBZ5VqwNbSdj1PuyXnEnxhfzY3Wg",
+          "comments": "",
+          "url": "https://www.youtube.com/watch?v=K6jhR2yKYtI"
+        },
+        "56": {
+          "name": "Reggae Channel",
+          "picture": "https://i.ytimg.com/vi/xz2958nZFpE/hqdefault_live.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLCyyO5LN6AcfvDHiLfaxl3FLmFT7w",
+          "comments": "",
+          "url": "https://www.youtube.com/watch?v=xz2958nZFpE"
+        }
+      }
     }
   },
   "SERVERS": {
@@ -352,7 +454,7 @@
   "CONFIGURATION": {
     "mainPage": "liens",
     "logFile": "monSite.log",
-    "logLevel": "DEBUG",
+    "logLevel": "INFO",
     "serverManagerUrl": "http://127.0.0.1:1805",
     "host": "127.0.0.1",
     "port": "8443"
