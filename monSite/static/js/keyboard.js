@@ -19,12 +19,15 @@ function linkTo( e, dom ) {
   // En fonction du type, redirige vers le lien, exécute le submit ou le onclick
   switch ( dom.nodeName ) {
     case 'A':
+      console.log('Redirection vers ' + dom.href);
       window.location.href = dom.href;
       break;
     case 'BUTTON':
+      console.log('Clic bouton');
       dom.submit()
       break;
     case 'DIV':
+      console.log('Div clic');
       dom.onclick()
       break;
   }
@@ -76,7 +79,8 @@ document.onkeydown = function(e) {
           linkTo(null, domKeyboardElement);
         }
       }, TIME_OUT);
-      
+
+      console.log( selectedChannel );
       e.preventDefault();
     }
   }
