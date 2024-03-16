@@ -47,8 +47,10 @@ document.onkeydown = function(e) {
 
         case 'Enter':
           // Va vers le lien correspondant au chiffre tapé
+          console.log('Enter pressed');
           domKeyboardElement = document.getElementById('kbd'+selectedChannel);
           if ( domKeyboardElement ) {
+            console.log('Redirecting to '+ selectedChannel);
             linkTo(e, domKeyboardElement);
           }
           break;
@@ -74,8 +76,10 @@ document.onkeydown = function(e) {
       // Timer d'auto-validation
       window.clearTimeout()
       window.setTimeout(() => {
+        console.log('Timeout');
         domKeyboardElement = document.getElementById('kbd'+selectedChannel);
         if ( domKeyboardElement ) {
+          console.log('TimeOut redirect to ' + selectedChannel)
           linkTo(null, domKeyboardElement);
         }
       }, TIME_OUT);
