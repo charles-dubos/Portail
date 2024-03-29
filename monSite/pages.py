@@ -16,17 +16,31 @@ def index():
     return redirect(Database(DATABASE_NAME).config['mainPage'])
 
 
-@bp.route( '/<path>', methods=['GET','POST'] )
+@bp.route( '/<path>', methods=['GET'] )
 def main(path):
     """Page par identifiant de famille
     """
     global database
 
-    if request.method == 'POST':
-        postKey = list(request.form.keys())[0]
-        logging.debug( f'Méthode POST utilisée avec les données {postKey}' )
-        if postKey in database.servers.keys():
-            database.switchServerState(postKey)
+    return render_template('pages/main.html',
+                           path=path,
+                           database=database,
+                           previous=prevPage( database=database, current=path ),
+                           next=nextPage( database=database, current=path ),
+                           ratio=1
+                           )
+
+
+@bp.route( '/authenticated/<path>', methods=['POST'] )
+def main(path):
+    """Gestion des requêtes POST avec mTLS nécessaire
+    """
+    global database
+
+    postKey = list(request.form.keys())[0]
+    logging.debug( f'Méthode POST utilisée avec les données {postKey}' )
+    if postKey in database.servers.keys():
+        database.switchServerState(postKey)
 
     return render_template('pages/main.html',
                            path=path,
