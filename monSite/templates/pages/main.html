@@ -24,7 +24,7 @@ body {
 
 
 {%- macro servers() -%}
-<form class="" method="post" action="{{ url_for('authenticated') }}">
+<form class="" method="post" action="{{url_for('pages.authenticated')}}">
 {%- for id, server in database.servers.items() %}
     <li class="pure-menu-item recent-link">
         <button class="pure-button {{server.state}}" name="{{id}}" value="switch">

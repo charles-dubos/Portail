@@ -32,7 +32,7 @@ def main(path):
 
 
 @bp.route( '/authenticated/<path>', methods=['POST'] )
-def main(path):
+def authenticated(path):
     """Gestion des requêtes POST avec mTLS nécessaire
     """
     global database
