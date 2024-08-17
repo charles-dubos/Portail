@@ -30,7 +30,10 @@ from ${SITE_NAME} import create_app
 application = create_app()
 EOF
 
+printf "[DONE]\n> Lancement du site et reload Apache2"
 python3 -c "from monSite.functions.general import generateApacheConf; generateApacheConf('${USER}', '${APACHE_CONF_NAME}')" >> ${LOG_FILE} 2>&1 &&\
 sudo mv -f ${APACHE_CONF_NAME} ${APACHE_SITE_DIR} >> ${LOG_FILE} 2>&1 &&\
 sudo a2ensite ${SITE_NAME} >> ${LOG_FILE} 2>&1; \
 sudo systemctl reload apache2 >> ${LOG_FILE} 2>&1
+
+printf "[DONE]\n"
