@@ -10,14 +10,14 @@ LOG_FILE="${SCRIPT_DIR}/${SITE_NAME}.log"
 sudo printf ""
 
 printf "> Installation de Apache "
-sudo apt update > ${LOG_FILE} 2>&1 && \
-sudo apt -y install apache2 libapache2-mod-wsgi-py3 >> ${LOG_FILE} 2>&1 && \
+sudo apt-get update > ${LOG_FILE} 2>&1 && \
+sudo apt-get -y install apache2 libapache2-mod-wsgi-py3 >> ${LOG_FILE} 2>&1 && \
 sudo a2enmod wsgi ssl >> ${LOG_FILE} 2>&1
 
 
 printf "[DONE]\n> Installation des dépendances python"
-python3 -m pip install flask requests >> ${LOG_FILE} 2>&1
-
+#python3 -m pip install flask requests >> ${LOG_FILE} 2>&1
+sudo apt-get -y install python3-requests python3-flask
 
 printf "[DONE]\n> Création de la configuration WSGI"
 cd ${SCRIPT_DIR}
