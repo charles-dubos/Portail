@@ -16,10 +16,8 @@ DEFAULT_CONF={
 }
 APACHE2 = """
 Listen {port} # A commenter si directive preexistante
-ServerName {host}
+
 <VirtualHost {host}:{port}>
-  ServerAlias www.{host}
-  
   ## Directives pour le site WSGI
   WSGIDaemonProcess monSite user={user}
   # En cas d'utilisation en environnement virtuel, ajouter à WSGIDaemonProcess
