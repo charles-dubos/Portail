@@ -15,7 +15,7 @@ DEFAULT_CONF={
     "serverManagerUrl": "http://127.0.0.1:1805"
 }
 APACHE2 = """
-Listen {port} # A commenter si directive preexistante
+Listen {port}
 
 <VirtualHost {host}:{port}>
   ## Directives pour le site WSGI
