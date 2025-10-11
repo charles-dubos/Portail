@@ -27,7 +27,6 @@ Une fois installé, ouvrir le browser sur la [page principale](http://127.0.0.1:
 Les dépendances suivantes sont identifiées (installées lors de l'exécution du
 script d'installation):
 
-- [APT] Serveur Apache2 + module mod
 - [PY3] Module `flask` et module `requests`
 - [PY3] Le [serverManager](https://github.com/charles-dubos/serverManager)
 
@@ -40,5 +39,5 @@ Rappel, pour déboger l'appli flask:
 
 ```bash
 source venv/bin/activate
-python3 -m flask --app monSite run --port 8000 --debug
+python3 -m flask --app app run --port 8000 --debug
 ```

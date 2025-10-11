@@ -12,7 +12,7 @@ body {
 
 
 {%- block pageTitle -%}
-<span class="pure-menu-heading" ondblclick="location.href='{{url_for('pages.edit', path=path)}}'">{{database.families[path].title}}</span>
+<span class="pure-menu-heading" ondblclick="location.href='{{url_for('edit', path=path)}}'">{{database.families[path].title}}</span>
 {%- endblock pageTitle -%}
 
 
@@ -24,7 +24,7 @@ body {
 
 
 {%- macro servers() -%}
-<form class="" method="post" action="{{url_for('pages.authenticated',path=path)}}">
+<form class="" method="post" action="{{url_for('authenticated',path=path)}}">
 {%- for id, server in database.servers.items() %}
     <li class="pure-menu-item recent-link">
         <button class="pure-button {{server.state}}" name="{{id}}" value="switch">

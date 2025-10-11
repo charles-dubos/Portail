@@ -1,11 +1,11 @@
-from monSite.functions.jsonConnector import *
+from functions.jsonConnector import *
 import logging
 from os.path import abspath, dirname, join
 from os import pardir
 
 
 # 'CONSTANTES paramétrables'
-MAIN_DIR=abspath(join(dirname(__file__), '../..'))
+MAIN_DIR=abspath(join(dirname(__file__), '..'))
 DATABASE_NAME=f'{MAIN_DIR}/monSite.json'
 DEFAULT_CONF={
     "host":"pi.dubs",
@@ -14,20 +14,6 @@ DEFAULT_CONF={
     "logLevel": "DEBUG",
     "serverManagerUrl": "http://127.0.0.1:1805"
 }
-APACHE2 = """
-Listen {port}
-
-<VirtualHost {host}:{port}>
-  ## Directives pour le site WSGI
-  WSGIDaemonProcess monSite user={user}
-  # En cas d'utilisation en environnement virtuel, ajouter à WSGIDaemonProcess
-  # python-home={apiPath}/venv 
-  WSGIScriptAlias / {apiPath}/monSite.wsgi
-  <Directory {apiPath}>
-    WSGIProcessGroup monSite
-  </Directory>
-</VirtualHost>
-"""
 
 # Generating logging
 logging.basicConfig(
@@ -37,21 +23,6 @@ logging.basicConfig(
 
 
 # FONCTIONS
-
-## Génération conf Apache 
-def generateApacheConf(user:str, fileName:str):
-  database = loadDatabase()
-  logging.info(f'Génération de la conf Apache dans {fileName}.')
-  with open(file=fileName, mode='w', encoding='utf-8') as file:
-    file.write(
-      APACHE2.format(
-        host=    database.config['host'],
-        port=    database.config['port'],
-        user=    user,
-        apiPath= MAIN_DIR
-      )
-    )
-
 
 ## Chargement
 def loadDatabase() -> Database:
@@ -92,6 +63,7 @@ def startingChecks(database:Database) -> None:
     database.families['liens'] = Family(
       jsonFamily={
         "title":"Liens divers",
+        "img":None,
         "dictOfCards":{},
       }
     )

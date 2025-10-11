@@ -1,11 +1,9 @@
-from flask import Blueprint, redirect, render_template, request, url_for
-from monSite.functions.general import *
+from flask import Flask, redirect, render_template, request, url_for
+from functions.general import *
 
-# BLUEPRINTS
-bp=Blueprint("pages", __name__)
+app = Flask( __name__ )
 
-
-@bp.route('/')
+@app.route('/')
 def index():
     """Page principale -> redirection vers la page paramétrée
     """
@@ -16,7 +14,7 @@ def index():
     return redirect(Database(DATABASE_NAME).config['mainPage'])
 
 
-@bp.route( '/<path>', methods=['GET'] )
+@app.route( '/<path>', methods=['GET'] )
 def main(path):
     """Page par identifiant de famille
     """
@@ -31,7 +29,7 @@ def main(path):
                            )
 
 
-@bp.route( '/authenticated/<path>', methods=['POST'] )
+@app.route( '/authenticated/<path>', methods=['POST'] )
 def authenticated(path):
     """Gestion des requêtes POST avec mTLS nécessaire
     """
@@ -51,7 +49,7 @@ def authenticated(path):
                            )
 
 
-@bp.route( '/<path>/edit', methods=['GET','POST'] )
+@app.route( '/<path>/edit', methods=['GET','POST'] )
 def edit(path):
     """Page d'édition par identifiant de famille
     """
@@ -205,7 +203,7 @@ def edit(path):
                            message=message
                            )
 
-@bp.after_request
+@app.after_request
 def add_header(r):
     """
     Add headers to both force latest IE rendering engine or Chrome Frame,

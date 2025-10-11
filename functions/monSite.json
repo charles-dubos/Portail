@@ -1,0 +1,18 @@
+{
+  "FAMILIES": {
+    "liens": {
+      "title": "Liens divers",
+      "img": null,
+      "dictOfCards": {}
+    }
+  },
+  "SERVERS": {},
+  "CONFIGURATION": {
+    "host": "pi.dubs",
+    "port": "8443",
+    "logFile": "/home/charles/Documents/portail.dubs/monSite/functions/monSite.log",
+    "logLevel": "DEBUG",
+    "serverManagerUrl": "http://127.0.0.1:1805",
+    "mainPage": "liens"
+  }
+}
