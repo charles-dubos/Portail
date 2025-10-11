@@ -13,14 +13,14 @@ Lancer le script `install.sh` avec l'utilisateur standard (depuis n'importe où,
 ### Configuration
 
 La configuration est initiée au démarrage dans le fichier `monSite.json`. Par
- défaut au premier démarrage, il s'initie sur `127.0.0.1:80`.
+ défaut au premier démarrage, il s'initie sur `localhost:80`.
 
 > **NB:** En cas de modification des paramètres du serveur (répertoire, hôte,
 > port), il convient de relancer le fichier `install.sh`.
 
 ### Utilisation
 
-Une fois installé, ouvrir le browser sur la [page principale](http://127.0.0.1:80).
+Une fois installé, ouvrir le browser sur la [page principale](http://localhost:80).
 
 ## Dépendances
 

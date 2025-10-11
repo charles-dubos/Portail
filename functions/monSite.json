@@ -8,11 +8,11 @@
   },
   "SERVERS": {},
   "CONFIGURATION": {
-    "host": "pi.dubs",
+    "host": "portail.dubs",
     "port": "8443",
     "logFile": "/home/charles/Documents/portail.dubs/monSite/functions/monSite.log",
     "logLevel": "DEBUG",
-    "serverManagerUrl": "http://127.0.0.1:1805",
+    "serverManagerUrl": "http://localhost:1805",
     "mainPage": "liens"
   }
 }

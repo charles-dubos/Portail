@@ -8,11 +8,11 @@ from os import pardir
 MAIN_DIR=abspath(join(dirname(__file__), '..'))
 DATABASE_NAME=f'{MAIN_DIR}/monSite.json'
 DEFAULT_CONF={
-    "host":"pi.dubs",
+    "host":"example.conf",
     "port":"8443",
     "logFile": f"{MAIN_DIR}/monSite.log",
     "logLevel": "DEBUG",
-    "serverManagerUrl": "http://127.0.0.1:1805"
+    "serverManagerUrl": "http://localhost:1805"
 }
 
 # Generating logging
