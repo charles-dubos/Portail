@@ -2,11 +2,11 @@ from flask import Flask, redirect, render_template, request, url_for, send_from_
 from functions.general import *
 
 app = Flask( __name__ )
-
-@app.route('/favicon.ico')
-def favicon():
-    return send_from_directory(os.path.join(app.root_path, 'static'),
-                               'favicon.ico', mimetype='image/vnd.microsoft.icon')
+app.add_url_rule(
+    "/favicon.ico",
+    endpoint="favicon",
+    redirect_to=url_for("static", filename="favicon.ico"),
+)
 
 @app.route('/')
 def index():
