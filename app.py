@@ -7,6 +7,11 @@ app.add_url_rule(
     endpoint="favicon",
     redirect_to=url_for("static", filename="favicon.ico"),
 )
+app.add_url_rule(
+    "/favicon.png",
+    endpoint="icon",
+    redirect_to=url_for("static", filename="favicon.png"),
+)
 
 @app.route('/')
 def index():
