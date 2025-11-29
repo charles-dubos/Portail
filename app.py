@@ -2,16 +2,20 @@ from flask import Flask, redirect, render_template, request, url_for, send_from_
 from functions.general import *
 
 app = Flask( __name__ )
+
 app.add_url_rule(
     "/favicon.ico",
     endpoint="favicon",
-    redirect_to=url_for("static", filename="favicon.ico"),
+    redirect_to=url_for("static/icons", filename="favicon.ico"),
 )
-app.add_url_rule(
-    "/favicon.png",
-    endpoint="icon",
-    redirect_to=url_for("static", filename="favicon.png"),
-)
+
+@app.route('/manifest.json')
+def serve_manifest():
+    return send_file('manifest.json', mimetype='application/manifest+json')
+
+@app.route('/sw.js')
+def serve_sw():
+    return send_file('sw.js', mimetype='application/javascript')
 
 @app.route('/')
 def index():
