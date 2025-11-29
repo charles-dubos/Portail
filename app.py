@@ -3,12 +3,6 @@ from functions.general import *
 
 app = Flask( __name__ )
 
-app.add_url_rule(
-    "/favicon.ico",
-    endpoint="favicon",
-    redirect_to=url_for("static/icons", filename="favicon.ico"),
-)
-
 @app.route('/manifest.json')
 def serve_manifest():
     return send_file('manifest.json', mimetype='application/manifest+json')
