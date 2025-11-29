@@ -1,4 +1,4 @@
-from flask import Flask, redirect, render_template, request, url_for, send_from_directory
+from flask import Flask, redirect, render_template, request, url_for, send_file
 from functions.general import *
 
 app = Flask( __name__ )
@@ -222,4 +222,3 @@ def add_header(r):
     r.headers["Expires"] = "0"
     r.headers['Cache-Control'] = 'public, max-age=0'
     return r
-    
