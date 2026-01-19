@@ -52,6 +52,9 @@ document.onkeydown = function(e) {
           if ( domKeyboardElement ) {
             console.log('Redirecting to '+ selectedChannel);
             linkTo(e, domKeyboardElement);
+          } else {
+            selectedChannel = "";
+            document.getElementById('selectedChannel').innerHTML = "";
           }
           break;
 
@@ -81,6 +84,9 @@ document.onkeydown = function(e) {
         if ( domKeyboardElement ) {
           console.log('TimeOut redirect to ' + selectedChannel)
           linkTo(null, domKeyboardElement);
+        } else {
+          selectedChannel = "";
+          document.getElementById('selectedChannel').innerHTML = "";
         }
       }, TIME_OUT);
 

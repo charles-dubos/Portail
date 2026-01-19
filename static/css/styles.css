@@ -279,8 +279,8 @@ textarea {
   position:absolute;
   bottom:0;
   right:0;
-  background-color: var(--bg-menu-color);
-  color: var(--bg-menu-color);
+  /* background-color: var(--bg-menu-color); */
+  color: var(--emph-menu-color);
   padding: 5px;
   border-radius: 5px;
   z-index: 2;

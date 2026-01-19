@@ -41,7 +41,7 @@ body {
 {%- for id, card in database.families[path].dictOfCards.items() -%}
 <div class="card-wrapper is-center">
     <div class="card">
-        <div class="card-img" onclick="location.href='{{card.url}}';" id="kbd{{card.id}}">
+        <div class="card-img" onclick="location.href='{{card.url}}';" id="kbd{{id}}">
             <img src="{{card.picture}}" onerror='src="{{url_for("static",filename="img/broken.png")}}"'> 
         </div>
         <div class="card-name is-center" onclick="enableModal('modal-{{id}}')">{{id}} <br><b>{{card.name}}</b></div>
