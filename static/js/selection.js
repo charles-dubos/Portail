@@ -30,6 +30,7 @@ function updateSelectedChannel() {
 }
 
 function setChannel(newChannel) {
+  playAudio(SND_MOVE);
   selectedChannel=newChannel;
   updateSelectedChannel();
 }

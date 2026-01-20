@@ -8,10 +8,11 @@
 
 // Fonctions générales
 
-function linkTo( e, dom ) {
+async function linkTo( e, dom ) {
   // En fonction du type, redirige vers le lien, exécute le submit ou le onclick
   switch ( dom.nodeName ) {
     case 'A':
+      await waitAudio(SND_PAGE);
       console.log('Redirection vers ' + dom.href);
       window.location.href = dom.href;
       break;
@@ -20,6 +21,7 @@ function linkTo( e, dom ) {
       dom.submit()
       break;
     case 'DIV':
+      await waitAudio(SND_ENTER);
       console.log('Div clic');
       dom.getElementsByClassName('card-img')[0].onclick()
       break;
@@ -38,6 +40,10 @@ function keyEnterPress(e) {
   else setChannel("");
 }
 
+async function keyEscPress() {
+  await waitAudio(SND_BYE);
+  window.close();
+}
 
 // Gestion de l'appui
 document.onkeydown = function(e) {
@@ -63,7 +69,7 @@ document.onkeydown = function(e) {
 
           case 'Escape':
             // Echap, quitte la fenêtre
-            window.close();
+            keyEscPress();
             break;
           
           case 'ArrowLeft':
