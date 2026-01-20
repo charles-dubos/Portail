@@ -36,6 +36,6 @@ Pour déboguer l'appli flask:
 2/ Exécution de l'appli flask
 3/ Connexion via browser sur http://localhost:8000
 ```bash
-source venv/bin/activate
+source .venv/bin/activate
 python3 -m flask --app app run --port 8000 --debug
 ```

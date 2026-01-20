@@ -28,7 +28,7 @@ def main(path):
     """
     global database
 
-    return render_template('pages/main.html',
+    return render_template('pages/main.html.j2',
                            path=path,
                            database=database,
                            previous=prevPage( database=database, current=path ),
@@ -48,7 +48,7 @@ def authenticated(path):
     if postKey in database.servers.keys():
         database.switchServerState(postKey)
 
-    return render_template('pages/main.html',
+    return render_template('pages/main.html.j2',
                            path=path,
                            database=database,
                            previous=prevPage( database=database, current=path ),
@@ -201,7 +201,7 @@ def edit(path):
                     } )
                 )
 
-    return render_template('pages/edit.html',
+    return render_template('pages/edit.html.j2',
                            path=path,
                            database=database,
                            previous=prevPage(database=database, current=path),
