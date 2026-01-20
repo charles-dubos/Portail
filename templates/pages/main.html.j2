@@ -3,6 +3,7 @@
 
 {% block head %}
 <script src="{{url_for('static', filename='js/global.js')}}"></script>
+<script src="{{url_for('static', filename='js/selection.js')}}"></script>
 <script src="{{url_for('static', filename='js/keyboard.js')}}"></script>
 <script src="{{url_for('static', filename='js/swipes.js')}}"></script>
 <style>
@@ -42,8 +43,8 @@ body {
 {%- macro cards() -%}
 {%- for id, card in database.families[path].dictOfCards.items() -%}
 <div class="card-wrapper is-center">
-    <div class="card">
-        <div class="card-img" onclick="location.href='{{card.url}}';" id="kbd{{id}}">
+    <div class="card" id="kbd{{id}}" onmouseover="setChannel('{{id}}')">
+        <div class="card-img" onclick="location.href='{{card.url}}';">
             <img src="{{card.picture}}" onerror='src="{{url_for("static",filename="img/broken.png")}}"'> 
         </div>
         <div class="card-name is-center" onclick="enableModal('modal-{{id}}')">{{id}} <br><b>{{card.name}}</b></div>

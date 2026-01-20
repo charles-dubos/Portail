@@ -1,8 +1,8 @@
 /* Constantes */
 
-const TIME_OUT = 3000; // Timeout par défaut en millisecondes
-
+const TIME_OUT = 2500; // Timeout par défaut en millisecondes
 
 /* Variables globales */
 
 var selectedChannel = "";
+var timeoutId = null;

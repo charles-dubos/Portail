@@ -185,7 +185,7 @@ label {
     overflow: hidden;
     line-height: normal;
 }
-.card:hover {
+.card.selected {
     filter: drop-shadow(0 0 1vw var(--fg-menu-color));
     text-shadow: 0 0 1vw var(--fg-menu-color);
     transform: scale(1.2);

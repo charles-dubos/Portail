@@ -6,6 +6,8 @@
 
 /* Touches clavier */
 
+// Fonctions générales
+
 function linkTo( e, dom ) {
   // En fonction du type, redirige vers le lien, exécute le submit ou le onclick
   switch ( dom.nodeName ) {
@@ -19,12 +21,25 @@ function linkTo( e, dom ) {
       break;
     case 'DIV':
       console.log('Div clic');
-      dom.onclick()
+      dom.getElementsByClassName('card-img')[0].onclick()
       break;
   }
   if ( e ) e.preventDefault();
 }
 
+
+// Fonctions d'appui de touche
+
+function keyEnterPress(e) {
+  // Va vers le lien correspondant au chiffre tapé
+  console.log('Enter pressed');
+  domKeyboardElement = document.getElementById('kbd'+selectedChannel);
+  if ( domKeyboardElement )  linkTo(e, domKeyboardElement);
+  else setChannel("");
+}
+
+
+// Gestion de l'appui
 document.onkeydown = function(e) {
   console.log(e.key)
   if ( isNaN(e.key) ) {
@@ -37,51 +52,54 @@ document.onkeydown = function(e) {
       switch (e.key) {
 
         case 'Enter':
-          // Va vers le lien correspondant au chiffre tapé
-          console.log('Enter pressed');
-          domKeyboardElement = document.getElementById('kbd'+selectedChannel);
-          if ( domKeyboardElement ) {
-            console.log('Redirecting to '+ selectedChannel);
-            linkTo(e, domKeyboardElement);
-          } else {
-            selectedChannel = "";
-            document.getElementById('selectedChannelDisplay').innerHTML = "";
-          }
+          // Enter, valide la sélection de chaine
+          keyEnterPress(e);
           break;
 
           case 'Backspace':
             // Retour arrière, enlève le dernier caractère
-            selectedChannel = selectedChannel.slice(0, -1);
-            document.getElementById('selectedChannelDisplay').innerHTML = selectedChannel;
+            setChannel(selectedChannel.slice(0, -1));
             break;
 
           case 'Escape':
             // Echap, quitte la fenêtre
             window.close();
             break;
+          
+          case 'ArrowLeft':
+            selectColLeft();
+            break;
+          
+          case 'ArrowRight':
+            selectColRight();
+            break;
+          
+          case 'ArrowUp':
+            selectRowUp();
+            break;
+          
+          case 'ArrowDown':
+            selectRowDown();
+            break;
         }
     }
   } else {
     // Ne pas prendre en compte le cas du 0 initial
     if ( e.key != '0' || selectedChannel.length !=0 ) {
-      selectedChannel = selectedChannel + e.key;
-      document.getElementById('selectedChannelDisplay').innerHTML = selectedChannel;
+      setChannel( selectedChannel + e.key );
 
       // Timer d'auto-validation
-      window.clearTimeout()
-      window.setTimeout(() => {
-        console.log('Timeout');
-        domKeyboardElement = document.getElementById('kbd'+selectedChannel);
-        if ( domKeyboardElement ) {
-          console.log('TimeOut redirect to ' + selectedChannel)
-          linkTo(null, domKeyboardElement);
-        } else {
-          selectedChannel = "";
-          document.getElementById('selectedChannelDisplay').innerHTML = "";
-        }
+      timeoutId = window.setTimeout(() => {
+        console.log('Timeout ');
+
+        domKeyboardElement = document
+          .getElementById('kbd'+selectedChannel);
+
+        if ( domKeyboardElement ) linkTo(null, domKeyboardElement);
+        else setChannel( "" );
+
       }, TIME_OUT);
 
-      console.log( selectedChannel );
       e.preventDefault();
     }
   }
