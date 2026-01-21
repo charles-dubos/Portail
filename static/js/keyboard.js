@@ -12,7 +12,6 @@ async function linkTo( e, dom ) {
   // En fonction du type, redirige vers le lien, exécute le submit ou le onclick
   switch ( dom.nodeName ) {
     case 'A':
-      // await waitAudio(SND_PAGE);
       console.log('Redirection vers ' + dom.href);
       window.location.href = dom.href;
       break;

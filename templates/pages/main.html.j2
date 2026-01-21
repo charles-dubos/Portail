@@ -7,10 +7,10 @@
 <script src="{{url_for('static', filename='js/keyboard.js')}}"></script>
 <script src="{{url_for('static', filename='js/swipes.js')}}"></script>
 
-<audio id='sndPage' src='https://universal-soundbank.com/sounds/1116.mp3' ></audio>
-<audio id='sndEnter' src='https://universal-soundbank.com/sounds/7571.mp3' ></audio>
-<audio id='sndMove' src='https://universal-soundbank.com/sounds/21181.mp3' ></audio>
-<audio id='sndBye' src='https://universal-soundbank.com/sounds/9763.mp3' ></audio>
+<audio id='sndPage' src="{{database.config['soundChangeFamily']}}" data-volume="0.3"></audio>
+<audio id='sndEnter' src="{{database.config['soundSelectItem']}}" data-volume="0.5"></audio>
+<audio id='sndMove' src="{{database.config['soundChangeItem']}}" data-volume="0.1"></audio>
+<audio id='sndBye' src="{{database.config['soundExitWindow']}}" data-volume="1"></audio>
 
 <style>
 body { 
@@ -26,9 +26,9 @@ body {
 
 
 {%- macro nav(classes='') -%}
-<div class="pure-u-1-3 {{classes}} is-center"> <a href={{previous}} class="pure-button" id="kbdPageDown"> <i class="fa-solid fa-chevron-left"></i> </a> </div>
-<div class="pure-u-1-3 {{classes}} is-center"> <a href={{database.config['mainPage']}} class="pure-button" id="kbdHome"> <i class="fa-solid fa-house"></i> </a> </div>
-<div class="pure-u-1-3 {{classes}} is-center"> <a href={{next}} class="pure-button" id="kbdPageUp"> <i class="fa-solid fa-chevron-right"></i> </a> </div>
+<div class="pure-u-1-3 {{classes}} is-center"> <a href="{{previous}}" class="pure-button" id="kbdPageDown"> <i class="fa-solid fa-chevron-left"></i> </a> </div>
+<div class="pure-u-1-3 {{classes}} is-center"> <a href="{{database.config['mainPage']}}" class="pure-button" id="kbdHome"> <i class="fa-solid fa-house"></i> </a> </div>
+<div class="pure-u-1-3 {{classes}} is-center"> <a href="{{next}}" class="pure-button" id="kbdPageUp"> <i class="fa-solid fa-chevron-right"></i> </a> </div>
 {%- endmacro -%}
 
 

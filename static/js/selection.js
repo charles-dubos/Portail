@@ -29,10 +29,10 @@ function updateSelectedChannel() {
   selectCard();
 }
 
-function setChannel(newChannel) {
-  playAudio('sndMove');
+async function setChannel(newChannel) {
   selectedChannel=newChannel;
   updateSelectedChannel();
+  await waitAudio('sndMove');
 }
 
 // Fonctions de sélection par déplacement

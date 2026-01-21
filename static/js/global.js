@@ -15,7 +15,7 @@ var timeoutId = null;
 function waitAudio(audioId){
   const sound=document.getElementById(audioId);
   return new Promise(res=>{
-    sound.volume=0.3;
+    sound.volume=sound.getAttribute('data-volume');
     sound.play();
     sound.onended = res;
   })
@@ -24,8 +24,8 @@ function waitAudio(audioId){
 // makes playing audio not blocking
 function playAudio(audioId){
   const sound=document.getElementById(audioId);
-  sound.volume=0.1;
+  sound.volume=sound.getAttribute('data-volume');
   sound.play();
 }
 
-window.addEventListener("beforeunload", function () { playAudio('sndPage') });
+window.addEventListener("beforeunload", async function () { await waitAudio('sndPage') });
