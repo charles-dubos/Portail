@@ -1,6 +1,6 @@
 # site_pi.dubs
 
-Site en Flask avec pages de liens et gestion de services actifs (cf. projet Server Manager, voir dépendances).
+Site en Flask avec pages de liens.
 
 ## Utilisation en WSGI (prod)
 
@@ -25,7 +25,6 @@ Les dépendances suivantes sont identifiées (installées lors de l'exécution d
 script d'installation):
 
 - [PY3] Modules `gunicorn`, `flask` et `requests` (cf. requirements.txt)
-- [PY3] Le [serverManager](https://github.com/charles-dubos/serverManager)
 
 
 ## Debug

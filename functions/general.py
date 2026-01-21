@@ -11,8 +11,7 @@ DEFAULT_CONF={
     "host":"example.conf",
     "port":"8443",
     "logFile": f"{MAIN_DIR}/monSite.log",
-    "logLevel": "DEBUG",
-    "serverManagerUrl": "http://localhost:1805"
+    "logLevel": "DEBUG"
 }
 
 # Generating logging

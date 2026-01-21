@@ -1,61 +1,6 @@
 import json, pathlib, logging, requests
 
 
-class Server:
-  """Services activables
-  """
-  name:str = None
-  faIcon:str = None
-  daemon:str = None
-  state:str = 'amber'
-
-  def __init__(self,
-               jsonServer:dict,
-               ) -> None:
-    logging.debug(f"Initialisation du serveur '{jsonServer['name']}'")
-    self.name = jsonServer['name']
-    self.faIcon = jsonServer['faIcon']
-    self.daemon = jsonServer['daemon']
-
-  def getJson(self) -> dict:
-    return {
-      'name':   self.name,
-      'faIcon': self.faIcon,
-      'daemon': self.daemon,
-    }
-  
-  def getState(self, config) -> str:
-    logging.info(f"Requête d'état du serveur '{self.name}'")
-
-    try:
-      response = requests.post(
-        config["serverManagerUrl"]+"/status",
-        data={ self.daemon:"" }
-      ).json()
-      self.state = ['green','red'][response[self.daemon]]
-    except Exception:
-      self.state = 'amber'
-
-    logging.debug(f"Etat du serveur: '{self.state}'")
-    return self.state
-
-  def switchState(self, config) -> str:
-    logging.warning(f"Requête de changement d'état du serveur '{self.name}'")
-    logging.debug("Adresse: " + config["serverManagerUrl"]+"/switch")
-    logging.debug( "Données: "+str({ self.daemon:"" }))
-
-    try:
-      response = requests.put(
-        config["serverManagerUrl"]+"/switch",
-        data={ self.daemon:"" }
-      ).json()
-      self.state = ['green','red'][response[self.daemon]]
-    except Exception:
-      self.state = 'amber'
-
-    logging.debug(f"Nouvel état du serveur: '{self.state}'")
-    return self.state
-  
 class Card:
   """Classe identifiant une carte
   """
@@ -124,7 +69,6 @@ class Database:
   path:str = None
   config:dict = {}
   families:dict[Family] = {}
-  servers:dict[Server] = {}
 
   def __init__(self,
                path:str,
@@ -153,15 +97,6 @@ class Database:
         family=Family( jsonFamily=jsonFamily )
       )
 
-    # Reload Servers
-    self.servers = {}
-    for id, jsonServer in content['SERVERS'].items():
-      self.newServer(
-        serverId=id,
-        server=Server( jsonServer=jsonServer )
-      )
-      self.getServerState(id)
-
 
   def save(self, sortFamily=None) -> None:
     if sortFamily:
@@ -171,13 +106,10 @@ class Database:
     with open(file=self.path, mode='w', encoding='utf-8') as file:
       content = {
         "FAMILIES":     {},
-        "SERVERS":      {},
         "CONFIGURATION":self.config,
       }
       for familyId, family in self.families.items():
         content['FAMILIES'][familyId] = family.getJson()
-      for serverId, server in self.servers.items():
-        content['SERVERS'][serverId] = server.getJson()
       json.dump(
         obj=content,
         fp=file,
@@ -200,28 +132,3 @@ class Database:
     del self.families[familyId]
     self.save()
     return family
-
-  def newServer(self, serverId:str, server:Server) -> None:
-    if not serverId or serverId in list(self.servers.keys()):
-      logging.error(f"Impossible de créer le serveur {serverId}")
-      return None
-    logging.warning(f"Création du serveur {serverId}")
-    self.servers[serverId] = server
-    self.save()
-
-  def delServer(self, serverId) -> Server:
-    logging.warning(f"Suppression du serveur {serverId}")
-    server = self.servers[serverId]
-    del self.servers[serverId]
-    self.save()
-    return server
-  
-  def getServerState(self, serverId) -> str:
-    return self\
-      .servers[serverId]\
-        .getState(self.config)
-
-  def switchServerState(self, serverId) -> str:
-    return self\
-      .servers[serverId]\
-        .switchState(self.config)

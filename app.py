@@ -37,26 +37,6 @@ def main(path):
                            )
 
 
-@app.route( '/authenticated/<path>', methods=['POST'] )
-def authenticated(path):
-    """Gestion des requêtes POST avec mTLS nécessaire
-    """
-    global database
-
-    postKey = list(request.form.keys())[0]
-    logging.debug( f'Méthode POST utilisée avec les données {postKey}' )
-    if postKey in database.servers.keys():
-        database.switchServerState(postKey)
-
-    return render_template('pages/main.html.j2',
-                           path=path,
-                           database=database,
-                           previous=prevPage( database=database, current=path ),
-                           next=nextPage( database=database, current=path ),
-                           ratio=1
-                           )
-
-
 @app.route( '/<path>/edit', methods=['GET','POST'] )
 def edit(path):
     """Page d'édition par identifiant de famille
@@ -159,47 +139,6 @@ def edit(path):
                     } )
                 )
                 path = data['famId']
-
-        elif 'save-serv' in data.keys():
-            serverId = data['id']
-            if data['current'] != data['id']:
-                if data['id'] in database.servers.keys():
-                    message = f"Impossible de changer le serveur de '{data['current']}'.</br>Le nom '{serverId}' est déjà attribué."
-                    serverId = data['current']
-                else:
-                    logging.info( f"Déplacement du serveur {data['current']} vers {serverId}" )
-                    database.newServer(
-                        serverId=serverId,
-                        server=database.delServer( serverId=data['current'] )
-                    )
-            if database.servers[serverId].name != data['name']:
-                logging.debug( f"Mise à jour de {database.servers[serverId].name} en {data['name']}" )
-                database.servers[serverId].name = data['name']
-            if database.servers[serverId].faIcon != data['faIcon']:
-                logging.debug( f"Mise à jour de {database.servers[serverId].faIcon} en {data['faIcon']}" )
-                database.servers[serverId].faIcon = data['faIcon']
-            if database.servers[serverId].daemon != data['daemon']:
-                logging.debug( f"Mise à jour de {database.servers[serverId].daemon} en {data['daemon']}" )
-                database.servers[serverId].daemon = data['daemon']
-            database.save()
-
-        elif 'delete-serv' in data.keys():
-            database.delServer( serverId=data['current'] )
-
-        elif 'new-serv' in data.keys():
-            if data['id'] in database.servers.keys():
-                message = f"Impossible de créer le serveur.</br>L'identifiant '{data['id']}' est déjà utilisé."
-            else:
-                logging.info( f"Création du serveur '{data['id']}'" )
-                logging.debug( f"avec les valeurs '{data['name']}', '{data['faIcon']}', '{data['daemon']}'" )
-                database.newServer(
-                    serverId=data['id'],
-                    server=Server( {
-                        'name': data['name'],
-                        'faIcon': data['faIcon'],
-                        'daemon': data['daemon'],
-                    } )
-                )
 
     return render_template('pages/edit.html.j2',
                            path=path,
