@@ -6,6 +6,12 @@
 <script src="{{url_for('static', filename='js/selection.js')}}"></script>
 <script src="{{url_for('static', filename='js/keyboard.js')}}"></script>
 <script src="{{url_for('static', filename='js/swipes.js')}}"></script>
+
+<audio id='sndPage' src='https://universal-soundbank.com/sounds/1116.mp3' ></audio>
+<audio id='sndEnter' src='https://universal-soundbank.com/sounds/7571.mp3' ></audio>
+<audio id='sndMove' src='https://universal-soundbank.com/sounds/21181.mp3' ></audio>
+<audio id='sndBye' src='https://universal-soundbank.com/sounds/9763.mp3' ></audio>
+
 <style>
 body { 
     background-image: linear-gradient(var(--bg-filter),var(--bg-filter)),url("{{database.families[path].img}}");

@@ -12,7 +12,7 @@ async function linkTo( e, dom ) {
   // En fonction du type, redirige vers le lien, exécute le submit ou le onclick
   switch ( dom.nodeName ) {
     case 'A':
-      await waitAudio(SND_PAGE);
+      // await waitAudio(SND_PAGE);
       console.log('Redirection vers ' + dom.href);
       window.location.href = dom.href;
       break;
@@ -21,7 +21,8 @@ async function linkTo( e, dom ) {
       dom.submit()
       break;
     case 'DIV':
-      await waitAudio(SND_ENTER);
+      await waitAudio('sndEnter');
+      document.getElementById('sndPage').muted=true;
       console.log('Div clic');
       dom.getElementsByClassName('card-img')[0].onclick()
       break;
@@ -41,7 +42,7 @@ function keyEnterPress(e) {
 }
 
 async function keyEscPress() {
-  await waitAudio(SND_BYE);
+  await waitAudio('sndBye');
   window.close();
 }
 
