@@ -9,10 +9,15 @@ Une fois les dépendances installées, lancer dans le répertoire de l'app la co
 
 ## Configuration et fonctionnement
 
-### Configuration
+### Configuration  # A CORRIGER
 
-La configuration est initiée au démarrage dans le fichier `monSite.json`. Par
- défaut au premier démarrage, il s'initie sur `localhost:80`.
+Il y a 3 niveaux de configuration:
+
+Localisation | Contenu | Type | Nom
+---|---|---|---
+Serveur | Pages et cartes | Fichier | `monSite.json` (défini dans `general.py`)
+Client | Configurations locales (page princiale et sons) | Cookie | `config`
+Client | Son muet ou non | Stockage JS persistant sur le serveur | `localStorage`
 
 ### Utilisation
 

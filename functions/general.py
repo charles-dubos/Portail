@@ -1,4 +1,5 @@
 from functions.jsonConnector import *
+from functions.cookieConf import *
 import logging
 from os.path import abspath, dirname, join
 from os import pardir
@@ -7,56 +8,29 @@ from os import pardir
 # 'CONSTANTES paramétrables'
 MAIN_DIR=abspath(join(dirname(__file__), '..'))
 DATABASE_NAME=f'{MAIN_DIR}/monSite.json'
-DEFAULT_CONF={
-    "host":"example.conf",
-    "port":"8443",
-    "logFile": f"{MAIN_DIR}/monSite.log",
-    "logLevel": "DEBUG"
-}
+LOGFILE_PATH=f'{MAIN_DIR}/monSite.log'
+LOGLEVEL=['NOTSET','DEBUG','INFO','WARNING','ERROR','CRITICAL'][1]
+# DEFAULT_CONF={
+#     "host":"example.conf",
+#     "port":"8443",
+# }
 
 # Generating logging
 logging.basicConfig(
   format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-  level=logging.DEBUG
+  filename=LOGFILE_PATH,
+  level=getattr( logging, LOGLEVEL )
 )
 
 
 # FONCTIONS
 
-## Chargement
+## Chargement de la base
 def loadDatabase() -> Database:
   logging.info("Chargement de la base {}".format(DATABASE_NAME))
-  # Chargement de la base
   database = Database(DATABASE_NAME)
 
-  # pre-start checks
-  logging.debug("Début des tests")
-  startingChecks(database=database)
-
-  return database
-
-
-def startingChecks(database:Database) -> None:
-  # Charge les confs, les initie le cas échéant, et vérifie une famille au moins
-  logging.debug("Contrôle de la base.")
-
-  # Vérifie la configuration par défaut
-  for confKey in DEFAULT_CONF.keys():
-    if confKey not in database.config.keys():
-      logging.info(f"Clé de configuration '{confKey}' introuvable," +
-                   f"initiée par défaut à '{DEFAULT_CONF[confKey]}'")
-      database.config[confKey] = DEFAULT_CONF[confKey]
-
-  # Rechargement du logging
-  for handler in logging.root.handlers[:]:
-    logging.root.removeHandler(handler)
-  logging.basicConfig(
-    filename=database.config['logFile'],
-    level=getattr( logging, database.config['logLevel'] ),
-  )
-  logging.debug('Logging reconfiguré')
-
-  # Création d'une famille par défaut si inexistante
+  # Génération si inexistante
   if not database.getFamiliesNames():
     logging.info("Pas de famille dans la base: création d'une famille par défaut")
     database.families['liens'] = Family(
@@ -66,16 +40,10 @@ def startingChecks(database:Database) -> None:
         "dictOfCards":{},
       }
     )
+    database.save()
 
-  # Vérifie la cohérence de la page principale
-  if 'mainPage' not in database.config.keys() \
-  or database.config['mainPage'] not in database.getFamiliesNames():
-    logging.info("Clé de configuration 'mainPage' introuvable ou inconsistante," + 
-      f"initiée par défaut à '{database.getFamiliesNames()[0]}'")
-    database.config['mainPage'] = database.getFamiliesNames()[0]
-
-  database.save()
-
+  return database
+  
 
 ## Navigation
 def nextPage(database:Database,current:str)->str:
@@ -110,5 +78,6 @@ def editCard(database:Database,
   database.families[familyId].dictOfCards[cardId] = Card( data )
 
 
-# PRELOADING
+# PRELOADING de la database et génération d'une conf vide
 database = loadDatabase()
+config = Configuration()

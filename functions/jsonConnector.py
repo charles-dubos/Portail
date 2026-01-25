@@ -67,7 +67,6 @@ class Database:
   """Classe permettant la connexion à un fichier JSON 
   """
   path:str = None
-  config:dict = {}
   families:dict[Family] = {}
 
   def __init__(self,
@@ -86,8 +85,8 @@ class Database:
     with open(file=self.path, mode='r', encoding='utf-8') as file:
       content = json.load(fp=file)
       
-    # Reload config
-    self.config = content['CONFIGURATION']
+    # # Reload config
+    # self.config = content['CONFIGURATION'] # A SUPPRIMER
 
     # Reload families
     self.families = {}
@@ -105,9 +104,9 @@ class Database:
     logging.info(f"Enregistrement de la base dans le fichier '{self.path}'")
     with open(file=self.path, mode='w', encoding='utf-8') as file:
       content = {
-        "FAMILIES":     {},
-        "CONFIGURATION":self.config,
-      }
+        "FAMILIES":     {}#,
+        # "CONFIGURATION":self.config,
+      } # A SUPPRIMER
       for familyId, family in self.families.items():
         content['FAMILIES'][familyId] = family.getJson()
       json.dump(
@@ -132,3 +131,4 @@ class Database:
     del self.families[familyId]
     self.save()
     return family
+

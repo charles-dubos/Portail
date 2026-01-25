@@ -1,7 +1,34 @@
-from flask import Flask, redirect, render_template, request, url_for, send_file
+from flask import Flask, redirect, render_template, request, url_for, send_file, make_response
 from functions.general import *
 
+setCookie=False
+
 app = Flask( __name__ )
+
+@app.before_request
+def before_request_func():
+    global config
+    global database
+    global setCookie
+
+    if not config.isSet():
+        logging.info('Récupération du cookie de conf')
+        if not config.loadFromCookies( database=database ):
+            setCookie=True
+
+@app.after_request
+def after_request_func(response):
+    global setCookie
+    if setCookie:
+        response.set_cookie(
+            key='config',
+            value=config.dumps(),
+            secure=True,
+            samesite="Strict"
+        )
+        setCookie=False
+    return response
+
 
 @app.route('/manifest.json')
 def serve_manifest():
@@ -13,13 +40,11 @@ def serve_sw():
 
 @app.route('/')
 def index():
-    """Page principale -> redirection vers la page paramétrée
+    """Page principale ->  récupération du cookie de conf et redirection vers la page paramétrée
     """
-    logging.info('Redirection vers "{}"'.format(
-        Database(DATABASE_NAME).config['mainPage']
-    ))
-    
-    return redirect(Database(DATABASE_NAME).config['mainPage'])
+    pageRedirect = redirect(config.getCfg('mainPage'))
+
+    return pageRedirect
 
 
 @app.route( '/<path>', methods=['GET'] )
@@ -31,6 +56,7 @@ def main(path):
     return render_template('pages/main.html.j2',
                            path=path,
                            database=database,
+                           config=config,
                            previous=prevPage( database=database, current=path ),
                            next=nextPage( database=database, current=path ),
                            ratio=1
@@ -87,7 +113,7 @@ def edit(path):
                 )
                 database.save(sortFamily=path)
 
-        elif 'save-conf' in data.keys():
+        elif 'save-conf' in data.keys(): # A CORRIGER config=config,
             for key in data.keys():
                 if key != 'save-conf' \
                 and data[key] != database.config[key]:
@@ -143,6 +169,7 @@ def edit(path):
     return render_template('pages/edit.html.j2',
                            path=path,
                            database=database,
+                           config=config,
                            previous=prevPage(database=database, current=path),
                            next=nextPage(database=database, current=path),
                            ratio=1,
