@@ -39,8 +39,4 @@ class Configuration:
     else:
       logging.debug('Création de conf')
       self.setCfg( key='mainPage', value=database.getFamiliesNames()[0])
-      self.setCfg( key='soundChangeFamily', value='https://universal-soundbank.com/sounds/1116.mp3')
-      self.setCfg( key='soundSelectItem', value='https://universal-soundbank.com/sounds/9338.mp3')
-      self.setCfg( key='soundChangeItem', value='https://universal-soundbank.com/sounds/7571.mp3')
-      self.setCfg( key='soundExitWindow', value='https://universal-soundbank.com/sounds/9763.mp3')
       return False

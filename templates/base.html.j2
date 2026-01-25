@@ -35,10 +35,12 @@
     </script>
     <script src="{{url_for('static', filename='js/global.js')}}"></script>
 {% block head %}{% endblock head %}
-    <audio id='sndPage' src="{{config.getCfg('soundChangeFamily')}}" data-volume="0.3"></audio>
-    <audio id='sndEnter' src="{{config.getCfg('soundSelectItem')}}" data-volume="0.5"></audio>
-    <audio id='sndMove' src="{{config.getCfg('soundChangeItem')}}" data-volume="0.1"></audio>
-    <audio id='sndBye' src="{{config.getCfg('soundExitWindow')}}" data-volume="1"></audio>
+{% with sounds = database.settings["sounds"] %}
+    <audio id='sndPage' src='{{sounds["changeFamily"]["url"]}}' data-volume='{{sounds["changeFamily"]["volume"]}}'></audio>
+    <audio id='sndEnter' src='{{sounds["selectItem"]["url"]}}' data-volume='{{sounds["selectItem"]["volume"]}}'></audio>
+    <audio id='sndMove' src='{{sounds["changeItem"]["url"]}}' data-volume='{{sounds["changeItem"]["volume"]}}'></audio>
+    <audio id='sndBye' src='{{sounds["exitWindow"]["url"]}}' data-volume='{{sounds["exitWindow"]["volume"]}}'></audio>
+{% endwith %}
 </head>
 
 <body onload="appMuted.updateButton();">

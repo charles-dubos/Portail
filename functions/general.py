@@ -10,10 +10,6 @@ MAIN_DIR=abspath(join(dirname(__file__), '..'))
 DATABASE_NAME=f'{MAIN_DIR}/monSite.json'
 LOGFILE_PATH=f'{MAIN_DIR}/monSite.log'
 LOGLEVEL=['NOTSET','DEBUG','INFO','WARNING','ERROR','CRITICAL'][1]
-# DEFAULT_CONF={
-#     "host":"example.conf",
-#     "port":"8443",
-# }
 
 # Generating logging
 logging.basicConfig(
@@ -28,21 +24,7 @@ logging.basicConfig(
 ## Chargement de la base
 def loadDatabase() -> Database:
   logging.info("Chargement de la base {}".format(DATABASE_NAME))
-  database = Database(DATABASE_NAME)
-
-  # Génération si inexistante
-  if not database.getFamiliesNames():
-    logging.info("Pas de famille dans la base: création d'une famille par défaut")
-    database.families['liens'] = Family(
-      jsonFamily={
-        "title":"Liens divers",
-        "img":None,
-        "dictOfCards":{},
-      }
-    )
-    database.save()
-
-  return database
+  return Database(DATABASE_NAME)
   
 
 ## Navigation

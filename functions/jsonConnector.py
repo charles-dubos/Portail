@@ -1,5 +1,40 @@
 import json, pathlib, logging, requests
 
+DEFAULT_DB_CONTENT='''
+{
+  "FAMILIES": {
+    "liens": {
+      "title": "Liens divers",
+      "img": "",
+      "dictOfCards": {}
+    }
+  },
+  "SETTINGS": {
+    "sounds": {
+      "changeFamily": {
+        "description": "Changement de page",
+        "url": "https://universal-soundbank.com/sounds/1116.mp3", 
+        "volume": "0.3"
+      },
+      "changeItem": {
+        "description": "Changement d'entrée'",
+        "url": "https://universal-soundbank.com/sounds/7571.mp3", 
+        "volume": "0.5"
+      },
+      "selectItem": {
+        "description": "Validation d'entrée",
+        "url": "https://universal-soundbank.com/sounds/9338.mp3", 
+        "volume": "0.1"
+      },
+      "exitWindow": {
+        "description": "Fermer l'application",
+        "url": "https://universal-soundbank.com/sounds/9763.mp3", 
+        "volume": "1"
+      }
+    }
+  }
+}
+'''
 
 class Card:
   """Classe identifiant une carte
@@ -68,25 +103,30 @@ class Database:
   """
   path:str = None
   families:dict[Family] = {}
+  settings:dict = {}
 
   def __init__(self,
                path:str,
                ) -> None:
     logging.debug(f"Initialisation de la base '{path}'")
     self.path = path
-    if self.exists(): self.load()
+    self.load()
 
   def exists(self) -> bool:
     return pathlib.Path(self.path).exists()
       
 
-  def load(self) -> None:
+  def load(self, strContent=None) -> None:
     logging.debug(f"Chargement du fichier")
-    with open(file=self.path, mode='r', encoding='utf-8') as file:
-      content = json.load(fp=file)
-      
-    # # Reload config
-    # self.config = content['CONFIGURATION'] # A SUPPRIMER
+    try:
+      with open(file=self.path, mode='r', encoding='utf-8') as file:
+        self.loadContent( content=json.load(fp=file) )
+    except:
+      self.loadContent( content=json.loads(s=DEFAULT_DB_CONTENT) ).save()
+
+  def loadContent(self, content) -> any:
+    # Reload settings
+    self.settings = content['SETTINGS']
 
     # Reload families
     self.families = {}
@@ -95,7 +135,7 @@ class Database:
         familyId=name, 
         family=Family( jsonFamily=jsonFamily )
       )
-
+    return self
 
   def save(self, sortFamily=None) -> None:
     if sortFamily:
@@ -104,9 +144,9 @@ class Database:
     logging.info(f"Enregistrement de la base dans le fichier '{self.path}'")
     with open(file=self.path, mode='w', encoding='utf-8') as file:
       content = {
-        "FAMILIES":     {}#,
-        # "CONFIGURATION":self.config,
-      } # A SUPPRIMER
+        "FAMILIES": {},
+        "SETTINGS": self.settings,
+      } 
       for familyId, family in self.families.items():
         content['FAMILIES'][familyId] = family.getJson()
       json.dump(
