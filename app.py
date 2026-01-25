@@ -113,13 +113,19 @@ def edit(path):
                 )
                 database.save(sortFamily=path)
 
-        elif 'save-conf' in data.keys(): # A CORRIGER config=config,
-            for key in data.keys():
-                if key != 'save-conf' \
-                and data[key] != database.config[key]:
-                    logging.info( f"Enregistrement de la clé de configuration {key}" )
-                    logging.debug( f"à la valeur {data[key]} en remplacement de {database.config[key]}" )
-                    database.config[key] = data[key]
+        elif 'save-conf' in data.keys():
+            logging.info( f"Enregistrement des configurations" )
+            logging.debug( f"{config.getCfg('mainPage')}")
+            if logging.debug(data['mainPage']) != config.getCfg('mainPage'):
+                config.setCfg( key='mainPage', value=data['mainPage'] )
+                logging.debug( f"Enregistrement de mainPage à la valeur {data['mainPage']}" )
+                global setCookie
+                setCookie=True
+            
+            for sound in database.settings['sounds']:
+                    database.settings['sounds'][sound]['url'] = data[f"{sound}-url"]
+                    database.settings['sounds'][sound]['volume'] = data[f"{sound}-volume"]
+                    logging.debug( f"Enregistrement de {sound} : url à {data[f"{sound}-url"]} et volume à {data[f"{sound}-volume"]}" )
             database.save()
 
         elif 'save-fam' in data.keys():

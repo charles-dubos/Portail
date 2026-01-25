@@ -26,8 +26,38 @@
 <div class="modal" id="modal-editConf">
     <div class="modal-content">
         <div class="modal-menu">
-            <h1 >Edition de configuration</h1>  {# A CORRIGER #}
+            <h1>Edition de configuration</h1> 
         </div>
+        <form class="pure-form pure-form-aligned" method="post">
+            <h2>Configuration locale</h2>
+            <fieldset>
+                <label for='mainPageSelector'>Page principale</label>
+                <select name="mainPage" id="mainPage-select"> {% for family in database.families %}
+                    <option value="{{family}}"{% if family == config.getCfg('mainPage') %} selected{% endif %}>{{database.families[family].title}}</option>{% endfor %}
+                </select>
+            </fieldset>
+            <h2>Configuration d'application</h2>
+            <fieldset>
+            <legend>Configuration des sons</legend>
+                {% for sound in database.settings['sounds'] %}
+                <div class="pure-g">
+                    <div class="pure-u-1-4">
+                        <label for='{{sound}}'>{{database.settings['sounds'][sound].description}}</label>
+                    </div>
+                    <div class="pure-u-2-4">
+                        <input type="text" name="{{sound}}-url" value="{{database.settings['sounds'][sound].url}}" class="pure-input-1" placeholder=".pure-u-2-4" >
+                    </div>
+                    <div class="pure-u-1-4">
+                        <input type="range" name="{{sound}}-volume" min="0" max="1" step="0.1" value="{{database.settings['sounds'][sound].volume}}" class="pure-input-1" placeholder=".pure-u-1-4" >
+                    </div>
+                </div>
+                {% endfor %}
+            </fieldset>
+            <div class="is-right"> 
+                <div class="pure-button amber close"><i class="fa-solid fa-rotate-left"></i></div>
+                <button type="submit" name="save-conf" class="pure-button green"><i class="fa-regular fa-floppy-disk"></i></button>
+            </div>
+        </form>
         {# <form class="pure-form pure-form-aligned" method="post"> 
             <fieldset>
                 {% for key, value in database.config.items() %}
@@ -36,10 +66,6 @@
                     <input type="text" name="{{key}}" value="{{value}}">
                 </div>
                 {% endfor %}
-                <div class="is-right"> 
-                    <div class="pure-button amber close"><i class="fa-solid fa-rotate-left"></i></div>
-                    <button type="submit" name="save-conf" class="pure-button green"><i class="fa-regular fa-floppy-disk"></i></button>
-                </div>
             </fieldset>
         </form> #}
     </div>
