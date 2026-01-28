@@ -4,7 +4,7 @@
 {% block head %}
     <style>
     body {
-        background-image: linear-gradient(var(--edit-filter),var(--edit-filter)),url("{{database.families[path].img}}");
+        background-image: linear-gradient(var(--edit-filter),var(--edit-filter)),url("{{database.pages[path].img}}");
     }
     .home-menu {
         border-style: ridge;
@@ -14,125 +14,29 @@
 {%- endblock head -%}
 
 
-{%- block pageTitle -%}
-<span class="pure-menu-heading" ondblclick="location.href='{{url_for('main', path=path)}}'">{{database.families[path].title}} [EDIT MODE]</span>
-{%- endblock pageTitle -%}
+{%- macro titleMenu() -%}
+<span class="pure-menu-heading">{{database.pages[path].title}} [Edition]</span>
+{%- endmacro -%}
 
 
 {%- macro nav(classes='') -%}
-<div class="pure-u-1-3 {{classes}} is-center"> <div class="pure-button" onclick="enableModal('modal-editConf')"> <i class="fa-solid fa-wrench"></i> </div> </div>
-<div class="pure-u-1-3 {{classes}} is-center"> <div class="pure-button" onclick="enableModal('modal-editFam')"> <i class="fa-regular fa-calendar"></i> </div> </div>
-<div class="pure-u-1-3 {{classes}} is-center"> <div class="pure-button" onclick="enableModal('modal-newFam')"> <i class="fa-regular fa-calendar-plus"></i> </div> </div>
-<div class="modal" id="modal-editConf">
-    <div class="modal-content">
-        <div class="modal-menu">
-            <h1>Edition de configuration</h1> 
-        </div>
-        <form class="pure-form pure-form-aligned" method="post">
-            <h2>Configuration locale</h2>
-            <fieldset>
-                <label for='mainPageSelector'>Page principale</label>
-                <select name="mainPage" id="mainPage-select"> {% for family in database.families %}
-                    <option value="{{family}}"{% if family == config.getCfg('mainPage') %} selected{% endif %}>{{database.families[family].title}}</option>{% endfor %}
-                </select>
-            </fieldset>
-            <h2>Configuration d'application</h2>
-            <fieldset>
-            <legend>Configuration des sons</legend>
-                {% for sound in database.settings['sounds'] %}
-                <div class="pure-g">
-                    <div class="pure-u-1-4">
-                        <label for='{{sound}}'>{{database.settings['sounds'][sound].description}}</label>
-                    </div>
-                    <div class="pure-u-2-4">
-                        <input type="text" name="{{sound}}-url" value="{{database.settings['sounds'][sound].url}}" class="pure-input-1" placeholder=".pure-u-2-4" >
-                    </div>
-                    <div class="pure-u-1-4">
-                        <input type="range" name="{{sound}}-volume" min="0" max="1" step="0.1" value="{{database.settings['sounds'][sound].volume}}" class="pure-input-1" placeholder=".pure-u-1-4" >
-                    </div>
-                </div>
-                {% endfor %}
-            </fieldset>
-            <div class="is-right"> 
-                <div class="pure-button amber close"><i class="fa-solid fa-rotate-left"></i></div>
-                <button type="submit" name="save-conf" class="pure-button green"><i class="fa-regular fa-floppy-disk"></i></button>
-            </div>
-        </form>
-        {# <form class="pure-form pure-form-aligned" method="post"> 
-            <fieldset>
-                {% for key, value in database.config.items() %}
-                <div class="pure-control-group">
-                    <label for="aligned-{{key}}">{{key}}</label>
-                    <input type="text" name="{{key}}" value="{{value}}">
-                </div>
-                {% endfor %}
-            </fieldset>
-        </form> #}
-    </div>
-</div>
-<div class="modal" id="modal-editFam">
-    <div class="modal-content">
-        <div class="modal-menu">
-            <h1 >Edition de {{database.families[path].title}}</h1>
-        </div>
-        <form class="pure-form pure-form-aligned" method="post">
-            <fieldset>
-                <div class="pure-control-group">
-                    <label for="aligned-title">Titre</label>
-                    <input type="text" name="title" value="{{database.families[path].title}}">
-                </div>
-                <div class="pure-control-group">
-                    <label for="aligned-famId">Identifiant</label>
-                    <input type="text" name="famId" value="{{path}}" required="">
-                </div>
-                <div class="pure-control-group">
-                    <label for="aligned-img">Image de fond</label>
-                    <input type="text" name="img" value="{{database.families[path].img}}" size="75">
-                </div>
-                <div class="is-right">
-                    <button type="submit" name="delete-fam" class="pure-button red"><i class="fa-regular fa-trash-can"></i></button>
-                    <div class="pure-button amber close"><i class="fa-solid fa-rotate-left"></i></div>
-                    <button type="submit" name="save-fam" class="pure-button green"><i class="fa-regular fa-floppy-disk"></i></button>
-                </div>
-            </fieldset>
-        </form>
-    </div>
-</div>
-<div class="modal" id="modal-newFam">
-    <div class="modal-content">
-        <div class="modal-menu">
-            <h1 >Nouvelle famille de liens</h1>
-        </div>
-        <form class="pure-form pure-form-aligned" method="post">
-            <fieldset>
-                <div class="pure-control-group">
-                    <label for="aligned-title">Titre</label>
-                    <input type="text" name="title">
-                </div>
-                <div class="pure-control-group">
-                    <label for="aligned-famId">Identifiant</label>
-                    <input type="text" name="famId" required="">
-                </div>
-                <div class="pure-control-group">
-                    <label for="aligned-img">Image de fond</label>
-                    <input type="text" name="img" size="75">
-                </div>
-                <div class="is-right">
-                    <div class="pure-button amber close"><i class="fa-solid fa-rotate-left"></i></div>
-                    <button type="submit" name="new-fam" class="pure-button green"><i class="fa-regular fa-floppy-disk"></i></button>
-                </div>
-            </fieldset>
-        </form>
-    </div>
-</div>
+<div class="pure-u-1-3 {{classes}} is-center"> <a href="/{{previous}}/edit" class="pure-button" id="kbdPageDown"> <i class="fa-solid fa-chevron-left"></i> </a> </div>
+<div class="pure-u-1-3 {{classes}} is-center"> <a href="/settings" class="pure-button"> <i class="fa-solid fa-wrench"></i> </a> </div>
+<div class="pure-u-1-3 {{classes}} is-center"> <a href="/{{next}}/edit" class="pure-button" id="kbdPageUp"> <i class="fa-solid fa-chevron-right"></i> </a> </div>
+{%- endmacro -%}
+
+
+{%- macro buttonright() -%}
+<div class="pure-u-1-5 landscape is-right">  <button class="pure-button" id="toggleMuted" onclick="appMuted.switch()"> <i class="fa-solid fa-volume-high"></i> </button> </div>
+<div class="pure-u-1-5 landscape is-right"> <button class="pure-button" id="editConfig" onclick="location.href='/{{path}}';"> <i class="fa-solid fa-window-restore"></i> </button> </div>
 {%- endmacro -%}
 
 
 {%- macro cards() -%}
-{%- for id, card in database.families[path].dictOfCards.items() -%}
+{%- for id, card in database.pages[path].dictOfCards.items() -%}
 <div class="card-wrapper is-center">
-    <div class="card" onclick="enableModal('modal-{{id}}')">
-        <div class="card-img">
+    <div class="card" id="kbd{{id}}" onmouseover="setChannel('{{id}}')">
+        <div class="card-img" onclick="enableModal('modal-{{id}}')">
             <img src="{{card.picture}}" onerror='src="{{url_for("static",filename="img/broken.png")}}"'/> 
         </div>
         <div class="card-name is-center">{{id}} <br><b>{{card.name}}</b></div>
@@ -221,11 +125,13 @@
 </div>
 
 <script type="text/javascript">
-    loadValues({{database.families[path].dictOfCards|length}}+1,{{ratio}});
+    loadValues({{database.pages[path].dictOfCards|length}}+1,{{ratio}});
 </script>
 {%- endmacro -%}
 
+
 {% block postscript %}
+<div id="selectedChannelDisplay"></div>
 {% if message: %}
 <div class="modal" id="message">
     <div class="modal-content">

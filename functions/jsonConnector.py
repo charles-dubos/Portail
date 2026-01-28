@@ -1,36 +1,27 @@
-import json, pathlib, logging, requests
+import json, pathlib, logging, requests, uuid
 
-DEFAULT_DB_CONTENT='''
+DEFAULT_CONF='''
 {
-  "FAMILIES": {
-    "liens": {
-      "title": "Liens divers",
-      "img": "",
-      "dictOfCards": {}
-    }
-  },
-  "SETTINGS": {
-    "sounds": {
-      "changeFamily": {
-        "description": "Changement de page",
-        "url": "https://universal-soundbank.com/sounds/1116.mp3", 
-        "volume": "0.3"
-      },
-      "changeItem": {
-        "description": "Changement d'entrée'",
-        "url": "https://universal-soundbank.com/sounds/7571.mp3", 
-        "volume": "0.5"
-      },
-      "selectItem": {
-        "description": "Validation d'entrée",
-        "url": "https://universal-soundbank.com/sounds/9338.mp3", 
-        "volume": "0.1"
-      },
-      "exitWindow": {
-        "description": "Fermer l'application",
-        "url": "https://universal-soundbank.com/sounds/9763.mp3", 
-        "volume": "1"
-      }
+  "sounds": {
+    "changePage": {
+      "description": "Changement de page",
+      "url": "https://universal-soundbank.com/sounds/1116.mp3", 
+      "volume": "0.3"
+    },
+    "changeItem": {
+      "description": "Changement d'entrée'",
+      "url": "https://universal-soundbank.com/sounds/7571.mp3", 
+      "volume": "0.5"
+    },
+    "selectItem": {
+      "description": "Validation d'entrée",
+      "url": "https://universal-soundbank.com/sounds/9338.mp3", 
+      "volume": "0.1"
+    },
+    "exitWindow": {
+      "description": "Fermer l'application",
+      "url": "https://universal-soundbank.com/sounds/9763.mp3", 
+      "volume": "1"
     }
   }
 }
@@ -62,37 +53,37 @@ class Card:
     }
 
 
-class Family:
-  """Classe identifiant une famille
+class Page:
+  """Classe identifiant une page
   """
   title:str = ''
   dictOfCards:dict[Card] = {}
-  img:str=None
+  img:str = ''
 
   def __init__(self,
-               jsonFamily:dict,
+               jsonPage:dict = None,
                ) -> None:
-    logging.debug(f"Création de la famille '{jsonFamily['title']}'")
-    self.title = jsonFamily['title']
-    self.img = jsonFamily['img']
-
-    cards={}
-    for number,card  in jsonFamily['dictOfCards'].items():
-      cards[number] = Card( card=card )
-    self.dictOfCards = cards
+    if jsonPage:
+      self.title = jsonPage['title']
+      self.img = jsonPage['img']
+      cards={}
+      for number,card  in jsonPage['dictOfCards'].items():
+        cards[number] = Card( card=card )
+      self.dictOfCards = cards
+    logging.debug(f"Création de la page '{self.title}'")
 
   def __len__(self) -> int:
     return len(self.dictOfCards)
 
   def getJson(self) -> dict:
-    jsonFamily = {
+    jsonPage = {
       'title':       self.title,
       'img':         self.img,
       'dictOfCards': {},
     }
     for number, card in self.dictOfCards.items():
-      jsonFamily['dictOfCards'][number] = card.getJson()
-    return jsonFamily
+      jsonPage['dictOfCards'][number] = card.getJson()
+    return jsonPage
   
   def sortCards(self) -> None:
     self.dictOfCards = dict(sorted(self.dictOfCards.items(), key=lambda item: int(item[0])))
@@ -102,7 +93,7 @@ class Database:
   """Classe permettant la connexion à un fichier JSON 
   """
   path:str = None
-  families:dict[Family] = {}
+  pages:dict[Page] = {}
   settings:dict = {}
 
   def __init__(self,
@@ -113,8 +104,7 @@ class Database:
     self.load()
 
   def exists(self) -> bool:
-    return pathlib.Path(self.path).exists()
-      
+    return pathlib.Path(self.path).exists()      
 
   def load(self, strContent=None) -> None:
     logging.debug(f"Chargement du fichier")
@@ -122,53 +112,53 @@ class Database:
       with open(file=self.path, mode='r', encoding='utf-8') as file:
         self.loadContent( content=json.load(fp=file) )
     except:
-      self.loadContent( content=json.loads(s=DEFAULT_DB_CONTENT) ).save()
+      self.newPage( Page() )
+      self.settings = json.loads(DEFAULT_CONF)
+      self.save()
 
   def loadContent(self, content) -> any:
     # Reload settings
     self.settings = content['SETTINGS']
 
-    # Reload families
-    self.families = {}
-    for name,jsonFamily  in content['FAMILIES'].items():
-      self.newFamily(
-        familyId=name, 
-        family=Family( jsonFamily=jsonFamily )
+    # Reload pages
+    self.pages = {}
+    for name,jsonPage  in content['PAGES'].items():
+      self.newPage(
+        page=Page( jsonPage=jsonPage ),
+        pageId=name
       )
     return self
 
-  def save(self, sortFamily=None) -> None:
-    if sortFamily:
-      logging.debug(f"Tri des cartes de {sortFamily}")
-      self.families[sortFamily].sortCards()
+  def save(self, sortPage=None) -> None:
+    if sortPage:
+      logging.debug(f"Tri des cartes de {sortPage}")
+      self.pages[sortPage].sortCards()
     logging.info(f"Enregistrement de la base dans le fichier '{self.path}'")
     with open(file=self.path, mode='w', encoding='utf-8') as file:
       content = {
-        "FAMILIES": {},
+        "PAGES": {},
         "SETTINGS": self.settings,
       } 
-      for familyId, family in self.families.items():
-        content['FAMILIES'][familyId] = family.getJson()
+      for pageId, page in self.pages.items():
+        content['PAGES'][pageId] = page.getJson()
       json.dump(
         obj=content,
         fp=file,
         indent=2)
 
-  def getFamiliesNames(self) -> list[str]:
-    return list(self.families.keys())
+  def getPagesNames(self) -> list[str]:
+    return list(self.pages.keys())
 
-  def newFamily(self, familyId:str, family:Family) -> None:
-    if not familyId or familyId in self.getFamiliesNames():
-      logging.error(f"Impossible de créer la famille {familyId}")
-      return None
-    logging.warning(f"Création de la famille {familyId}")
-    self.families[familyId] = family
+  def newPage(self, page:Page, pageId:str=None) -> str:
+    if not pageId: pageId=str(uuid.uuid4())
+    logging.warning(f"Création de la page {pageId}")
+    self.pages[pageId] = page
     self.save()
+    return pageId
 
-  def delFamily(self, familyId) -> Family:
-    logging.warning(f"Suppression de la famille {familyId}")
-    family = self.families[familyId]
-    del self.families[familyId]
+  def delPage(self, pageId) -> Page:
+    logging.warning(f"Suppression de la page {pageId}")
+    page = self.pages[pageId]
+    del self.pages[pageId]
     self.save()
-    return family
-
+    return page

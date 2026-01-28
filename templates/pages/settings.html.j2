@@ -1,0 +1,131 @@
+{% extends 'base.html.j2' %}
+
+
+{% block head %}
+    <style>
+    .home-menu {
+        border-style: ridge;
+        border-color: var(--edit-color);
+    }
+    .settings-menu {
+        margin: auto;
+        margin-top: 30pt;
+        width: auto;
+    }
+    </style>
+{%- endblock head -%}
+
+
+{%- macro titleMenu() -%}
+<span class="pure-menu-heading">Edition de configuration</span>
+{%- endmacro -%}
+
+
+{%- macro nav(classes='') -%}
+<div class="pure-u-1-3 {{classes}} is-center"> <a href="/" class="pure-button" id="kbdHome"> <i class="fa-solid fa-house"></i> </a> </div>
+
+<div class="modal" id="modal-newFam">
+    <div class="modal-content">
+        <div class="modal-menu">
+            <h1 >Nouvelle page</h1>
+        </div>
+        <form class="pure-form pure-form-aligned" method="post">
+            <fieldset>
+                <div class="pure-control-group">
+                    <label for="aligned-title">Titre</label>
+                    <input type="text" name="title">
+                </div>
+                <div class="pure-control-group">
+                    <label for="aligned-img">Image de fond</label>
+                    <input type="text" name="img" size="75">
+                </div>
+                <div class="is-right">
+                    <div class="pure-button amber close"><i class="fa-solid fa-rotate-left"></i></div>
+                    <button type="submit" name="new-fam" class="pure-button green"><i class="fa-regular fa-floppy-disk"></i></button>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+</div>
+{%- endmacro -%}
+
+
+{%- macro buttonright() -%}
+<div class="pure-u-1-5 landscape is-right">  <button class="pure-button" id="toggleMuted" onclick="appMuted.switch()"><i class="fa-solid fa-volume-high"></i></button></div>
+{%- endmacro -%}
+
+
+{%- macro cards() -%}
+<div class="settings-menu is-center">
+    <form class="pure-form pure-form-aligned" method="post">
+        <h2>Configuration locale</h2>
+        <fieldset>
+            <label for='mainPageSelector'>Page principale</label>
+            <select name="mainPage" id="mainPage-select"> {% for page in database.pages %}
+                <option value="{{page}}"{% if page == config.getCfg('mainPage') %} selected{% endif %}>{{database.pages[page].title}}</option>{% endfor %}
+            </select>
+        </fieldset>
+        <hr width="100%">
+        <h2>Configuration d'application</h2>
+        <fieldset>
+            <h3>Configuration des pages</h3>
+            <table class="pure-table-horizontal">
+                <thead>
+                    <tr><th>Identifiant</th><th>Titre</th><th>URL d'image</th><th></th></tr>
+                </thead>
+                <tbody>
+                    {% for page in database.pages %}
+                    <tr>
+                        <th><label for='{{page}}'>{{page}}</label></th>
+                        <th><input type="text" name="{{page}}-title" value="{{database.pages[page].title}}"></th>
+                        <th><input type="text" name="{{page}}-img" value="{{database.pages[page].img}}"></th>
+                        <th><button type="submit" name="{{page}}-delete" class="pure-button red"><i class="fa fa-trash"></i></button></th>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </fieldset>
+        <div class="pure-u-1-3 {{classes}} is-center"> <div class="pure-button green" onclick="enableModal('modal-newFam')">
+            <i class="fa-regular fa-square-plus"></i> Créer une page
+        </div> </div>
+        <hr width="50%">
+        <fieldset>
+            <h3>Configuration des sons</h3>
+            <table class="pure-table-horizontal">
+                <thead>
+                    <tr><th>Contexte</th><th>URL</th><th>Volume</th></tr>
+                </thead>
+                <tbody>
+                    {% for sound in database.settings['sounds'] %}
+                    <tr>
+                        <th><label for='{{sound}}'>{{database.settings['sounds'][sound].description}}</label></th>
+                        <th><input type="text" name="{{sound}}-url" value="{{database.settings['sounds'][sound].url}}"></th>
+                        <th><input type="range" name="{{sound}}-volume" min="0" max="1" step="0.1" value="{{database.settings['sounds'][sound].volume}}"></th>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </fieldset>
+        <div class="is-right"> 
+            <button type="submit" name="save-conf" class="pure-button green"><i class="fa-regular fa-floppy-disk"></i></button>
+        </div>
+    </form>
+</div>
+{%- endmacro -%}
+
+{% block postscript %}
+{% if message: %}
+<div class="modal" id="message">
+    <div class="modal-content">
+        <div class="modal-menu is-center">
+            <h1><i class="fa-solid fa-triangle-exclamation red is-center"></i> Erreur </h1>
+        </div>
+        <div class="modal-data">
+            {{ message|safe }}
+        </div>
+    <div class="is-right"><div class="pure-button amber close"><i class="fa-solid fa-rotate-left"></i></div></div>
+    </div>
+</div>
+<script>enableModal("message")</script>
+{% endif %}
+{% endblock postscript %}
