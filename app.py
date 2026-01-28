@@ -8,9 +8,10 @@ app = Flask( __name__ )
 
 @app.before_request
 def before_request_func():
-    global config
-    global database
-    global setCookie
+    # global config
+    # global database
+    # global setCookie
+    message = None
 
     if not config.isSet():
         logging.info('Récupération du cookie de conf')
@@ -52,7 +53,6 @@ def index():
 def main(path):
     """Page par identifiant
     """
-    global database
 
     return render_template('pages/main.html.j2',
                            path=path,
@@ -68,7 +68,7 @@ def main(path):
 def edit(path):
     """Page d'édition par identifiant
     """
-    global database
+    # global database
     message = None
 
     if request.method == 'POST':
@@ -120,7 +120,7 @@ def edit(path):
 def settings():
     """Page de configuration globale
     """
-    global database
+    # global database
     message = None
 
     if request.method == 'POST':

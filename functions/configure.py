@@ -46,8 +46,10 @@ class Configuration:
 
 def saveConfig(database:Database,
               config:Configuration,
+              data:dict
               ) -> bool:
-  setCookie=False
+  global setCookie
+  setCookie = False
   logging.info( f"Enregistrement des configurations" )
   logging.debug( f"{config.getCfg('mainPage')}")
   if data['mainPage'] != config.getCfg('mainPage'):
