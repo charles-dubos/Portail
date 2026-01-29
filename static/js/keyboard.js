@@ -1,7 +1,10 @@
 /* Constantes */
-
+const KBD_TIMEOUT_MS = 2500;
+const MOUSE_TIMEOUT_MS = 1500;
 
 /* Variables globales */
+var kbdEnterTimer = null;
+var mouseMoveTimer = null;
 
 
 /* Touches clavier */
@@ -47,7 +50,10 @@ async function keyEscPress() {
 
 // Gestion de l'appui
 document.onkeydown = function(e) {
+
   console.log(e.key)
+  disableMouseOnChilds();
+
   if ( isNaN(e.key) ) {
     // S'il ne s'agit pas d'un numéro, cherche un id en kbdXXX
     domKeyboardElements = document.querySelectorAll('[id^=kbd'+e.key+']');
@@ -58,17 +64,14 @@ document.onkeydown = function(e) {
       switch (e.key) {
 
         case 'Enter':
-          // Enter, valide la sélection de chaine
           keyEnterPress(e);
           break;
 
           case 'Backspace':
-            // Retour arrière, enlève le dernier caractère
             setChannel(selectedChannel.slice(0, -1));
             break;
 
           case 'Escape':
-            // Echap, quitte la fenêtre
             keyEscPress();
             break;
           
@@ -95,7 +98,7 @@ document.onkeydown = function(e) {
       setChannel( selectedChannel + e.key );
 
       // Timer d'auto-validation
-      timeoutId = window.setTimeout(() => {
+      kbdEnterTimer = window.setTimeout(() => {
         console.log('Timeout ');
 
         domKeyboardElement = document
@@ -104,9 +107,29 @@ document.onkeydown = function(e) {
         if ( domKeyboardElement ) linkTo(null, domKeyboardElement);
         else setChannel( "" );
 
-      }, TIME_OUT);
+      }, KBD_TIMEOUT_MS);
 
       e.preventDefault();
     }
   }
+}
+
+
+/* Désactivation souris */
+
+function enableMouseOnChilds() {
+  console.log('Enable mouse')
+  Array.from(document.getElementsByClassName('cards-container')).forEach(
+    (cardContainer) => cardContainer.classList.add('enable-mouse')
+  );
+  if ( mouseMoveTimer ) clearTimeout(mouseMoveTimer);
+  mouseMoveTimer = setTimeout('disableMouseOnChilds()', MOUSE_TIMEOUT_MS);
+}
+
+function disableMouseOnChilds() {
+  console.log('Disable mouse')
+  Array.from(document.getElementsByClassName('cards-container')).forEach(
+    (cardContainer) => cardContainer.classList.remove('enable-mouse')
+  );
+  mouseMoveTimer = null
 }

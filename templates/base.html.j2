@@ -14,6 +14,7 @@
     <script src="https://code.jquery.com/jquery-3.7.1.slim.min.js" integrity="sha256-kmHvs0B+OpCW5GVHUNjv9rOmY0IvSIRcf7zGUDTDQM8=" crossorigin="anonymous"></script>
     <script src="{{url_for('static', filename='js/loadFirst.js')}}"></script>
     <link rel="stylesheet" href="{{url_for('static', filename='css/styles.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/keyboard.css')}}">
     <link rel="shortcut icon" href="{{ url_for('static', filename='icons/favicon.ico') }}">
     <link rel="icon" href="{{url_for('static', filename='icons/icon_144x144.png')}}" type="image/png">
     <link rel="icon" href="{{url_for('static', filename='icons/icon_192x192.png')}}" type="image/png">
@@ -66,7 +67,7 @@
     </div>    
 </div>
 
-<div id="content-wrapper">
+<div id="content-wrapper" class="cards-container" onmousemove="enableMouseOnChilds()">
 {{ cards()|indent('\t',True) }}
 </div>
 

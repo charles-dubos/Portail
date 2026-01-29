@@ -1,6 +1,5 @@
 /* Constantes */
 
-const TIME_OUT = 2500; // Timeout par défaut en millisecondes
 const LS_MUTED = "portail.dubs_muted"
 const LS_MAINPAGE = "portail.dubs_main"
 
@@ -8,7 +7,6 @@ const LS_MAINPAGE = "portail.dubs_main"
 /* Variables globales */
 
 var selectedChannel = "";
-var timeoutId = null;
 
 // Gestion du switch de son (en local)
 const appMuted = {

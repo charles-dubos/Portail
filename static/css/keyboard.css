@@ -1,0 +1,7 @@
+
+/* Gestion de la désactivation de souris */
+.cards-container { cursor: none; }
+.cards-container > * { pointer-events: none; }
+
+.cards-container.enable-mouse { cursor: auto; }
+.cards-container.enable-mouse > *{ pointer-events: auto; }

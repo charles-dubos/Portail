@@ -21,9 +21,9 @@ function selectCard() {
 
 function updateSelectedChannel() {
   unselectCard();
-  if ( timeoutId ) {
-    window.clearTimeout(timeoutId);
-    timeoutId = null
+  if ( kbdEnterTimer ) {
+    window.clearTimeout(kbdEnterTimer);
+    kbdEnterTimer = null
   };
   document.getElementById('selectedChannelDisplay').innerHTML = selectedChannel;
   selectCard();
