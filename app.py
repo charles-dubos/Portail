@@ -1,10 +1,12 @@
 from flask import Flask, redirect, render_template, request, url_for, send_file, make_response
+from flask_minify import Minify
 from functions.general import *
 from functions.configure import *
 
 setCookie=False
 
 app = Flask( __name__ )
+Minify(app=app, html=True, js=True, cssless=True)
 
 @app.before_request
 def before_request_func():
