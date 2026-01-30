@@ -65,8 +65,7 @@
 {%- for id, card in database.pages[path].dictOfCards.items() -%}
 <div class="card-wrapper is-center">
     <div class="card"
-         id="kbd{{id}}"
-         onmouseover="setChannel('{{id}}')">
+         id="kbd{{id}}">
         <div class="card-img"
              onclick="enableModal('modal-{{id}}')">
             <img src="{{card.picture}}"

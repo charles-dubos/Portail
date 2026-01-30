@@ -126,6 +126,8 @@ def settings():
         logging.debug( f'Méthode POST utilisée avec les données {data.keys()}' )
         config.setCfg('mainPage', request.form['mainPage'])
 
+        database.reorder([ key[:-6] for key in data.keys() if key.endswith('-title') ])
+
         if 'save-conf' in data.keys():
             global setCookie
             setCookie = saveConfig(

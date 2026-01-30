@@ -106,7 +106,7 @@ class Database:
   def exists(self) -> bool:
     return pathlib.Path(self.path).exists()      
 
-  def load(self, strContent=None) -> None:
+  def load(self, strContent:str=None) -> None:
     logging.debug(f"Chargement du fichier")
     try:
       with open(file=self.path, mode='r', encoding='utf-8') as file:
@@ -129,7 +129,7 @@ class Database:
       )
     return self
 
-  def save(self, sortPage=None) -> None:
+  def save(self, sortPage:str=None) -> None:
     if sortPage:
       logging.debug(f"Tri des cartes de {sortPage}")
       self.pages[sortPage].sortCards()
@@ -156,9 +156,13 @@ class Database:
     self.save()
     return pageId
 
-  def delPage(self, pageId) -> Page:
+  def delPage(self, pageId:str) -> Page:
     logging.warning(f"Suppression de la page {pageId}")
     page = self.pages[pageId]
     del self.pages[pageId]
     self.save()
     return page
+
+  def reorder(self, newOrder:list[str]):
+    for pageId in newOrder:
+      self.pages[pageId] = self.pages.pop(pageId)

@@ -2,7 +2,8 @@
 
 
 {% block head %}
-<link rel="stylesheet" href="{{url_for('static', filename='css/swipes.css')}}">
+<link rel="stylesheet" href="{{url_for('static', filename='css/sortlist.css')}}">
+<script src="{{url_for('static', filename='js/sortlist.js')}}"></script>
 {%- endblock head -%}
 
 
@@ -87,9 +88,9 @@
                 <div class="pure-u-1-4"> </div>
             </div>
             <fieldset>
-                <ul class="sortable-list">
+                <ul id="sortList">
                     {% for page in database.pages %}
-                    <li class="sortable-item" draggable="true">
+                    <li draggable="true">
                         <div class="pure-g">
                             <div class="pure-u-1-4"> {{page}} </div>
                             <div class="pure-u-1-4">
@@ -177,6 +178,7 @@
         </div>
     </div>
 </div>
-<script>enableModal("message")</script>
+<script>enableModal("message");</script>
 {% endif %}
+<script>sortList();</script>
 {% endblock postscript %}

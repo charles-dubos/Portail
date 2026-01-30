@@ -32,7 +32,6 @@
         }
     </script>
     <script src="{{url_for('static', filename='js/global.js')}}"></script>
-    <script src="{{url_for('static', filename='js/swipes.js')}}"></script>
 {% block head %}{% endblock head %}
 {% with sounds = database.settings["sounds"] %}
     <audio id='sndPage' src='{{sounds["changePage"]["url"]}}' data-volume='{{sounds["changePage"]["volume"]}}'></audio>
@@ -62,7 +61,7 @@
     </div>    
 </div>
 
-<div id="content-wrapper" class="cards-container" onmousemove="enableMouseOnChilds()">
+<div id="content-wrapper" class="cards-container">
 {{ cards()|indent('\t',True) }}
 </div>
 

@@ -8,8 +8,9 @@ body {
 }
 </style>
 <link rel="stylesheet" href="{{url_for('static', filename='css/keyboard.css')}}">
-<script src="{{url_for('static', filename='js/selection.js')}}"></script>
 <script src="{{url_for('static', filename='js/keyboard.js')}}"></script>
+<script src="{{url_for('static', filename='js/selection.js')}}"></script>
+<script src="{{url_for('static', filename='js/swipes.js')}}"></script>
 {%- endblock head -%}
 
 
@@ -103,6 +104,7 @@ body {
 {% endfor -%}
 <script type="text/javascript">
     loadValues({{database.pages[path].dictOfCards|length}},{{ratio}});
+    document.getElementById("content-wrapper").onmousemove = () => enableMouseOnChilds();
 </script>
 {%- endmacro -%}
 
