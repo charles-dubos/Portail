@@ -20,60 +20,123 @@
 
 
 {%- macro nav(classes='') -%}
-<div class="pure-u-1-3 {{classes}} is-center"> <a href="/{{previous}}/edit" class="pure-button" id="kbdPageDown"> <i class="fa-solid fa-chevron-left"></i> </a> </div>
-<div class="pure-u-1-3 {{classes}} is-center"> <a href="/settings" class="pure-button"> <i class="fa-solid fa-wrench"></i> </a> </div>
-<div class="pure-u-1-3 {{classes}} is-center"> <a href="/{{next}}/edit" class="pure-button" id="kbdPageUp"> <i class="fa-solid fa-chevron-right"></i> </a> </div>
+<div class="pure-u-1-3 {{classes}} is-center">
+    <a href="/{{previous}}/edit"
+       class="pure-button"
+       id="kbdPageDown">
+        <i class="fa-solid fa-chevron-left"></i>
+    </a>
+</div>
+<div class="pure-u-1-3 {{classes}} is-center">
+    <a href="/settings"
+       class="pure-button">
+        <i class="fa-solid fa-wrench"></i>
+    </a>
+</div>
+<div class="pure-u-1-3 {{classes}} is-center">
+    <a href="/{{next}}/edit"
+       class="pure-button"
+       id="kbdPageUp">
+        <i class="fa-solid fa-chevron-right"></i>
+    </a>
+</div>
 {%- endmacro -%}
 
 
 {%- macro buttonright() -%}
-<div class="pure-u-1-5 landscape is-right">  <button class="pure-button" id="toggleMuted" onclick="appMuted.switch()"> <i class="fa-solid fa-volume-high"></i> </button> </div>
-<div class="pure-u-1-5 landscape is-right"> <button class="pure-button" id="editConfig" onclick="location.href='/{{path}}';"> <i class="fa-solid fa-window-restore"></i> </button> </div>
+<div class="pure-u-1-5 landscape is-right">
+    <button class="pure-button"
+            id="toggleMuted"
+            onclick="appMuted.switch()">
+        <i class="fa-solid fa-volume-high"></i>
+    </button>
+</div>
+<div class="pure-u-1-5 landscape is-right">
+    <button class="pure-button"
+            id="editConfig"
+            onclick="location.href='/{{path}}';">
+        <i class="fa-solid fa-window-restore"></i>
+    </button>
+</div>
 {%- endmacro -%}
 
 
 {%- macro cards() -%}
 {%- for id, card in database.pages[path].dictOfCards.items() -%}
 <div class="card-wrapper is-center">
-    <div class="card" id="kbd{{id}}" onmouseover="setChannel('{{id}}')">
-        <div class="card-img" onclick="enableModal('modal-{{id}}')">
-            <img src="{{card.picture}}" onerror='src="{{url_for("static",filename="img/broken.png")}}"'/> 
+    <div class="card"
+         id="kbd{{id}}"
+         onmouseover="setChannel('{{id}}')">
+        <div class="card-img"
+             onclick="enableModal('modal-{{id}}')">
+            <img src="{{card.picture}}"
+                 onerror='src="{{url_for("static",filename="img/broken.png")}}"'/> 
         </div>
         <div class="card-name is-center">{{id}} <br><b>{{card.name}}</b></div>
     </div>
 </div>
-<div class="modal" id="modal-{{id}}">
+<div class="modal"
+     id="modal-{{id}}">
     <div class="modal-content">
         <div class="modal-menu">
             <h1 >{{id}} - {{card.name}}</h1>
         </div>
-        <form class="pure-form pure-form-aligned" method="post">
+        <form class="pure-form pure-form-aligned"
+              method="post">
             <fieldset>
                 <div class="pure-control-group">
-                    <label for="aligned-number">Number</label>
-                    <input type="text" name="number" value="{{id}}" size="5">
+                    <label for="{{id}}-aligned-number">Number</label>
+                    <input id="{{id}}-aligned-number"
+                           type="text"
+                           name="number"
+                           value="{{id}}"
+                           size="5">
                 </div>
                 <div class="pure-control-group">
-                    <label for="aligned-name">Name</label>
-                    <input type="text" name="name" value="{{card.name}}">
+                    <label for="{{id}}-aligned-name">Name</label>
+                    <input if="{{id}}-aligned-name"
+                           type="text"
+                           name="name"
+                           value="{{card.name}}">
                 </div>
                 <div class="pure-control-group">
-                    <label for="aligned-url">Lien</label>
-                    <input type="text" name="url" value="{{card.url}}" size="75">
+                    <label for="{{id}}-aligned-url">Lien</label>
+                    <input id="{{id}}-aligned-url"
+                           type="text"
+                           name="url"
+                           value="{{card.url}}"
+                           size="75">
                 </div>
                 <div class="pure-control-group">
-                    <label for="aligned-picture">Image</label>
-                    <input type="text" name="picture" value="{{card.picture}}" size="75">
+                    <label for="{{id}}-aligned-picture">Image</label>
+                    <input id="{{id}}-aligned-picture"
+                           type="text"
+                           name="picture"
+                           value="{{card.picture}}"
+                           size="75">
                 </div>
                 <div class="pure-control-group">
-                    <label for="aligned-comments">Commentaires</label>
-                    <textarea name="comments" rows="5" cols="75">{{card.comments}}</textarea>
+                    <label for="{{id}}-aligned-comments">Commentaires</label>
+                    <textarea id="{{id}}-aligned-comments"
+                              name="comments"
+                              rows="5"
+                              cols="75">{{card.comments}}</textarea>
                 </div>
                 <input type="hidden" name="current" value="{{id}}" >
                 <div class="is-right">
-                    <button type="submit" name="delete-card" class="pure-button red"><i class="fa-regular fa-trash-can"></i></button>
-                    <div class="pure-button amber close"><i class="fa-solid fa-rotate-left"></i></div>
-                    <button type="submit" name="save-card" class="pure-button green"><i class="fa-regular fa-floppy-disk"></i></button>
+                    <button type="submit"
+                            name="delete-card"
+                            class="pure-button red">
+                        <i class="fa-regular fa-trash-can"></i>
+                    </button>
+                    <div class="pure-button amber close">
+                        <i class="fa-solid fa-rotate-left"></i>
+                    </div>
+                    <button type="submit"
+                            name="save-card"
+                            class="pure-button green">
+                        <i class="fa-regular fa-floppy-disk"></i>
+                    </button>
                 </div>
             </fieldset>
         </form>
@@ -82,7 +145,8 @@
 {% endfor -%}
 <div class="card-wrapper is-center">
     <div class="card">
-        <div class="card-img" onclick="enableModal('modal-new')">
+        <div class="card-img"
+             onclick="enableModal('modal-new')">
             <h1><i class="fas fa-circle-plus" style=" font-size: larger; "></i></h1>
         </div>
         <div class="card-name is-center"> <b>Nouveau lien</b></div>
@@ -93,31 +157,57 @@
         <div class="modal-menu">
             <h1 >Nouvelle entrée </h1>
         </div>
-        <form class="pure-form pure-form-aligned"- method="post">
+        <form class="pure-form pure-form-aligned"
+              method="post">
             <fieldset>
                 <div class="pure-control-group">
-                    <label for="aligned-number">Number</label>
-                    <input type="text" name="number" value="{{newNumber}}" size="5">
+                    <label for="0-aligned-number">Number</label>
+                    <input id="0-aligned-number"
+                           type="text"
+                           name="0-number"
+                           value="{{newNumber}}"
+                           size="5">
                 </div>
                 <div class="pure-control-group">
-                    <label for="aligned-name">Name</label>
-                    <input type="text" name="name" placeholder="Nom">
+                    <label for="0-aligned-name">Name</label>
+                    <input id="0-aligned-name"
+                           type="text"
+                           name="0-name"
+                           placeholder="Nom">
                 </div>
                 <div class="pure-control-group">
-                    <label for="aligned-url">Lien</label>
-                    <input type="text" name="url" placeholder="URL" size="75">
+                    <label for="0-aligned-url">Lien</label>
+                    <input id="0-aligned-url"
+                           type="text"
+                           name="0-url"
+                           placeholder="URL"
+                           size="75">
                 </div>
                 <div class="pure-control-group">
-                    <label for="aligned-picture">Image</label>
-                    <input type="text" name="picture" placeholder="Image" size="75">
+                    <label for="0-aligned-picture">Image</label>
+                    <input id="0-aligned-picture"
+                           type="text"
+                           name="0-picture"
+                           placeholder="Image"
+                           size="75">
                 </div>
                 <div class="pure-control-group">
-                    <label for="aligned-comments">Commentaires</label>
-                    <textarea name="comments" placeholder="Commentaires libres" rows="5" cols="75"></textarea>
+                    <label for="0-aligned-comments">Commentaires</label>
+                    <textarea id="0-aligned-comments"
+                              name="0-comments"
+                              placeholder="Commentaires libres"
+                              rows="5"
+                              cols="75"></textarea>
                 </div>
                 <div class="is-right"> 
-                    <div class="pure-button amber close"><i class="fa-solid fa-rotate-left"></i></div>
-                    <button type="submit" name="new-card" class="pure-button green"><i class="fa-regular fa-floppy-disk"></i></button>
+                    <div class="pure-button amber close">
+                        <i class="fa-solid fa-rotate-left"></i>
+                    </div>
+                    <button type="submit"
+                            name="new-card"
+                            class="pure-button green">
+                        <i class="fa-regular fa-floppy-disk"></i>
+                    </button>
                 </div>
             </fieldset>
         </form>
@@ -141,7 +231,11 @@
         <div class="modal-data">
             {{ message|safe }}
         </div>
-    <div class="is-right"><div class="pure-button amber close"><i class="fa-solid fa-rotate-left"></i></div></div>
+        <div class="is-right">
+            <div class="pure-button amber close">
+                <i class="fa-solid fa-rotate-left"></i>
+            </div>
+        </div>
     </div>
 </div>
 <script>enableModal("message")</script>

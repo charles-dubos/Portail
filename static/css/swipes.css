@@ -1,0 +1,40 @@
+.home-menu {
+    border-style: ridge;
+    border-color: var(--edit-color);
+}
+
+.settings-menu {
+    margin: auto;
+    margin-top: 30pt;
+    width: 90%;
+}
+
+.sortable-list {
+    list-style-type: none;
+}
+
+.sortable-item {
+    padding: 5px 5px;
+    /* margin: 2px 0; */
+    background: var(--edit-color);
+    border-radius: 5px;
+    font-size: 1.1em;
+    font-weight: bold;
+    box-shadow: 0 4px 6px var(--edit-filter);
+    transition: background 0.2s, transform 0.2s;
+}
+
+.sortable-item:hover {
+    background: var(--edit-filter);
+    transform: scale(1.03);
+}
+
+.dragging {
+    opacity: 0.7;
+    transform: rotate(-2deg);
+}
+
+.over {
+    border: 2px dashed #ff8c42;
+    background: #fff3e0;
+}

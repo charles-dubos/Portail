@@ -7,6 +7,9 @@ body {
     background-image: linear-gradient(var(--bg-filter),var(--bg-filter)),url("{{database.pages[path].img}}");
 }
 </style>
+<link rel="stylesheet" href="{{url_for('static', filename='css/keyboard.css')}}">
+<script src="{{url_for('static', filename='js/selection.js')}}"></script>
+<script src="{{url_for('static', filename='js/keyboard.js')}}"></script>
 {%- endblock head -%}
 
 
@@ -16,41 +19,84 @@ body {
 
 
 {%- macro nav(classes='') -%}
-<div class="pure-u-1-3 {{classes}} is-center"> <a href="/{{previous}}" class="pure-button" id="kbdPageDown"> <i class="fa-solid fa-chevron-left"></i> </a> </div>
-<div class="pure-u-1-3 {{classes}} is-center"> <a href="{{config.getCfg('mainPage')}}" class="pure-button" id="kbdHome"> <i class="fa-solid fa-house"></i> </a> </div>
-<div class="pure-u-1-3 {{classes}} is-center"> <a href="/{{next}}" class="pure-button" id="kbdPageUp"> <i class="fa-solid fa-chevron-right"></i> </a> </div>
+<div class="pure-u-1-3 {{classes}} is-center">
+    <a href="/{{previous}}"
+       class="pure-button"
+       id="kbdPageDown">
+        <i class="fa-solid fa-chevron-left"></i>
+    </a>
+</div>
+<div class="pure-u-1-3 {{classes}} is-center">
+    <a href="{{config.getCfg('mainPage')}}"
+       class="pure-button"
+       id="kbdHome">
+        <i class="fa-solid fa-house"></i>
+    </a>
+</div>
+<div class="pure-u-1-3 {{classes}} is-center">
+    <a href="/{{next}}"
+       class="pure-button"
+       id="kbdPageUp">
+        <i class="fa-solid fa-chevron-right"></i>
+    </a>
+</div>
 {%- endmacro -%}
 
 
 {%- macro buttonright() -%}
-<div class="pure-u-1-5 landscape is-right"> <button class="pure-button" id="toggleMuted" onclick="appMuted.switch()"> <i class="fa-solid fa-volume-high"></i> </button> </div>
-<div class="pure-u-1-5 landscape is-right"> <button class="pure-button" id="editConfig" onclick="location.href='/{{path}}/edit';"> <i class="fa-solid fa-gear"></i> </button> </div>
+<div class="pure-u-1-5 landscape is-right">
+    <button class="pure-button"
+            id="toggleMuted"
+            onclick="appMuted.switch()">
+        <i class="fa-solid fa-volume-high"></i>
+    </button>
+</div>
+<div class="pure-u-1-5 landscape is-right">
+    <button class="pure-button"
+            id="editConfig"
+            onclick="location.href='/{{path}}/edit';">
+        <i class="fa-solid fa-gear"></i>
+    </button>
+</div>
 {%- endmacro -%}
 
 
 {%- macro cards() -%}
 {%- for id, card in database.pages[path].dictOfCards.items() -%}
 <div class="card-wrapper is-center">
-    <div class="card" id="kbd{{id}}" onmouseover="setChannel('{{id}}')">
-        <div class="card-img" onclick="location.href='{{card.url}}';">
-            <img src="{{card.picture}}" onerror='src="{{url_for("static",filename="img/broken.png")}}"'> 
+    <div class="card"
+         id="kbd{{id}}"
+         onmouseover="setChannel('{{id}}')">
+        <div class="card-img"
+             onclick="location.href='{{card.url}}';">
+            <img src="{{card.picture}}"
+                 onerror='src="{{url_for("static",filename="img/broken.png")}}"'> 
         </div>
-        <div class="card-name is-center" onclick="enableModal('modal-{{id}}')">{{id}} <br><b>{{card.name}}</b></div>
+        <div class="card-name is-center"
+             onclick="enableModal('modal-{{id}}')">
+            {{id}} <br><b>{{card.name}}</b>
+        </div>
     </div>
 </div>
-<div class="modal" id="modal-{{id}}">
+<div class="modal"
+     id="modal-{{id}}">
     <div class="modal-content">
         <div class="modal-menu">
             <h1 >{{id}} - {{card.name}}</h1>
         </div>
         <div class="pure-g modal-data">
             <div class="pure-u-1 pure-u-md-1-3">
-                <img src="{{card.picture}}" onerror='src="{{url_for("static",filename="img/broken.png")}}"'> 
+                <img src="{{card.picture}}"
+                     onerror='src="{{url_for("static",filename="img/broken.png")}}"'> 
             </div>
-            <div class="pure-u-1 pure-u-md-2-3"><p>{{card.comments}}</p></div>
+            <div class="pure-u-1 pure-u-md-2-3">
+                <p>{{card.comments}}</p>
+            </div>
         </div>
         <div class="is-right">
-            <div class="pure-button amber close is-right"><i class="fa-solid fa-rotate-left"></i></div>
+            <div class="pure-button amber close is-right">
+                <i class="fa-solid fa-rotate-left"></i>
+            </div>
         </div>
     </div>
 </div>

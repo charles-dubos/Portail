@@ -10,9 +10,6 @@ Minify(app=app, html=True, js=True, cssless=True)
 
 @app.before_request
 def before_request_func():
-    # global config
-    # global database
-    # global setCookie
     message = None
 
     if not config.isSet():
@@ -76,7 +73,6 @@ def edit(path):
     if request.method == 'POST':
         data = dict( request.form.items( multi=False ) )
         logging.debug( f'Méthode POST utilisée avec les données {data.keys()}' )
-
         if 'delete-card' in data.keys() :
             deleteCard(
                 database=database,
@@ -86,7 +82,7 @@ def edit(path):
 
         elif 'save-card' in data.keys():
             if data['current'] != data['number'] and data['number'] in database.pages[path].dictOfCards.keys():
-              message = f"Impossible de changer le numéro de la carte de '{data['current']}'.</br>Le numéro '{data['number']}' est déjà attribué."
+                message = f"Impossible de changer le numéro de la carte de '{data['current']}'.</br>Le numéro '{data['number']}' est déjà attribué."
             else:
                 saveCard(
                     database=database,
@@ -128,6 +124,7 @@ def settings():
     if request.method == 'POST':
         data = dict( request.form.items( multi=False ) )
         logging.debug( f'Méthode POST utilisée avec les données {data.keys()}' )
+        config.setCfg('mainPage', request.form['mainPage'])
 
         if 'save-conf' in data.keys():
             global setCookie

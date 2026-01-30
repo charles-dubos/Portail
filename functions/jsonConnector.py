@@ -9,7 +9,7 @@ DEFAULT_CONF='''
       "volume": "0.3"
     },
     "changeItem": {
-      "description": "Changement d'entrée'",
+      "description": "Changement d'entrée",
       "url": "https://universal-soundbank.com/sounds/7571.mp3", 
       "volume": "0.5"
     },

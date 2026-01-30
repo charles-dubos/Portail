@@ -119,7 +119,7 @@ document.onkeydown = function(e) {
 
 function enableMouseOnChilds() {
   console.log('Enable mouse')
-  Array.from(document.getElementsByClassName('cards-container')).forEach(
+  document.querySelectorAll('.cards-container').forEach(
     (cardContainer) => cardContainer.classList.add('enable-mouse')
   );
   if ( mouseMoveTimer ) clearTimeout(mouseMoveTimer);
@@ -128,7 +128,7 @@ function enableMouseOnChilds() {
 
 function disableMouseOnChilds() {
   console.log('Disable mouse')
-  Array.from(document.getElementsByClassName('cards-container')).forEach(
+  document.querySelectorAll('.cards-container').forEach(
     (cardContainer) => cardContainer.classList.remove('enable-mouse')
   );
   mouseMoveTimer = null
