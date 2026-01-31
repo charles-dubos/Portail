@@ -7,7 +7,7 @@ Site en Flask avec pages de liens.
 Créer l'environnement et nstaller l'app avec la commande:
 ```bash
 python3 -m venv .venv 
-&& .venv/bin/activate
+&& source .venv/bin/activate
 && pip install -e .
 ```
 
