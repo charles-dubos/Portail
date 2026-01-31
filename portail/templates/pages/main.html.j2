@@ -45,14 +45,12 @@ body {
 
 
 {%- macro buttonright() -%}
-<div class="pure-u-1-5 landscape is-right">
+<div class="is-right">
     <button class="pure-button"
             id="toggleMuted"
             onclick="appMuted.switch()">
         <i class="fa-solid fa-volume-high"></i>
     </button>
-</div>
-<div class="pure-u-1-5 landscape is-right">
     <button class="pure-button"
             id="editConfig"
             onclick="location.href='/{{path}}/edit';">

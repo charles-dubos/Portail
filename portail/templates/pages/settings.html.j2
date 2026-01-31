@@ -2,8 +2,8 @@
 
 
 {% block head %}
-<link rel="stylesheet" href="{{url_for('static', filename='css/sortlist.css')}}">
-<script src="{{url_for('static', filename='js/sortlist.js')}}"></script>
+<link rel="stylesheet" href="{{url_for('static', filename='css/settings.css')}}">
+<script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
 {%- endblock head -%}
 
 
@@ -56,7 +56,7 @@
 
 
 {%- macro buttonright() -%}
-<div class="pure-u-1-5 landscape is-right"> 
+<div class="is-right"> 
     <button class="pure-button"
             id="toggleMuted"
             onclick="appMuted.switch()">
@@ -92,7 +92,7 @@
                     {% for page in database.pages %}
                     <li draggable="true">
                         <div class="pure-g">
-                            <div class="pure-u-1-4"> {{page}} </div>
+                            <div class="pure-u-1-4 handle"> {{page}} </div>
                             <div class="pure-u-1-4">
                                 <input type="text"
                                        name="{{page}}-title"
@@ -180,5 +180,8 @@
 </div>
 <script>enableModal("message");</script>
 {% endif %}
-<script>sortList();</script>
+{# <script>sortList();</script> #}
+<script>
+  new Sortable(document.getElementById('sortList'));
+</script>
 {% endblock postscript %}

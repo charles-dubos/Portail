@@ -1,0 +1,25 @@
+.home-menu {
+    border-style: ridge;
+    border-color: var(--edit-color);
+}
+
+.settings-menu {
+    margin: auto;
+    margin-top: 30pt;
+    width: 90%;
+}
+
+/* (A) LIST STYLES */
+#sortList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+#sortList li {
+    background: var(--bg-color);
+    border-radius: 8px;
+    border: dashed var(--edit-color) ;
+    font-weight: bold;
+    box-shadow: 0 4px 6px var(--edit-filter);
+}
