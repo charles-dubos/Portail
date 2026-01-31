@@ -25,7 +25,7 @@ function updateSelectedChannel() {
     window.clearTimeout(kbdEnterTimer);
     kbdEnterTimer = null
   };
-  document.getElementById('selectedChannelDisplay').innerHTML = selectedChannel;
+  document.getElementById('selectedChannelDisplay').innerHTML = (selectedChannel)?selectedChannel:'';
   selectCard();
 }
 

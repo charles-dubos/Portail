@@ -1,4 +1,4 @@
-/* Lists swipes */
+/* Lists sorting */
 
 function sortList () {
   let items = document.getElementById("sortList")

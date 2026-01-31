@@ -41,7 +41,7 @@
 {% endwith %}
 </head>
 
-<body onload="appMuted.updateButton();">
+<body>
 
 <div class="header">
     <div class="pure-g home-menu header-menu">
@@ -73,4 +73,5 @@
 </html>
 
 <script src="{{url_for('static', filename='js/loadAfter.js')}}"></script>
+<script type="text/javascript">appMuted.updateButton();</script>
 {% block postscript %}{% endblock postscript %}

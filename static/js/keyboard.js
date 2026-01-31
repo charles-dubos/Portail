@@ -4,7 +4,7 @@ const MOUSE_TIMEOUT_MS = 1500;
 
 /* Variables globales */
 var kbdEnterTimer = null;
-var mouseMoveTimer = null;
+// var mouseMoveTimer = null;
 
 
 /* Touches clavier */
@@ -52,7 +52,8 @@ async function keyEscPress() {
 document.onkeydown = function(e) {
 
   console.log(e.key)
-  disableMouseOnChilds();
+  if ( document.getElementsByClassName('enable-mouse').length != 0 )
+      disableMouseOnChilds();
 
   if ( isNaN(e.key) ) {
     // S'il ne s'agit pas d'un numéro, cherche un id en kbdXXX
@@ -122,8 +123,8 @@ function enableMouseOnChilds() {
   document.querySelectorAll('.cards-container').forEach(
     (cardContainer) => cardContainer.classList.add('enable-mouse')
   );
-  if ( mouseMoveTimer ) clearTimeout(mouseMoveTimer);
-  mouseMoveTimer = setTimeout('disableMouseOnChilds()', MOUSE_TIMEOUT_MS);
+  // if ( mouseMoveTimer ) clearTimeout(mouseMoveTimer);
+  // mouseMoveTimer = setTimeout('disableMouseOnChilds()', MOUSE_TIMEOUT_MS);
 }
 
 function disableMouseOnChilds() {
@@ -131,5 +132,5 @@ function disableMouseOnChilds() {
   document.querySelectorAll('.cards-container').forEach(
     (cardContainer) => cardContainer.classList.remove('enable-mouse')
   );
-  mouseMoveTimer = null
+  // mouseMoveTimer = null
 }

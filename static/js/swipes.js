@@ -15,15 +15,16 @@ let draggingItem = null;
 /* Gestion des mouvements sur écran tactile */
 
 //configs the elements on load
-window.onload = function(){
+// window.onload = function (){
+function loadSwipes() {
   window.addEventListener('touchstart', function(e){
-    //console.log(e);
+    console.log(e);
     startX = e.touches[0].clientX;
     startY = e.touches[0].clientY;
   })
   
   window.addEventListener('touchend', function(e){
-    //console.log(event);
+    console.log(e);
     endX = e.changedTouches[0].clientX;
     endY = e.changedTouches[0].clientY;
  

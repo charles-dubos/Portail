@@ -6,7 +6,7 @@ const LS_MAINPAGE = "portail.dubs_main"
 
 /* Variables globales */
 
-var selectedChannel = "";
+var selectedChannel = null;
 
 // Gestion du switch de son (en local)
 const appMuted = {

@@ -104,7 +104,11 @@ body {
 {% endfor -%}
 <script type="text/javascript">
     loadValues({{database.pages[path].dictOfCards|length}},{{ratio}});
-    document.getElementById("content-wrapper").onmousemove = () => enableMouseOnChilds();
+    document.getElementById("content-wrapper").onmousemove = () => {
+        if ( document.getElementsByClassName('enable-mouse').length == 0 )
+            enableMouseOnChilds();
+        }
+    loadSwipes();
 </script>
 {%- endmacro -%}
 
