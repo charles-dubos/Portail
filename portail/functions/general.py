@@ -1,30 +1,27 @@
-from functions.jsonConnector import *
-from functions.configure import Configuration
+from .jsonConnector import *
+from .configure import Configuration
 import logging
-from os.path import abspath, dirname, join
-from os import pardir
 
 
-# 'CONSTANTES paramétrables'
-MAIN_DIR=abspath(join(dirname(__file__), '..'))
-DATABASE_NAME=f'{MAIN_DIR}/monSite.json'
-LOGFILE_PATH=f'{MAIN_DIR}/monSite.log'
-LOGLEVEL=['NOTSET','DEBUG','INFO','WARNING','ERROR','CRITICAL'][1]
+# load config variables
+# DATABASE_NAME = ""
+# LOGFILE_PATH = ""
+# LOGLEVEL = ""
 
-# Generating logging
-logging.basicConfig(
-  format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-  filename=LOGFILE_PATH,
-  level=getattr( logging, LOGLEVEL )
-)
+def loadLogging(config: dict):
+  logging.basicConfig(
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    filename=config['LOGFILE_PATH'],
+    level=getattr( logging, config['LOGLEVEL'] )
+  )
 
 
 # FONCTIONS
 
 ## Chargement de la base
-def loadDatabase() -> Database:
-  logging.info("Chargement de la base {}".format(DATABASE_NAME))
-  return Database(DATABASE_NAME)
+def loadDatabase(name:str) -> Database:
+  logging.info("Chargement de la base {}".format(name))
+  return Database(name)
   
 
 ## Navigation
@@ -106,8 +103,3 @@ def createPage(database:Database,
   logging.info( f"Création de la page {path}" )
   logging.debug( f"avec les valeurs '{data['title']}', '{data['img']}'" )
   return path
-
-
-# PRELOADING de la database et génération d'une conf vide
-database = loadDatabase()
-config = Configuration()

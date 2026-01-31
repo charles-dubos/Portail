@@ -1,0 +1,14 @@
+[project]
+name = "portail"
+version = "2026.01"
+description = "Mon portail de liens..."
+dependencies = [
+    "flask",
+    "requests",
+    "gunicorn",
+    "Flask-Minify"
+]
+
+[build-system]
+requires = ["flit_core<4"]
+build-backend = "flit_core.buildapi"

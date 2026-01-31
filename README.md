@@ -4,7 +4,15 @@ Site en Flask avec pages de liens.
 
 ## Utilisation en WSGI (prod)
 
-Une fois les dépendances installées, lancer dans le répertoire de l'app la commande `gunicorn --config gunicorn_config.py app:app`.
+Créer l'environnement et nstaller l'app avec la commande:
+```bash
+python3 -m venv .venv 
+&& .venv/bin/activate
+&& pip install -e .
+```
+
+Une fois installée, lancer l'application avec la commande
+ `gunicorn --config portail/gunicorn_config.py 'portail:create_app()'`.
 
 
 ## Configuration et fonctionnement
@@ -29,7 +37,7 @@ Une fois installé, ouvrir le browser sur la [page principale](http://localhost:
 Les dépendances suivantes sont identifiées (installées lors de l'exécution du
 script d'installation):
 
-- [PY3] Modules `gunicorn`, `flask` et `requests` (cf. requirements.txt)
+- [PY3] Modules `gunicorn`, `flask`, `Flask-Minify` et `requests` (cf. requirements.txt)
 
 
 ## Debug
@@ -41,5 +49,5 @@ Pour déboguer l'appli flask:
 3/ Connexion via browser sur http://localhost:8000
 ```bash
 source .venv/bin/activate
-python3 -m flask --app app run --port 8000 --debug
+python3 -m flask --app portail run --port 8000 --debug
 ```

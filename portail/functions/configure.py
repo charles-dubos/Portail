@@ -1,6 +1,6 @@
 import json, logging
 from flask import request
-from functions.jsonConnector import Database
+from .jsonConnector import Database
 
 class Configuration:
   """Classe déterminant la configuration propre au device client
@@ -68,3 +68,5 @@ def saveConfig(database:Database,
 
   database.save()
   return setCookie
+
+setCookie=False

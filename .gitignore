@@ -8,5 +8,6 @@ pyvenv.cfg
 .venv
 
 # Non-permanent files
-monSite.log
+instance/
+*.log
 monSite.json
