@@ -148,7 +148,6 @@ def create_app(test_config=None):
             database.reorder([ key[:-6] for key in data.keys() if key.endswith('-title') ])
 
             if 'save-conf' in data.keys():
-                global setCookie
                 setCookie = saveConfig(
                     database=database,
                     config=config,
