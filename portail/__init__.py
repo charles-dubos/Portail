@@ -36,12 +36,9 @@ def create_app(test_config=None):
 
         if not config.isSet():
             logging.info('Récupération du cookie de conf')
-            if not config.loadFromCookies( database=database ):
-                setCookie=True
-
+            setCookie = not config.loadFromCookies( database=database )
     @app.after_request
     def after_request_func(response):
-        global setCookie
         if setCookie:
             response.set_cookie(
                 key='config',
