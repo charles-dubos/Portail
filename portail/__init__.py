@@ -2,11 +2,10 @@ import os
 from flask import Flask, redirect, render_template, request, url_for, send_file, make_response
 from flask_minify import Minify
 from .functions.general import *
-from .functions.configure import *
+# from .functions.configure import *
 
 
 def create_app(test_config=None):
-    # create and configure the app
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_mapping(
         SECRET_KEY='dev',
@@ -16,38 +15,15 @@ def create_app(test_config=None):
     )
 
     if test_config is None:
-        # load the instance config, if it exists, when not testing
         app.config.from_pyfile('config.py', silent=True)
     else:
-        # load the test config if passed in
         app.config.from_mapping(test_config)
 
-    # ensure the instance folder exists
     os.makedirs(app.instance_path, exist_ok=True)
 
     # Load config and database
-    loadLogging( config=app.config )
+    loadLogging( logConfig=app.config )
     database = loadDatabase( name=app.config['DATABASE_NAME'])
-    config = Configuration()
-
-    @app.before_request
-    def before_request_func():
-        message = None
-
-        if not config.isSet():
-            logging.info('Récupération du cookie de conf')
-            setCookie = not config.loadFromCookies( database=database )
-    @app.after_request
-    def after_request_func(response):
-        if setCookie:
-            response.set_cookie(
-                key='config',
-                value=config.dumps(),
-                secure=True,
-                samesite="Strict"
-            )
-            setCookie=False
-        return response
 
 
     @app.route('/manifest.json')
@@ -58,13 +34,16 @@ def create_app(test_config=None):
     def serve_sw():
         return send_file('sw.js', mimetype='application/javascript')
 
+
     @app.route('/')
     def index():
         """Page principale ->  récupération du cookie de conf et redirection vers la page paramétrée
         """
-        pageRedirect = redirect(config.getCfg('mainPage'))
-
-        return pageRedirect
+        return redirect(
+            getCookie(
+                database=database,
+                name='mainPage')
+            )
 
 
     @app.route( '/<path>', methods=['GET'] )
@@ -75,8 +54,8 @@ def create_app(test_config=None):
         return render_template('pages/main.html.j2',
                             path=path,
                             database=database,
-                            config=config,
                             previous=prevPage( database=database, current=path ),
+                            mainPage=getCookie(database=database,name='mainPage'),
                             next=nextPage( database=database, current=path ),
                             ratio=1
                             )
@@ -86,8 +65,6 @@ def create_app(test_config=None):
     def edit(path):
         """Page d'édition par identifiant
         """
-        # global database
-        message = None
 
         if request.method == 'POST':
             data = dict( request.form.items( multi=False ) )
@@ -124,12 +101,11 @@ def create_app(test_config=None):
         return render_template('pages/edit.html.j2',
                             path=path,
                             database=database,
-                            config=config,
                             previous=prevPage(database=database, current=path),
                             next=nextPage(database=database, current=path),
                             ratio=1,
                             newNumber=firstAvailable(database=database, current=path),
-                            message=message
+                            message=message if 'message' in locals() else None
                             )
 
 
@@ -137,48 +113,64 @@ def create_app(test_config=None):
     def settings():
         """Page de configuration globale
         """
-        # global database
-        message = None
 
         if request.method == 'POST':
             data = dict( request.form.items( multi=False ) )
             logging.debug( f'Méthode POST utilisée avec les données {data.keys()}' )
-            config.setCfg('mainPage', request.form['mainPage'])
 
-            database.reorder([ key[:-6] for key in data.keys() if key.endswith('-title') ])
+            if request.form.get('form') == 'pages':
+                logging.info("Enregistrement des pages")
+                for pageId in database.getPagesId():
+                    database.pages[pageId].title = request.form[f"{pageId}-title"]
+                    database.pages[pageId].img =   request.form[f"{pageId}-img"]
+                    database.pages[pageId] = database.pages.pop(pageId)
+                    logging.debug( f"Enregistrement de {pageId} : titre à {request.form[f"{pageId}-title"]} et image à {request.form[f"{pageId}-img"]}" )
+                logging.info('Tri des pages')
+                database.sortPages([ pageId[:-6]
+                                for pageId in request.form.keys()
+                                if pageId.endswith('-title')])
 
-            if 'save-conf' in data.keys():
-                setCookie = saveConfig(
-                    database=database,
-                    config=config,
-                    data=data
-                )
-            
-            elif any(item.endswith('-delete') for item in data.keys()):
-                pageName = next((s[:-7] for s in data.keys() if s.endswith('-delete')),None)
+            elif 'delete' in request.form.keys():
                 if len( database.pages ) == 1:
                     message = "Impossible de supprimer la page.</br>Il en faut une au minimum."
-                elif len( database.pages[pageName]) != 0:
+                elif len( database.pages[ request.form['delete'] ] ) != 0:
                     message = "Impossible de supprimer une page non vide.</br>Supprimez les cartes auparavant."
                 else:
-                    path = deletePage(
-                        database=database,
-                        data=data,
-                        pageName=pageName
-                    )
+                    database.delPage(
+                        pageId=request.form['delete'] ) 
+            
+            elif 'create' in request.form.keys():
+                database.newPage(
+                    page=Page( {
+                        'title': request.form['title'],
+                        'img':   request.form['img'],
+                        'dictOfCards': {},
+                        } )
+                      )
+                logging.info( f"Création de la page '{request.form['title']}' avec l'image '{request.form['img']}'" )
 
-            elif 'new-fam' in data.keys():
-                path = createPage(
-                    database=database,
-                    data=data
-                )
-
+            elif request.form.get('form') == 'sounds':
+                for sound in database.settings['sounds'].keys():
+                    database.settings['sounds'][sound]['url'] =    request.form[f"{sound}-url"]
+                    database.settings['sounds'][sound]['volume'] = request.form[f"{sound}-volume"]
+                    logging.debug( f"Enregistrement de {sound} : url à {request.form[f"{sound}-url"]} et volume à {request.form[f"{sound}-volume"]}" )
+        
         return render_template('pages/settings.html.j2',
                             database=database,
-                            config=config,
-                            message=message
-        )
+                            mainPage=getCookie(database=database,name='mainPage'),
+                            message=message if 'message' in locals() else None
+                            )
+        
 
+    @app.route( '/setcookie', methods=['POST'] )
+    def setCookie():
+        """Redirection de sauvegarde de cookie
+        """
+        logging.info("Enregistrement du cookie mainPage")
+        response = make_response(redirect('/settings'))
+        response.set_cookie( "mainPage", request.form['mainPage'] )
+        logging.debug(f"mainPage à {request.form['mainPage']}")
+        return response
 
     @app.after_request
     def add_header(r):
@@ -191,6 +183,7 @@ def create_app(test_config=None):
         r.headers["Expires"] = "0"
         r.headers['Cache-Control'] = 'public, max-age=0'
         return r
+
 
     Minify(app=app, html=True, js=True, cssless=True)
     return app

@@ -1,5 +1,5 @@
 from .jsonConnector import *
-from .configure import Configuration
+from flask import request
 import logging
 
 
@@ -8,11 +8,11 @@ import logging
 # LOGFILE_PATH = ""
 # LOGLEVEL = ""
 
-def loadLogging(config: dict):
+def loadLogging(logConfig: dict):
   logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-    filename=config['LOGFILE_PATH'],
-    level=getattr( logging, config['LOGLEVEL'] )
+    filename=logConfig['LOGFILE_PATH'],
+    level=getattr( logging, logConfig['LOGLEVEL'] )
   )
 
 
@@ -22,16 +22,21 @@ def loadLogging(config: dict):
 def loadDatabase(name:str) -> Database:
   logging.info("Chargement de la base {}".format(name))
   return Database(name)
+
+## Récupération de cookie
+def getCookie(database:Database,name:str) -> str:
+  mainPage = request.cookies.get('mainPage')
+  return mainPage if mainPage else database.getPagesId()[0]
   
 
 ## Navigation
 def nextPage(database:Database,current:str)->str:
-  listPages = database.getPagesNames()
+  listPages = database.getPagesId()
   return listPages[(listPages.index(current) +1) % len(listPages)]
 
 
 def prevPage(database:Database,current:str)->str:
-  listPages = database.getPagesNames()
+  listPages = database.getPagesId()
   return listPages[(listPages.index(current) -1) % len(listPages)]
 
 
@@ -78,28 +83,3 @@ def editCard(database:Database,
   logging.debug(f"avec {data}")
   database.pages[pageId].dictOfCards[cardId] = Card( data )
   database.save(sortPage=pageId)
-
-
-## Page edition
-def deletePage(database:Database,
-              data:dict,
-              pageName:str) -> str:
-  path = nextPage(
-    database=database,
-    current=pageName
-  )
-  database.delPage( pageId=pageName )  
-  return path
-
-def createPage(database:Database,
-              data:dict) -> str:
-  path = database.newPage(
-    page=Page( {
-        'title': data['title'],
-        'img': data['img'],
-        'dictOfCards': {},
-    } )
-  )
-  logging.info( f"Création de la page {path}" )
-  logging.debug( f"avec les valeurs '{data['title']}', '{data['img']}'" )
-  return path
