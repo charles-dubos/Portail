@@ -146,7 +146,7 @@ class Database:
         fp=file,
         indent=2)
 
-  def getPagesNames(self) -> list[str]:
+  def getPagesId(self) -> list[str]:
     return list(self.pages.keys())
 
   def newPage(self, page:Page, pageId:str=None) -> str:
@@ -163,6 +163,7 @@ class Database:
     self.save()
     return page
 
-  def reorder(self, newOrder:list[str]):
+  def sortPages(self, newOrder:list[str]) -> None:
     for pageId in newOrder:
       self.pages[pageId] = self.pages.pop(pageId)
+    self.save()
