@@ -113,6 +113,7 @@ def create_app(test_config=None):
     def settings():
         """Page de configuration globale
         """
+        activeTabIndex=0
 
         if request.method == 'POST':
             data = dict( request.form.items( multi=False ) )
@@ -128,7 +129,19 @@ def create_app(test_config=None):
                 logging.info('Tri des pages')
                 database.sortPages([ pageId[:-6]
                                 for pageId in request.form.keys()
-                                if pageId.endswith('-title')])
+                                if pageId.endswith('-title') and not pageId=="new-title"])
+                activeTabIndex=1
+
+            elif request.form.get('form') == 'newPage':
+                database.newPage(
+                    page=Page( {
+                        'title': request.form['new-title'],
+                        'img':   request.form['new-img'],
+                        'dictOfCards': {},
+                        } )
+                      )
+                logging.info( f"Création de la page '{request.form['new-title']}' avec l'image '{request.form['new-img']}'" )
+                activeTabIndex=1
 
             elif 'delete' in request.form.keys():
                 if len( database.pages ) == 1:
@@ -138,27 +151,20 @@ def create_app(test_config=None):
                 else:
                     database.delPage(
                         pageId=request.form['delete'] ) 
+                activeTabIndex=1
             
-            elif 'create' in request.form.keys():
-                database.newPage(
-                    page=Page( {
-                        'title': request.form['title'],
-                        'img':   request.form['img'],
-                        'dictOfCards': {},
-                        } )
-                      )
-                logging.info( f"Création de la page '{request.form['title']}' avec l'image '{request.form['img']}'" )
-
             elif request.form.get('form') == 'sounds':
                 for sound in database.settings['sounds'].keys():
                     database.settings['sounds'][sound]['url'] =    request.form[f"{sound}-url"]
                     database.settings['sounds'][sound]['volume'] = request.form[f"{sound}-volume"]
                     logging.debug( f"Enregistrement de {sound} : url à {request.form[f"{sound}-url"]} et volume à {request.form[f"{sound}-volume"]}" )
+                activeTabIndex=2
         
         return render_template('pages/settings.html.j2',
                             database=database,
                             mainPage=getCookie(database=database,name='mainPage'),
-                            message=message if 'message' in locals() else None
+                            message=message if 'message' in locals() else None,
+                            activeTabIndex=activeTabIndex
                             )
         
 

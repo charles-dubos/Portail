@@ -9,7 +9,7 @@
     width: 90%;
 }
 
-/* (A) LIST STYLES */
+/* Configuration des listes de tri */
 #sortList {
     list-style: none;
     padding: 0;
@@ -22,4 +22,20 @@
     border: dashed var(--edit-color) ;
     font-weight: bold;
     box-shadow: 0 4px 6px var(--edit-filter);
+}
+
+/* Configuration des onglets */
+.tabPage {
+    display: none;
+    &.active { display: unset; }
+}
+
+#tabBar>* {
+    cursor: pointer;
+    padding: 5pt;
+    &.active {
+        font-weight: bold;
+        border-bottom: 2pt solid var(--fg-menu-color);
+    }
+    &:hover { background-color: var(--edit-filter); }
 }
