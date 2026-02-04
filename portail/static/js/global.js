@@ -1,8 +1,5 @@
 /* Constantes */
 
-const LS_MUTED = "portail.dubs_muted"
-const LS_MAINPAGE = "portail.dubs_main"
-
 
 /* Variables globales */
 
@@ -10,11 +7,7 @@ var selectedChannel = null;
 
 // Gestion du switch de son (en local)
 const appMuted = {
-  state() { return window.localStorage.getItem(LS_MUTED) },
-  updateState() { 
-    if ( document.querySelectorAll('audio')[0].muted ) window.localStorage.setItem(LS_MUTED, "true");
-    else window.localStorage.removeItem(LS_MUTED);
-   },
+  state() { return getCookie('muted') },
   updateButton() {
     document.querySelectorAll('audio').forEach(audio => { audio.muted = ( this.state() ) ? true : false });
     document.getElementById("toggleMuted").children[0].classList.remove('fa-volume-high','fa-volume-xmark');
@@ -23,12 +16,10 @@ const appMuted = {
     )
   },
   switch() {
-    document.querySelectorAll('audio')[0].muted = ( this.state() ) ? false : true ;
-    this.updateState();
+    setCookie( 'muted', this.state() === "true" ? "" : "true" );
     this.updateButton();
   }
 }
-
 
 /* Fonctions globales */
 
@@ -51,3 +42,20 @@ function playAudio(audioId){
 
 // Son en quittant
 window.addEventListener("beforeunload", async function () { await waitAudio('sndPage') });
+
+
+/* Gestion de cookies */
+
+function setCookie(name, value) {
+  document.cookie = name+"="+value;
+}
+
+function getCookie(value) {
+  let cookieList = document.cookie.split("; ");
+  for (let i = 0; i<cookieList.length; i++ ) {
+    if ( cookieList[i].startsWith( value+"=" ) ) {
+      return (cookieList[i].substring(value.length + 1));
+    }
+  }
+  return ""
+}
