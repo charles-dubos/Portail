@@ -168,16 +168,6 @@ def create_app(test_config=None):
                             )
         
 
-    @app.route( '/setcookie', methods=['POST'] )
-    def setCookie():
-        """Redirection de sauvegarde de cookie
-        """
-        logging.info("Enregistrement du cookie mainPage")
-        response = make_response(redirect('/settings'))
-        response.set_cookie( "mainPage", request.form['mainPage'] )
-        logging.debug(f"mainPage à {request.form['mainPage']}")
-        return response
-
     @app.after_request
     def add_header(r):
         """

@@ -26,13 +26,6 @@
 
 
 {%- macro buttonright() -%}
-<div class="is-right"> 
-    <button class="pure-button"
-            id="toggleMuted"
-            onclick="appMuted.switch()">
-        <i class="fa-solid fa-volume-high"></i>
-    </button>
-</div>
 {%- endmacro -%}
 
 
@@ -48,21 +41,26 @@
     </div>
 {% endfor %}
 </div>
-<div id='localTab' class="tabPage settings-menu is-center">
-    <form class="pure-form pure-form-aligned"
-            method="post"
-            action="/setcookie">
+<div id='localTab' class="tabPage settings-menu is-center pure-form-aligned">
+    <div class="pure-control-group">
         <label for='mainPage-select'>Page principale</label>
         <select name="mainPage"
                 id="mainPage-select"
-                onchange="this.form.submit()"> 
+                onchange="updateMainPage(this)"> 
             {% for page in database.pages %}
-            <option value="{{page}}"{% if page == mainPage %} selected{% endif %}>
+            <option value="{{page}}">
                 {{database.pages[page].title}}
             </option>
             {% endfor %}
         </select>
-    </form>
+    </div>
+    <div class="pure-control-group"> 
+        <button class="pure-button"
+                id="toggleMuted"
+                onclick="appMuted.switch()">
+            <i class="fa-solid fa-volume-high"></i>
+        </button>
+    </div>
 </div>
 <div id='pagesTab' class="tabPage settings-menu is-center">
     <form class="pure-form"
@@ -200,5 +198,6 @@
 <script>
   new Sortable(document.getElementById('sortList'));
   displayActiveTabContent();
+  setMainPage();setSoundBox();
 </script>
 {% endblock postscript %}
