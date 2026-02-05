@@ -16,12 +16,15 @@
     margin: 0;
 }
 
-#sortList li {
-    background: var(--bg-color);
+div:has(>.handle) {
+    box-shadow: 0 2px 2px var(--edit-filter);
+}
+
+.handle {
     border-radius: 8px;
     border: dashed var(--edit-color) ;
     font-weight: bold;
-    box-shadow: 0 4px 6px var(--edit-filter);
+    cursor: grab;
 }
 
 /* Configuration des onglets */
