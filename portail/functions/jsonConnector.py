@@ -32,7 +32,6 @@ class Card:
   """
   name:str = None
   picture:str = None
-  comments:str = None
   url:str = None
 
   def __init__(self,
@@ -41,14 +40,12 @@ class Card:
     logging.debug(f"Création de la carte #{card['name']}")
     self.name =     card['name']
     self.picture =  card['picture']
-    self.comments = card['comments']
     self.url =      card['url']
 
   def getJson(self) -> dict:
     return {
       'name':     self.name,
       'picture':  self.picture,
-      'comments': self.comments,
       'url':      self.url,
     }
 
