@@ -1,7 +1,8 @@
 # from .jsonConnector import *
 from flask import request
 from flask_sqlalchemy import SQLAlchemy
-from .models import SQLPage, SQLCard, SQLSound
+from .models import SQLPage, SQLCard, SQLSound, db
+from .interface import PageIF
 import logging
 
 
@@ -19,13 +20,13 @@ def loadLogging(logConfig: dict):
 def getCookie(db:SQLAlchemy) -> int:
   mainPage = request.cookies.get('mainPage')
   return int(mainPage) if mainPage \
-    else db.session.query(SQLPage).first().id
+    else PageIF(db=db).getList()[0].id
   
 
 ## Navigation
 # Replacing nextPage et prevPage
 def movePage(db:SQLAlchemy,page_id:int, move:int) -> int:
-  listOfPageId = [ page.id for page in db.session.query(SQLPage).all() ]
+  listOfPageId = [ page.id for page in PageIF(db=db).getList() ]
   return listOfPageId[(listOfPageId.index(int(page_id)) + move) % len(listOfPageId)]
 
 
@@ -63,12 +64,11 @@ def initDatabase(db:SQLAlchemy):
         db.session.add_all( initSound )
         db.session.commit()
     
-    if not SQLPage.query.all():
-        db.session.add( SQLPage(
+    if not PageIF(db=db).getList():
+        PageIF(db=db).create(
             title = "Default Page",
             background_url = "",
-        ) )
-        db.session.commit()
+        )
 
 
 ## Card edition

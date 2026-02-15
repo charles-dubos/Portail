@@ -23,7 +23,7 @@ async function linkTo( e, dom ) {
       dom.submit()
       break;
     case 'DIV':
-      await waitAudio('sndEnter');
+      await waitAudio('selectItem');
       document.getElementById('sndPage').muted=true;
       console.log('Div clic');
       dom.getElementsByClassName('card-img')[0].onclick()
@@ -44,7 +44,7 @@ function keyEnterPress(e) {
 }
 
 async function keyEscPress() {
-  await waitAudio('sndBye');
+  await waitAudio('exitWindow');
   window.close();
 }
 

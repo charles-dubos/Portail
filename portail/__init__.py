@@ -120,10 +120,16 @@ def create_app(test_config=None):
 
             if request.form.get('form') == 'pages':
                 logging.info("Enregistrement des pages")
+
+                pagesOrder = [ int(pageId[:-6])
+                                for pageId in request.form.keys()
+                                if pageId.endswith('-title') and not pageId=="new-title"]
+
                 for page in PageIF(db=db).getList():
                     PageIF(db=db,id=page.id).update(
                         title=request.form[f"{page.id}-title"],
                         background_url=request.form[f"{page.id}-background_url"],
+                        order=pagesOrder.index(page.id)
                     )
                     logging.debug( f"Enregistrement de {page.id} : titre à {request.form[f"{page.id}-title"]} et image à {request.form[f"{page.id}-background_url"]}" )
                 activeTabIndex=1
@@ -145,12 +151,14 @@ def create_app(test_config=None):
                     PageIF(db=db,id=request.form['delete']).delete()
                 activeTabIndex=1
             
-    #         elif request.form.get('form') == 'sounds':
-    #             for sound in database.settings['sounds'].keys():
-    #                 database.settings['sounds'][sound]['url'] =    request.form[f"{sound}-url"]
-    #                 database.settings['sounds'][sound]['volume'] = request.form[f"{sound}-volume"]
-    #                 logging.debug( f"Enregistrement de {sound} : url à {request.form[f"{sound}-url"]} et volume à {request.form[f"{sound}-volume"]}" )
-    #             activeTabIndex=2
+            elif request.form.get('form') == 'sounds':
+                for sound in SoundIF(db=db).getList():
+                    SoundIF(db=db,context=sound.context).update(
+                        url=request.form[f"{sound.context}-url"],
+                        volume=request.form[f"{sound.context}-volume"],
+                    )
+                    logging.debug( f"Enregistrement de {sound.context} : url à {request.form[f"{sound.context}-url"]} et volume à {request.form[f"{sound.context}-volume"]}" )
+                activeTabIndex=2
         
         return render_template('pages/settings.html.j2',
                             sounds=SoundIF(db=db).getList(),

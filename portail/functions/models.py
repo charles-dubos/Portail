@@ -5,6 +5,7 @@ db = SQLAlchemy()
 class SQLPage(db.Model):
     __tablename__ = 'pages'
     id = db.Column(db.Integer, primary_key=True)
+    order = db.Column(db.Integer)
     title = db.Column(db.String(50), unique=True)
     background_url = db.Column(db.String(120))
     # cards = db.relationship("SQLCard", back_populates="pages")

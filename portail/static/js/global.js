@@ -41,7 +41,7 @@ function playAudio(audioId){
 }
 
 // Son en quittant
-window.addEventListener("beforeunload", async function () { await waitAudio('sndPage') });
+window.addEventListener("beforeunload", async function () { await waitAudio('changePage') });
 
 
 /* Gestion de cookies */

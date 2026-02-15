@@ -3,12 +3,9 @@ from flask_sqlalchemy import SQLAlchemy
 from typing import Self
 
 class PageIF:
-    db:SQLAlchemy
-    id:int
-
     def __init__(self, db:SQLAlchemy, id:int=None) -> None:
         self.id = id
-        self.db = db        
+        self.db = db
 
     def create(self,
         title:str="",
@@ -16,7 +13,8 @@ class PageIF:
         ) -> Self:
         newPage = SQLPage(
             title=title,
-            background_url=background_url
+            background_url=background_url,
+            order=len(self.getList())+1
         )
         self.db.session.add( newPage )
         self.db.session.commit()
@@ -30,10 +28,12 @@ class PageIF:
     def update(self,
         title:str="",
         background_url:str="",
+        order=None,
         ) -> Self:
         editPage = self.get()
         if title: editPage.title = title
         if background_url: editPage.background_url = background_url
+        if order: editPage.order = order
         self.db.session.commit()
         return self
 
@@ -46,16 +46,13 @@ class PageIF:
         return list(map( lambda i:i[0],
                 self.db.session.execute(
                     self.db.select(SQLPage)
+                        .order_by(SQLPage.order)
                 ).all()
             ))
 
 
 
 class CardIF:
-    db:SQLAlchemy
-    id:int
-    page_id:int
-    
     def __init__(self, db:SQLAlchemy, id:int=None, page_id:int=None) -> None:
         self.id = id
         self.db = db
@@ -123,9 +120,6 @@ class CardIF:
 
 
 class SoundIF:
-    db:SQLAlchemy
-    context:str
-
     def __init__(self, db:SQLAlchemy, context:str=None) -> None:
         self.db = db
         self.context = context
