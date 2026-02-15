@@ -6,7 +6,8 @@ dependencies = [
     "flask",
     "requests",
     "gunicorn",
-    "Flask-Minify"
+    "Flask-Minify",
+    "flask_sqlalchemy"
 ]
 
 [build-system]

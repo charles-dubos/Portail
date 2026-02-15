@@ -33,12 +33,11 @@
     </script>
     <script src="{{url_for('static', filename='js/global.js')}}"></script>
 {% block head %}{% endblock head %}
-{% with sounds = database.settings["sounds"] %}
-    <audio id='sndPage' src='{{sounds["changePage"]["url"]}}' data-volume='{{sounds["changePage"]["volume"]}}'></audio>
-    <audio id='sndEnter' src='{{sounds["selectItem"]["url"]}}' data-volume='{{sounds["selectItem"]["volume"]}}'></audio>
-    <audio id='sndMove' src='{{sounds["changeItem"]["url"]}}' data-volume='{{sounds["changeItem"]["volume"]}}'></audio>
-    <audio id='sndBye' src='{{sounds["exitWindow"]["url"]}}' data-volume='{{sounds["exitWindow"]["volume"]}}'></audio>
-{% endwith %}
+{% for sound in sounds %}
+    <audio id='{{ sound.context }}'
+           src='{{ sound.url }}'
+           data-volume='{{ sound.volume }}'></audio>
+{% endfor %}
 </head>
 
 <body>
