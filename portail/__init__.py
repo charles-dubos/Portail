@@ -129,7 +129,7 @@ def create_app(test_config=None):
                     PageIF(db=db,id=page.id).update(
                         title=request.form[f"{page.id}-title"],
                         background_url=request.form[f"{page.id}-background_url"],
-                        order=pagesOrder.index(page.id)
+                        order=pagesOrder.index(page.id)+1
                     )
                     logging.debug( f"Enregistrement de {page.id} : titre à {request.form[f"{page.id}-title"]} et image à {request.form[f"{page.id}-background_url"]}" )
                 activeTabIndex=1
