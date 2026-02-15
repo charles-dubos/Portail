@@ -1,7 +1,11 @@
 from .models import SQLCard, SQLPage, SQLSound
 from flask_sqlalchemy import SQLAlchemy
+from typing import Self
 
 class PageIF:
+    db:SQLAlchemy
+    id:int
+
     def __init__(self, db:SQLAlchemy, id:int=None) -> None:
         self.id = id
         self.db = db        
@@ -9,7 +13,7 @@ class PageIF:
     def create(self,
         title:str="",
         background_url:str="",
-        ) -> None:
+        ) -> Self:
         newPage = SQLPage(
             title=title,
             background_url=background_url
@@ -17,19 +21,21 @@ class PageIF:
         self.db.session.add( newPage )
         self.db.session.commit()
         self.id=newPage.id
+        return self
     
     def delete(self) -> None:
-        self.get().delete()
+        self.db.session.delete(self.get())
         self.db.session.commit()
 
     def update(self,
         title:str="",
         background_url:str="",
-        ) -> None:
-        with self.get() as editPage:
-            if title: editPage.title = title
-            if background_url: editPage.background_url = background_url
+        ) -> Self:
+        editPage = self.get()
+        if title: editPage.title = title
+        if background_url: editPage.background_url = background_url
         self.db.session.commit()
+        return self
 
     def get(self) -> SQLPage:
         return self.db.session.execute(
@@ -46,6 +52,10 @@ class PageIF:
 
 
 class CardIF:
+    db:SQLAlchemy
+    id:int
+    page_id:int
+    
     def __init__(self, db:SQLAlchemy, id:int=None, page_id:int=None) -> None:
         self.id = id
         self.db = db
@@ -56,8 +66,9 @@ class CardIF:
         name:str="",
         logo_url:str="",
         link_url:str="",
-        ) -> None:
+        ) -> Self:
         newCard = SQLCard(
+            page_id=self.page_id,
             number=number,
             name=name,
             logo_url=logo_url,
@@ -65,27 +76,26 @@ class CardIF:
         )
         self.db.session.add( newCard )
         self.db.session.commit()
-        self.page_id=page_id
         self.id=newCard.id
+        return self
     
     def delete(self) -> None:
-        self.get().delete()
+        self.db.session.delete(self.get())
         self.db.session.commit()
 
     def update(self,
         number:int,
-        page_id:int,
         name:str="",
         logo_url:str="",
         link_url:str="",
-        ) -> None:
-        with self.get() as editCard:
-            if number: editCard.number=number
-            if page_id: editCard.page_id=page_id
-            if name: editCard.name=name
-            if logo_url: editCard.logo_url=logo_url
-            if link-url: editCard.link_url=link_url
+        ) -> Self:
+        editCard = self.get()
+        if number: editCard.number=number
+        if name: editCard.name=name
+        if logo_url: editCard.logo_url=logo_url
+        if link_url: editCard.link_url=link_url
         self.db.session.commit()
+        return self
 
     def get(self) -> SQLCard:
         return self.db.session.execute(
@@ -104,9 +114,7 @@ class CardIF:
     def firstNumberAvailable(self) -> int:
         listOfCardsNumber = [ card.number for card in self.getList()]
         newNumber=1
-
         while newNumber in listOfCardsNumber: newNumber+=1
-
         return newNumber
 
     def isAvailable(self, number) -> bool:
@@ -115,18 +123,22 @@ class CardIF:
 
 
 class SoundIF:
-    def __init__(self, db:SQLAlchemy, context:int=None) -> None:
+    db:SQLAlchemy
+    context:str
+
+    def __init__(self, db:SQLAlchemy, context:str=None) -> None:
         self.db = db
         self.context = context
 
     def update(self,
         url:str="",
         volume:int=None
-        ) -> None:
-        with self.get() as editSound:
-            if url: editSound.url=url
-            if volume: editSound.volume=volume
+        ) -> Self:
+        editSound = self.get()
+        if url: editSound.url=url
+        if volume: editSound.volume=volume
         self.db.session.commit()
+        return self
 
     def get(self) -> SQLSound:
         return self.db.session.execute(

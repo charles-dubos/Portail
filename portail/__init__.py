@@ -73,7 +73,7 @@ def create_app(test_config=None):
             data = dict( request.form.items( multi=False ) )
             logging.debug( f'Méthode POST utilisée avec les données {data.keys()}' )
             if 'delete-card' in data.keys() :
-                CardIf(db=db, id=data['current']).delete()
+                CardIF(db=db, id=data['current']).delete()
 
             elif 'save-card' in data.keys():
                 if CardIF(db=db,page_id=pageId,id=data['current']).get().number == data['number']\
@@ -81,8 +81,8 @@ def create_app(test_config=None):
                     CardIF(db=db, page_id=pageId, id=data['current']).update(
                         number=data['number'],
                         name=data['name'],
-                        logo_url=['logo_url'],
-                        link_url=['link_url']
+                        logo_url=data['logo_url'],
+                        link_url=data['link_url']
                     )
                 else:
                     message = f"Impossible de changer le numéro de la carte de '{data['current']}'.</br>Le numéro '{data['number']}' est déjà attribué."
@@ -92,8 +92,8 @@ def create_app(test_config=None):
                     CardIF(db=db, page_id=pageId).create(
                         number=data['number'],
                         name=data['name'],
-                        logo_url=['logo_url'],
-                        link_url=['link_url']
+                        logo_url=data['logo_url'],
+                        link_url=data['link_url']
                     )
                 else:
                     message = f"Impossible de créer la carte avec le numéro '{data['number']}'.</br>Le numéro '{data['number']}' est déjà attribué."
@@ -114,43 +114,36 @@ def create_app(test_config=None):
         """
         activeTabIndex=0
 
-    #     if request.method == 'POST':
-    #         data = dict( request.form.items( multi=False ) )
-    #         logging.debug( f'Méthode POST utilisée avec les données {data.keys()}' )
+        if request.method == 'POST':
+            data = dict( request.form.items( multi=False ) )
+            logging.debug( f'Méthode POST utilisée avec les données {data.keys()}' )
 
-    #         if request.form.get('form') == 'pages':
-    #             logging.info("Enregistrement des pages")
-    #             for pageId in database.getPagesId():
-    #                 database.pages[pageId].title = request.form[f"{pageId}-title"]
-    #                 database.pages[pageId].img =   request.form[f"{pageId}-img"]
-    #                 database.pages[pageId] = database.pages.pop(pageId)
-    #                 logging.debug( f"Enregistrement de {pageId} : titre à {request.form[f"{pageId}-title"]} et image à {request.form[f"{pageId}-img"]}" )
-    #             logging.info('Tri des pages')
-    #             database.sortPages([ pageId[:-6]
-    #                             for pageId in request.form.keys()
-    #                             if pageId.endswith('-title') and not pageId=="new-title"])
-    #             activeTabIndex=1
+            if request.form.get('form') == 'pages':
+                logging.info("Enregistrement des pages")
+                for page in PageIF(db=db).getList():
+                    PageIF(db=db,id=page.id).update(
+                        title=request.form[f"{page.id}-title"],
+                        background_url=request.form[f"{page.id}-background_url"],
+                    )
+                    logging.debug( f"Enregistrement de {page.id} : titre à {request.form[f"{page.id}-title"]} et image à {request.form[f"{page.id}-background_url"]}" )
+                activeTabIndex=1
 
-    #         elif request.form.get('form') == 'newPage':
-    #             database.newPage(
-    #                 page=Page( {
-    #                     'title': request.form['new-title'],
-    #                     'img':   request.form['new-img'],
-    #                     'dictOfCards': {},
-    #                     } )
-    #                   )
-    #             logging.info( f"Création de la page '{request.form['new-title']}' avec l'image '{request.form['new-img']}'" )
-    #             activeTabIndex=1
+            elif request.form.get('form') == 'newPage':
+                page = PageIF(db=db).create(
+                    title=request.form['new-title'],
+                    background_url=request.form['new-background_url']
+                )
+                logging.info( f"Création de la page {page.id} : '{request.form['new-title']}' avec l'image '{request.form['new-background_url']}'" )
+                activeTabIndex=1
 
-    #         elif 'delete' in request.form.keys():
-    #             if len( database.pages ) == 1:
-    #                 message = "Impossible de supprimer la page.</br>Il en faut une au minimum."
-    #             elif len( database.pages[ request.form['delete'] ] ) != 0:
-    #                 message = "Impossible de supprimer une page non vide.</br>Supprimez les cartes auparavant."
-    #             else:
-    #                 database.delPage(
-    #                     pageId=request.form['delete'] ) 
-    #             activeTabIndex=1
+            elif 'delete' in request.form.keys():
+                if len( PageIF(db).getList() ) == 1:
+                    message = "Impossible de supprimer la page.</br>Il en faut une au minimum."
+                elif len( CardIF(db=db,page_id=request.form['delete']).getList() ) != 0:
+                    message = "Impossible de supprimer une page non vide.</br>Supprimez les cartes auparavant."
+                else:
+                    PageIF(db=db,id=request.form['delete']).delete()
+                activeTabIndex=1
             
     #         elif request.form.get('form') == 'sounds':
     #             for sound in database.settings['sounds'].keys():
