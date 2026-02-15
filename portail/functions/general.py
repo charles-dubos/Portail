@@ -1,4 +1,3 @@
-# from .jsonConnector import *
 from flask import request
 from flask_sqlalchemy import SQLAlchemy
 from .models import SQLPage, SQLCard, SQLSound, db
