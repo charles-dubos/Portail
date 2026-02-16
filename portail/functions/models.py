@@ -8,7 +8,7 @@ class SQLPage(db.Model):
     order = db.Column(db.Integer)
     title = db.Column(db.String(50), unique=True)
     background_url = db.Column(db.String(120))
-    # cards = db.relationship("SQLCard", back_populates="pages")
+    cards = db.relationship("SQLCard", back_populates="page")
 
 class SQLCard(db.Model):
     __tablename__ = 'cards'
@@ -18,9 +18,8 @@ class SQLCard(db.Model):
     logo_url = db.Column(db.String(120))
     link_url = db.Column(db.String(120))
     page_id = db.Column(db.Integer, db.ForeignKey('pages.id'), nullable=False)
-    # page = db.relationship("SQLPage", back_populates="cards")
     db.UniqueConstraint('page_id', 'number', name='Single_couple')
-
+    page = db.relationship('SQLPage', back_populates='cards')
 
 class SQLSound(db.Model):
     __tablename__ = 'soundSettings'
