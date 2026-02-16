@@ -2,20 +2,20 @@
 
 
 {% block head %}
-    <style>
-    body {
-        background-image: linear-gradient(var(--edit-filter),var(--edit-filter)),url("{{database.pages[path].img}}");
-    }
-    .home-menu {
-        border-style: ridge;
-        border-color: var(--edit-color);
-    }
-    </style>
+<style>
+body {
+    background-image: linear-gradient(var(--edit-filter),var(--edit-filter)),url("{{ page.background_url }}");
+}
+.home-menu {
+    border-style: ridge;
+    border-color: var(--edit-color);
+}
+</style>
 {%- endblock head -%}
 
 
 {%- macro titleMenu() -%}
-<span class="pure-menu-heading">{{database.pages[path].title}} [Edition]</span>
+<span class="pure-menu-heading">{{ page.title }} [Edition]</span>
 {%- endmacro -%}
 
 
@@ -52,7 +52,7 @@
     </button>
     <button class="pure-button"
             id="editConfig"
-            onclick="location.href='/{{path}}';">
+            onclick="location.href='/{{ page.id }}';">
         <i class="fa-solid fa-window-restore"></i>
     </button>
 </div>
@@ -60,59 +60,73 @@
 
 
 {%- macro cards() -%}
-{%- for id, card in database.pages[path].dictOfCards.items() -%}
+{%- for card in listOfCards -%}
 <div class="card-wrapper is-center">
     <div class="card"
+<<<<<<< HEAD
          id="kbd{{id}}"
          onclick="enableModal('modal-{{id}}')">
         <div class="card-img">
             <img src="{{card.picture}}"
+=======
+         id="kbd{{ card.number }}"
+         onclick="enableModal('modal-{{ card.id }}')">
+        <div class="card-img">
+            <img src="{{ card.logo_url }}"
+>>>>>>> dev
                  onerror='src="{{url_for("static",filename="img/broken.png")}}"'/> 
         </div>
-        <div class="card-name is-center">{{id}} <br><b>{{card.name}}</b></div>
+        <div class="card-name is-center">
+            {{ card.number }} <br><b>{{ card.name }}</b>
+        </div>
     </div>
 </div>
 <div class="modal"
-     id="modal-{{id}}">
+     id="modal-{{ card.id }}">
     <div class="modal-content">
         <div class="modal-menu">
-            <h1 >{{id}} - {{card.name}}</h1>
+            <h1 >{{ card.number }} - {{card.name}}</h1>
         </div>
         <form class="pure-form pure-form-aligned"
               method="post">
             <fieldset>
                 <div class="pure-control-group">
-                    <label for="{{id}}-aligned-number">Number</label>
-                    <input id="{{id}}-aligned-number"
+                    <label for="{{ card.id }}-aligned-number">Number</label>
+                    <input id="{{ card.id }}-aligned-number"
                            type="text"
                            name="number"
-                           value="{{id}}"
+                           value="{{ card.number }}"
                            size="5">
                 </div>
                 <div class="pure-control-group">
-                    <label for="{{id}}-aligned-name">Name</label>
-                    <input if="{{id}}-aligned-name"
+                    <label for="{{ card.id }}-aligned-name">Name</label>
+                    <input id="{{ card.id }}-aligned-name"
                            type="text"
                            name="name"
-                           value="{{card.name}}">
+                           autocomplete="off"
+                           value="{{ card.name }}">
                 </div>
                 <div class="pure-control-group">
-                    <label for="{{id}}-aligned-url">Lien</label>
-                    <input id="{{id}}-aligned-url"
+                    <label for="{{ card.id }}-aligned-url">Lien</label>
+                    <input id="{{ card.id }}-aligned-url"
                            type="text"
-                           name="url"
-                           value="{{card.url}}"
+                           name="link_url"
+                           value="{{ card.link_url }}"
                            size="75">
                 </div>
                 <div class="pure-control-group">
-                    <label for="{{id}}-aligned-picture">Image</label>
-                    <input id="{{id}}-aligned-picture"
+                    <label for="{{ card.id }}-aligned-picture">Image</label>
+                    <input id="{{ card.id }}-aligned-picture"
                            type="text"
-                           name="picture"
-                           value="{{card.picture}}"
+                           name="logo_url"
+                           value="{{ card.logo_url }}"
                            size="75">
                 </div>
+<<<<<<< HEAD
                 <input type="hidden" name="current" value="{{id}}" >
+=======
+                <input type="hidden" name="current" value="{{ card.id }}" >
+>>>>>>> dev
                 <div class="is-right">
                     <button type="submit"
                             name="delete-card"
@@ -155,7 +169,11 @@
                     <input id="0-aligned-number"
                            type="text"
                            name="number"
+<<<<<<< HEAD
                            value="{{newNumber}}"
+=======
+                           value="{{ newNumber }}"
+>>>>>>> dev
                            size="5">
                 </div>
                 <div class="pure-control-group">
@@ -163,22 +181,36 @@
                     <input id="0-aligned-name"
                            type="text"
                            name="name"
+<<<<<<< HEAD
+=======
+                           autocomplete="off"
+>>>>>>> dev
                            placeholder="Nom">
                 </div>
                 <div class="pure-control-group">
                     <label for="0-aligned-url">Lien</label>
                     <input id="0-aligned-url"
                            type="text"
+<<<<<<< HEAD
                            name="url"
                            placeholder="URL"
+=======
+                           name="link_url"
+                           placeholder="URL du lien"
+>>>>>>> dev
                            size="75">
                 </div>
                 <div class="pure-control-group">
                     <label for="0-aligned-picture">Image</label>
                     <input id="0-aligned-picture"
                            type="text"
+<<<<<<< HEAD
                            name="picture"
                            placeholder="Image"
+=======
+                           name="logo_url"
+                           placeholder="URL du logo"
+>>>>>>> dev
                            size="75">
                 </div>
                 <div class="is-right"> 
@@ -197,7 +229,7 @@
 </div>
 
 <script type="text/javascript">
-    loadValues({{database.pages[path].dictOfCards|length}}+1,{{ratio}});
+    loadValues({{ listOfCards|length }}+1 ,{{ ratio }});
 </script>
 {%- endmacro -%}
 

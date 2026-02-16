@@ -32,7 +32,7 @@ function updateSelectedChannel() {
 async function setChannel(newChannel) {
   selectedChannel=newChannel;
   updateSelectedChannel();
-  await waitAudio('sndMove');
+  await waitAudio('changeItem');
 }
 
 // Fonctions de sélection par déplacement
