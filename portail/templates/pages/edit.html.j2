@@ -2,15 +2,15 @@
 
 
 {% block head %}
-    <style>
-    body {
-        background-image: linear-gradient(var(--edit-filter),var(--edit-filter)),url("{{ page.background_url }}");
-    }
-    .home-menu {
-        border-style: ridge;
-        border-color: var(--edit-color);
-    }
-    </style>
+<style>
+body {
+    background-image: linear-gradient(var(--edit-filter),var(--edit-filter)),url("{{ page.background_url }}");
+}
+.home-menu {
+    border-style: ridge;
+    border-color: var(--edit-color);
+}
+</style>
 {%- endblock head -%}
 
 
@@ -69,7 +69,9 @@
             <img src="{{ card.logo_url }}"
                  onerror='src="{{url_for("static",filename="img/broken.png")}}"'/> 
         </div>
-        <div class="card-name is-center">{{ card.number }} <br><b>{{ card.name }}</b></div>
+        <div class="card-name is-center">
+            {{ card.number }} <br><b>{{ card.name }}</b>
+        </div>
     </div>
 </div>
 <div class="modal"
@@ -91,9 +93,10 @@
                 </div>
                 <div class="pure-control-group">
                     <label for="{{ card.id }}-aligned-name">Name</label>
-                    <input if="{{ card.id }}-aligned-name"
+                    <input id="{{ card.id }}-aligned-name"
                            type="text"
                            name="name"
+                           autocomplete="off"
                            value="{{ card.name }}">
                 </div>
                 <div class="pure-control-group">
@@ -163,6 +166,7 @@
                     <input id="0-aligned-name"
                            type="text"
                            name="name"
+                           autocomplete="off"
                            placeholder="Nom">
                 </div>
                 <div class="pure-control-group">
@@ -197,7 +201,7 @@
 </div>
 
 <script type="text/javascript">
-    loadValues({{ listOfCards|length }}+1,{{ratio}});
+    loadValues({{ listOfCards|length }}+1 ,{{ ratio }});
 </script>
 {%- endmacro -%}
 

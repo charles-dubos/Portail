@@ -22,6 +22,8 @@ class PageIF:
         return self
     
     def delete(self) -> None:
+        if len(self.getList()) == 1 :
+            raise Exception('Cannot delete the last page.')
         self.db.session.delete(self.get())
         self.db.session.commit()
 
@@ -64,6 +66,8 @@ class CardIF:
         logo_url:str="",
         link_url:str="",
         ) -> Self:
+        if self.db.execute(self.db.select(SQLCard).filter_by(number=number, page_id=self.page_id)) is not None:
+            raise ValueError(f'Card {number} already exists.')
         newCard = SQLCard(
             page_id=self.page_id,
             number=number,
@@ -86,6 +90,8 @@ class CardIF:
         logo_url:str="",
         link_url:str="",
         ) -> Self:
+        if self.db.execute(self.db.select(SQLCard).filter_by(number=number, page_id=self.page_id)) is not None:
+            raise ValueError(f'Card {number} already exists.')
         editCard = self.get()
         if number: editCard.number=number
         if name: editCard.name=name

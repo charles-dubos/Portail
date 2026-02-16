@@ -1,4 +1,4 @@
-import os, logging
+import os, logging, traceback
 from flask import Flask, redirect, render_template, request, url_for, send_file, make_response
 from flask_minify import Minify
 from .functions.general import loadLogging, getCookie, movePage, initDatabase
@@ -68,35 +68,38 @@ def create_app(test_config=None):
     def edit(pageId):
         """Page d'édition par identifiant
         """
+        message = ""
 
         if request.method == 'POST':
             data = dict( request.form.items( multi=False ) )
             logging.debug( f'Méthode POST utilisée avec les données {data.keys()}' )
             if 'delete-card' in data.keys() :
-                CardIF(db=db, id=data['current']).delete()
+                try:
+                    CardIF(db=db, id=data['current']).delete()
+                except Exception:
+                    message += f"Impossible de supprimer la carte {data['name']}"
 
             elif 'save-card' in data.keys():
-                if CardIF(db=db,page_id=pageId,id=data['current']).get().number == data['number']\
-                or CardIF(db=db).isAvailable(data['number']):
+                try:
                     CardIF(db=db, page_id=pageId, id=data['current']).update(
                         number=data['number'],
                         name=data['name'],
                         logo_url=data['logo_url'],
                         link_url=data['link_url']
                     )
-                else:
-                    message = f"Impossible de changer le numéro de la carte de '{data['current']}'.</br>Le numéro '{data['number']}' est déjà attribué."
+                except Exception:
+                    message += f"Impossible d'enregistrer la carte {data['name']}"
                     
             elif 'new-card' in data.keys():
-                if CardIF(db=db).isAvailable(data['number']):
+                try:
                     CardIF(db=db, page_id=pageId).create(
                         number=data['number'],
                         name=data['name'],
                         logo_url=data['logo_url'],
                         link_url=data['link_url']
                     )
-                else:
-                    message = f"Impossible de créer la carte avec le numéro '{data['number']}'.</br>Le numéro '{data['number']}' est déjà attribué."
+                except Exception:
+                    message += f"Impossible de créer la carte {data['name']}"
             
         return render_template('pages/edit.html.j2',
                             sounds=SoundIF(db=db).getList(),
@@ -104,7 +107,9 @@ def create_app(test_config=None):
                             listOfCards=CardIF(db=db,page_id=pageId).getList(),
                             previous=movePage( db=db, page_id=pageId, move=-1 ),
                             next=movePage( db=db, page_id=pageId, move=1 ),
-                            newNumber = CardIF(db=db,page_id=pageId).firstNumberAvailable()
+                            newNumber = CardIF(db=db,page_id=pageId).firstNumberAvailable(),
+                            message=message,
+                            ratio=1
                             )
 
 
@@ -113,10 +118,12 @@ def create_app(test_config=None):
         """Page de configuration globale
         """
         activeTabIndex=0
+        message = ""
 
         if request.method == 'POST':
             data = dict( request.form.items( multi=False ) )
             logging.debug( f'Méthode POST utilisée avec les données {data.keys()}' )
+            activeTabIndex=1
 
             if request.form.get('form') == 'pages':
                 logging.info("Enregistrement des pages")
@@ -132,33 +139,34 @@ def create_app(test_config=None):
                         order=pagesOrder.index(page.id)+1
                     )
                     logging.debug( f"Enregistrement de {page.id} : titre à {request.form[f"{page.id}-title"]} et image à {request.form[f"{page.id}-background_url"]}" )
-                activeTabIndex=1
 
             elif request.form.get('form') == 'newPage':
-                page = PageIF(db=db).create(
-                    title=request.form['new-title'],
-                    background_url=request.form['new-background_url']
-                )
-                logging.info( f"Création de la page {page.id} : '{request.form['new-title']}' avec l'image '{request.form['new-background_url']}'" )
-                activeTabIndex=1
+                try:
+                    page = PageIF(db=db).create(
+                        title=request.form['new-title'],
+                        background_url=request.form['new-background_url']
+                    )
+                    logging.info( f"Création de la page {page.id} : '{request.form['new-title']}' avec l'image '{request.form['new-background_url']}'" )
+                except Exception:
+                    message += f"Impossible de créer la page {request.form['new-title']}"
 
             elif 'delete' in request.form.keys():
-                if len( PageIF(db).getList() ) == 1:
-                    message = "Impossible de supprimer la page.</br>Il en faut une au minimum."
-                elif len( CardIF(db=db,page_id=request.form['delete']).getList() ) != 0:
-                    message = "Impossible de supprimer une page non vide.</br>Supprimez les cartes auparavant."
-                else:
+                try:
                     PageIF(db=db,id=request.form['delete']).delete()
-                activeTabIndex=1
+                except Exception:
+                    message += ("Impossible de supprimer la page " + request.form[f'{request.form['delete']}-title'])
             
             elif request.form.get('form') == 'sounds':
-                for sound in SoundIF(db=db).getList():
-                    SoundIF(db=db,context=sound.context).update(
-                        url=request.form[f"{sound.context}-url"],
-                        volume=request.form[f"{sound.context}-volume"],
-                    )
-                    logging.debug( f"Enregistrement de {sound.context} : url à {request.form[f"{sound.context}-url"]} et volume à {request.form[f"{sound.context}-volume"]}" )
                 activeTabIndex=2
+                for sound in SoundIF(db=db).getList():
+                    try:
+                        SoundIF(db=db,context=sound.context).update(
+                            url=request.form[f"{sound.context}-url"],
+                            volume=request.form[f"{sound.context}-volume"],
+                        )
+                        logging.debug( f"Enregistrement de {sound.context} : url à {request.form[f"{sound.context}-url"]} et volume à {request.form[f"{sound.context}-volume"]}" )
+                    except Exception:
+                        message += f"Impossible modifier les sons."
         
         return render_template('pages/settings.html.j2',
                             sounds=SoundIF(db=db).getList(),
