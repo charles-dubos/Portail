@@ -47,15 +47,9 @@
         <select name="mainPage"
                 id="mainPage-select"
                 onchange="updateMainPage(this)"> 
-<<<<<<< HEAD
-            {% for page in database.pages %}
-            <option value="{{page}}">
-                {{database.pages[page].title}}
-=======
             {% for page in pages %}
             <option value="{{ page.id }}">
                 {{ page.title }}
->>>>>>> dev
             </option>
             {% endfor %}
         </select>
@@ -78,16 +72,6 @@
             <div class="pure-u-1-8"> </div>
         </div>
         <ul id="sortList">
-<<<<<<< HEAD
-            {% for page in database.pages %}
-            <li>
-                <div class="pure-g">
-                    <div class="pure-u-1-4 handle"> {{page}} </div>
-                    <div class="pure-u-1-4">
-                        <input type="text"
-                                name="{{page}}-title"
-                                value="{{database.pages[page].title}}">
-=======
             {% for page in pages %}
             <li>
                 <div class="pure-g">
@@ -96,27 +80,17 @@
                         <input type="text"
                                 name="{{ page.id }}-title"
                                 value="{{ page.title }}">
->>>>>>> dev
                     </div>
                     <div class="pure-u-3-8">
                         <input type="text"
                                 size="75"
-<<<<<<< HEAD
-                                name="{{page}}-img"
-                                value="{{database.pages[page].img}}">
-=======
                                 name="{{ page.id }}-background_url"
                                 value="{{ page.background_url }}">
->>>>>>> dev
                     </div>
                     <div class="pure-u-1-8">
                         <button type="submit"
                                 name="delete"
-<<<<<<< HEAD
-                                value="{{page}}"
-=======
                                 value="{{ page.id }}"
->>>>>>> dev
                                 class="pure-button red">
                             <i class="fa fa-trash"></i>
                         </button>
@@ -135,11 +109,7 @@
             <div class="pure-u-3-8">
                 <input type="text"
                         size="75"
-<<<<<<< HEAD
-                        name="new-img"
-=======
                         name="new-background_url"
->>>>>>> dev
                         placeholder="URL de l'image de fond">
             </div>
             <div class="pure-u-1-8">
@@ -160,15 +130,6 @@
             </button>
         </div>
     </form>
-<<<<<<< HEAD
-    {# <div class="pure-u-1-3 {{classes}} is-center">
-        <div class="pure-button green"
-                onclick="enableModal('modal-newFam')">
-            <i class="fa-regular fa-square-plus"></i> Créer une page
-        </div>
-    </div> #}
-=======
->>>>>>> dev
 </div>
 <div id='soundTab' class="tabPage settings-menu is-center">
     <div class="pure-g">
@@ -178,24 +139,6 @@
     </div>
     <form class="pure-form" 
             method="post">
-<<<<<<< HEAD
-        {% for sound in database.settings['sounds'] %}
-        <div class="pure-g">
-            <div class="pure-u-1-3" style="font-weight:bold;">{{database.settings['sounds'][sound].description}}</div>
-            <div class="pure-u-1-3">
-                <input type="text"
-                        size="75"
-                        name="{{sound}}-url"
-                        value="{{database.settings['sounds'][sound].url}}">
-            </div>
-            <div class="pure-u-1-3">
-                <input type="range"
-                        name="{{sound}}-volume"
-                        min="0"
-                        max="1"
-                        step="0.1"
-                        value="{{database.settings['sounds'][sound].volume}}">
-=======
         {% for sound in sounds %}
         <div class="pure-g">
             <div class="pure-u-1-3" style="font-weight:bold;">{{ sound.description }}</div>
@@ -212,7 +155,6 @@
                         max="100"
                         step="1"
                         value="{{ sound.volume }}">
->>>>>>> dev
             </div>
         </div>
         {% endfor %}
@@ -254,10 +196,6 @@
      animation: 150
     });
   displayActiveTabContent();
-<<<<<<< HEAD
-  setMainPage();setSoundBox();
-=======
   setMainPage();
->>>>>>> dev
 </script>
 {% endblock postscript %}

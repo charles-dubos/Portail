@@ -41,11 +41,7 @@ function playAudio(audioId){
 }
 
 // Son en quittant
-<<<<<<< HEAD
-window.addEventListener("beforeunload", async function () { await waitAudio('sndPage') });
-=======
 window.addEventListener("beforeunload", async function () { await waitAudio('changePage') });
->>>>>>> dev
 
 
 /* Gestion de cookies */

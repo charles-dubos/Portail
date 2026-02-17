@@ -1,9 +1,9 @@
 import os, logging, traceback
 from flask import Flask, redirect, render_template, request, url_for, send_file, make_response
 from flask_minify import Minify
-from .functions.general import loadLogging, getCookie, movePage, initDatabase
-from .functions.models import db, SQLCard, SQLPage, SQLSound
-from .functions.interface import PageIF, CardIF, SoundIF
+from functions import   loadLogging, getCookie, movePage, initDatabase,\
+                        db, SQLCard, SQLPage, SQLSound, \
+                        PageIF, CardIF, SoundIF
 
 def create_app(test_config=None):
     app = Flask(__name__, instance_relative_config=True)
