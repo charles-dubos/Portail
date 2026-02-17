@@ -66,7 +66,9 @@ class CardIF:
         logo_url:str="",
         link_url:str="",
         ) -> Self:
-        if self.db.execute(self.db.select(SQLCard).filter_by(number=number, page_id=self.page_id)) is not None:
+        if self.db.session.execute(
+            self.db.select(SQLCard).filter_by(number=number,page_id=self.page_id)
+            ).first() is not None:
             raise ValueError(f'Card {number} already exists.')
         newCard = SQLCard(
             page_id=self.page_id,
@@ -90,7 +92,9 @@ class CardIF:
         logo_url:str="",
         link_url:str="",
         ) -> Self:
-        if self.db.execute(self.db.select(SQLCard).filter_by(number=number, page_id=self.page_id)) is not None:
+        if self.db.session.execute(
+            self.db.select(SQLCard).filter_by(number=number,page_id=self.page_id)
+            ).first() is not None:
             raise ValueError(f'Card {number} already exists.')
         editCard = self.get()
         if number: editCard.number=number

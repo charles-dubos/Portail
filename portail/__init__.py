@@ -101,6 +101,8 @@ def create_app(test_config=None):
                 except Exception:
                     message += f"Impossible de créer la carte {data['name']}"
             
+        if message: logging.warn(message)
+
         return render_template('pages/edit.html.j2',
                             sounds=SoundIF(db=db).getList(),
                             page=PageIF(db=db, id=pageId).get(),
@@ -167,6 +169,8 @@ def create_app(test_config=None):
                         logging.debug( f"Enregistrement de {sound.context} : url à {request.form[f"{sound.context}-url"]} et volume à {request.form[f"{sound.context}-volume"]}" )
                     except Exception:
                         message += f"Impossible modifier les sons."
+
+        if message: logging.warn(message)
         
         return render_template('pages/settings.html.j2',
                             sounds=SoundIF(db=db).getList(),
