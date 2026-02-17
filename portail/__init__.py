@@ -1,7 +1,7 @@
 import os, logging, traceback
 from flask import Flask, redirect, render_template, request, url_for, send_file, make_response
 from flask_minify import Minify
-from functions import   loadLogging, getCookie, movePage, initDatabase,\
+from .functions import  loadLogging, getCookie, movePage, initDatabase,\
                         db, SQLCard, SQLPage, SQLSound, \
                         PageIF, CardIF, SoundIF
 
