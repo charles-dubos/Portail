@@ -1,11 +1,19 @@
 import os, logging, traceback
-from flask import Flask, redirect, render_template, request, url_for, send_file, make_response
+from flask import Flask, redirect, render_template, request, url_for, send_file, make_response, Response
 from flask_minify import Minify
 from .functions import  loadLogging, getCookie, movePage, initDatabase,\
                         db, SQLCard, SQLPage, SQLSound, \
                         PageIF, CardIF, SoundIF
 
-def create_app(test_config=None):
+def create_app(test_config=None) -> Flask:
+    """Creation of Flask app.
+
+    Args:
+        test_config (_type_, optional): Testing config file. Defaults to None.
+
+    Returns:
+        Flask: Generated Flask app.
+    """
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_mapping(
         SECRET_KEY='dev',
@@ -34,24 +42,43 @@ def create_app(test_config=None):
 
 
     @app.route('/manifest.json')
-    def serve_manifest():
+    def serve_manifest() -> Response:
+        """Manifest to install web app on client.
+
+        Returns:
+            Response: Corresponding file.
+        """
         return send_file('manifest.json', mimetype='application/manifest+json')
 
     @app.route('/sw.js')
-    def serve_sw():
+    def serve_sw() -> Response:
+        """Installs the workers service.
+
+        Returns:
+            Response: Return sw.js file.
+        """
         return send_file('sw.js', mimetype='application/javascript')
 
 
     @app.route('/')
-    def index():
-        """Page principale ->  récupération du cookie de conf et redirection vers la page paramétrée
+    def index() -> Response:
+        """Main page, set by cookie if exists.
+
+        Returns:
+            Response: Redirect to path from cookie.
         """
         return redirect( str( getCookie(db=db) ) )
 
 
     @app.route( '/<pageId>', methods=['GET'] )
-    def main(pageId):
-        """Page par identifiant
+    def main(pageId:int) -> Response:
+        """Page for corresponding page ID.
+
+        Args:
+            pageId (int): Id of page in database.
+
+        Returns:
+            Response: Serves the corresponding HTML page from template.
         """
 
         return render_template('pages/main.html.j2',
@@ -65,8 +92,14 @@ def create_app(test_config=None):
 
 
     @app.route( '/<pageId>/edit', methods=['GET','POST'] )
-    def edit(pageId):
-        """Page d'édition par identifiant
+    def edit(pageId:int) -> Response:
+        """Edit page for corresponding page ID (allowing get and posts HTML methods).
+
+        Args:
+            pageId (int): Id of page in database.
+
+        Returns:
+            Response: Serves the corresponding HTML page from template.
         """
         message = ""
 
@@ -116,8 +149,11 @@ def create_app(test_config=None):
 
 
     @app.route( '/settings', methods=['GET','POST'] )
-    def settings():
-        """Page de configuration globale
+    def settings() -> Response:
+        """Setting page (allowing get and posts HTML methods).
+
+        Returns:
+            Response: Serves the corresponding HTML page from template.
         """
         activeTabIndex=0
         message = ""
@@ -180,19 +216,5 @@ def create_app(test_config=None):
                             activeTabIndex=activeTabIndex
                             )
         
-#    @app.after_request
-#    def add_header(r):
-#        """
-#        Add headers to both force latest IE rendering engine or Chrome Frame,
-#        and also to cache the rendered page for 10 minutes.
-#        """
-#
-#        r.headers["Pragma"] = "no-cache"
-#        r.headers["Expires"] = "0"
-#        r.headers['Cache-Control'] = 'public, max-age=0'
-#        return r
-
-
-
     Minify(app=app, html=True, js=True, cssless=True)
     return app

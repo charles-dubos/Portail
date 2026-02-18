@@ -20,7 +20,7 @@ function widthOfCard() {
   let x = document.documentElement.clientWidth;
   let y = document.documentElement.clientHeight;
 
-  // Il faut retirer sur l'axe y l'en-tête et le pied de page...
+  // Il faut retirer sur l'axe y l'en-tête et le pied de page..
   document.querySelectorAll('.home-menu').forEach(
     element => {
       y = y - element.offsetHeight
