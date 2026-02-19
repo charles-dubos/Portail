@@ -24,9 +24,9 @@ async function linkTo( e, dom ) {
       break;
     case 'DIV':
       await waitAudio('selectItem');
-      document.getElementById('sndPage').muted=true;
+      document.getElementById('selectItem').muted=true;
       console.log('Div clic');
-      dom.getElementsByClassName('card-img')[0].onclick()
+      dom.onclick();
       break;
   }
   if ( e ) e.preventDefault();

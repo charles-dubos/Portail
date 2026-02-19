@@ -3,7 +3,7 @@
 
 /* Variables globales */
 
-var selectedChannel = null;
+var selectedChannel = "";
 
 // Gestion du switch de son (en local)
 const appMuted = {

@@ -53,3 +53,13 @@ Pour déboguer l'appli flask:
 source .venv/bin/activate
 python3 -m flask --app portail run --port 8000 --debug
 ```
+
+
+## Dépendances CDN
+
+URL du CDN | Contexte | Template concerné
+:---|:---|:---
+https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/pure-min.css | PureCSS : layout de page | Tous
+https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/grids-responsive-min.css | Grilles PureCSS | Tous
+https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js | Icônes FontAwesome | Tous
+https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js | Liste à classer | Settings
