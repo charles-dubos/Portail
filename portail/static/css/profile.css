@@ -1,5 +1,5 @@
 /* Dark mode par défaut */
-:root {
+:root{
   /* Menus */
   --fg-menu-color: #dda1f7;
   --bg-menu-color: #3C0753;
@@ -17,8 +17,7 @@
   /* Pas de déformation des images */
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
+:root:has(.lightmode) {
   /* Menus */
   --fg-menu-color: #660000;
   --bg-menu-color: #FF9B9B;
@@ -32,7 +31,6 @@
   /* Mode édition */
   --edit-color: #FFD6A5;
   --edit-filter: #FFD6A588;
-  }
 }
 
 body {

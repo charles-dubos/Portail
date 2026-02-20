@@ -51,3 +51,13 @@ function updateCardSizes() {
     }
   )
 }
+
+function profileMode() {
+  if ( (window.matchMedia('(prefers-color-scheme: dark)').matches 
+          && !(getCookie('darkmode') === 'false'))
+      || getCookie('darkmode') === 'true') {
+    document.getElementsByTagName('body')[0].classList.replace('lightmode','darkmode');
+  } else {
+    document.getElementsByTagName('body')[0].classList.replace('darkmode','lightmode');
+  }
+}

@@ -40,7 +40,7 @@
 {% endfor %}
 </head>
 
-<body>
+<body class="darkmode">
 
 <div class="header">
     <div class="pure-g home-menu header-menu">
@@ -72,5 +72,5 @@
 </html>
 
 <script src="{{url_for('static', filename='js/loadAfter.js')}}"></script>
-<script type="text/javascript">appMuted.updateButton();</script>
+<script type="text/javascript">profileMode();appMuted.updateButton();darkMode.updateButton();</script>
 {% block postscript %}{% endblock postscript %}
