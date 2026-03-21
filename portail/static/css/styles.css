@@ -130,6 +130,7 @@ h6 {
     align-items: stretch;
     padding: 0;
     margin: 0;
+    overflow: hidden;
 }
 /*
  * Card management
@@ -138,7 +139,6 @@ h6 {
     display: flex;
     justify-content: center;
     align-content: center;
-    /* overflow: hidden; */
 }
 
 .card {
@@ -146,13 +146,13 @@ h6 {
     height: 100%;
     display: flex;
     flex-direction: column;
-    overflow: hidden;
+    /* overflow: hidden; */
     line-height: normal;
 }
 .card.selected {
     filter: drop-shadow(0 0 1vw var(--fg-menu-color));
     text-shadow: 0 0 1vw var(--fg-menu-color);
-    transform: scale(1.1);
+    transform: scale(1.2);
     transition: transform .1s;
     overflow:visible;
 }
