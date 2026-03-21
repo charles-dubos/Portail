@@ -110,45 +110,6 @@ h6 {
 }
 
 
-/* 
- * -- TOOLTIPS --
- * Tooltips management
- */
-.recent-link {
-    position: relative;
-    color: var(--bg-menu-color);
-    font-size: 1rem;
-}
-
-.tooltip { 
-    position: absolute; 
-    opacity: 0; 
-    z-index: 1;
-    left: 50%;
-    top: 150%;
-    transform: translateX(-50%);
-}
-
-.recent-link:hover .tooltip { 
-    opacity: 1; 
-    transition: 0.5s;
-    transition-delay: 0.1s;
-}
-
-.tooltiptext {
-    display: flex; 
-    flex-direction: column; 
-    justify-content: flex-start; 
-    background-color: var(--bg-menu-color);
-    padding: 12px; 
-    border-radius: 3px; 
-    color: var(--emph-menu-color); 
-    line-height: 10px;
-    transition: 1s;
-    width: 100px;
-}
-
-
 /*
  * -- CONTENT STYLES --
  * Bunch of cards management
