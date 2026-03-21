@@ -1,22 +1,22 @@
 /* Dark mode par défaut */
 :root{
   /* Menus */
-  --fg-menu-color: #deebe9;
-  --bg-menu-color: #151f1e;
+  --fg-menu-color: #dda1f7;
+  --bg-menu-color: #3C0753;
 
-  /* Page normale */
-  --fg-color: #ebe9dd;
-  --bg-color: #1f1e16;
+  /* Mode normal */
+  --fg-color: #b6b9fc;
+  --bg-color: #030637;
 }
 
 :root:has(.lightmode) {
   /* Menus */
-  --fg-menu-color: #151f1e;
-  --bg-menu-color: #deebe9;
+  --fg-menu-color: #660000;
+  --bg-menu-color: #FF9B9B;
 
-  /* Page normale */
-  --fg-color: #1f1e16;
-  --bg-color: #ebe9dd;
+  /* Mode normal */
+  --fg-color: #666400;
+  --bg-color: #FFFEC4;
 }
 
 body {

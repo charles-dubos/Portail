@@ -15,6 +15,11 @@
  * Most of these are inherited from Base, but I want to change a few.
  */
 body {
+  --emph-menu-color: color-mix(in srgb, var(--fg-menu-color), var(--bg-menu-color)) ;
+  --bg-filter: color-mix(in srgb, var(--bg-color), transparent 50%);
+  --edit-color: color-mix(in srgb, var(--bg-color), var(--fg-color));
+  --edit-filter: color-mix(in srgb, var(--edit-color), transparent 50%); 
+
     margin: 0.1px;
     line-height: 1.7em;
     color: var(--fg-color);
@@ -147,7 +152,7 @@ h6 {
 .card.selected {
     filter: drop-shadow(0 0 1vw var(--fg-menu-color));
     text-shadow: 0 0 1vw var(--fg-menu-color);
-    transform: scale(1.2);
+    transform: scale(1.1);
     transition: transform .1s;
     overflow:visible;
 }
