@@ -150,8 +150,8 @@ h6 {
     line-height: normal;
 }
 .card.selected {
-    filter: drop-shadow(0 0 1vw var(--fg-menu-color));
-    text-shadow: 0 0 1vw var(--fg-menu-color);
+    filter: drop-shadow(0 0 0.3vw var(--fg-menu-color));
+    text-shadow: 0 0 0.2vw var(--bg-menu-color);
     transform: scale(1.2);
     transition: transform .1s;
     overflow:visible;
