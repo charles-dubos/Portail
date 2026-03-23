@@ -1,22 +1,11 @@
 /* Dark mode par défaut */
 :root{
   /* Menus */
-  --fg-menu-color: #deebe9;
-  --bg-menu-color: #151f1e;
-
+  --menu-dark:#1f1e16;
+  --menu-light:#ebe9dd;
   /* Page normale */
-  --fg-color: #ebe9dd;
-  --bg-color: #1f1e16;
-}
-
-:root:has(.lightmode) {
-  /* Menus */
-  --fg-menu-color: #151f1e;
-  --bg-menu-color: #deebe9;
-
-  /* Page normale */
-  --fg-color: #1f1e16;
-  --bg-color: #ebe9dd;
+  --page-dark:#151f1e;
+  --page-light:#deebe9;
 }
 
 body {

@@ -1,5 +1,23 @@
 @import url("profile.css");
 
+:root {
+  --fg-menu-color: var(--menu-light);
+  --bg-menu-color: var(--menu-dark);
+
+  --fg-color: var(--page-light);
+  --bg-color: var(--page-dark);
+}
+
+:root:has(.lightmode) {
+  /* Menus */
+  --fg-menu-color: var(--menu-dark);
+  --bg-menu-color: var(--menu-light);
+
+  /* Page normale */
+  --fg-color: var(--page-dark);
+  --bg-color: var(--page-light);
+}
+
 * {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
