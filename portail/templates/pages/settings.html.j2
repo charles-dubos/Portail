@@ -44,8 +44,39 @@
 {% endfor %}
 </div>
 <div id='localTab' class="tabPage settings-menu is-center pure-form-aligned">
-    <div class="pure-control-group">
-        <label for='mainPage-select'>Page principale</label>
+    <form class="pure-form"
+            method="post">
+        <div class="pure-g">
+            <div class="pure-u-3-5"> Nom de la page </div>
+            <div class="pure-u-1-5"> Page principale </div>
+            <div class="pure-u-1-5"> Page masquée </div>
+        </div>
+        <ul id="localPagesSettings" class="inlineList">
+            {% for page in pages %}
+            <li>
+                <div class="pure-g">
+                    <div class="pure-u-3-5"> {{ page.title }} </div>
+                    <div class="pure-u-1-5">
+                        <label for="home-{{ page.id }}" class="pure-radio">
+                            <input id="home-{{ page.id }}"
+                                type="radio" name="mainPage"
+                                {# {% if page.id == mainPage %}checked=""{% endif %} #}
+                                onclick="updateMainPage(this)"/>
+                        </label>
+                    </div>
+                    <div class="pure-u-1-5">
+                        <label for="mask-{{ page.id }}" class="pure-checkbox">
+                            <input id="mask-{{ page.id }}"
+                                type="checkbox" name="{{ page.id }}"
+                                {# {% if page.id == mainPage %} disabled="" {% endif %} #}
+                                onclick="switchMask(this)"
+                                />
+                        </label>
+                    </div>
+            </li>
+        {% endfor %}
+        </ul>
+        {# <label for='mainPage-select'>Page principale</label>
         <select name="mainPage"
                 id="mainPage-select"
                 onchange="updateMainPage(this)"> 
@@ -54,7 +85,8 @@
                 {{ page.title }}
             </option>
             {% endfor %}
-        </select>
+        </select> #}
+    </form>
     </div>
     <div class="pure-control-group"> 
         <button class="pure-button"
@@ -80,7 +112,7 @@
             <div class="pure-u-3-8"> URL de l'image de fond </div>
             <div class="pure-u-1-8"> </div>
         </div>
-        <ul id="sortList">
+        <ul id="sortList" class="inlineList">
             {% for page in pages %}
             <li>
                 <div class="pure-g">
@@ -205,6 +237,6 @@
      animation: 150
     });
   displayActiveTabContent();
-  setMainPage();
+  loadPagesCookies();
 </script>
 {% endblock postscript %}
