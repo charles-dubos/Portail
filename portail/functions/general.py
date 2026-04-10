@@ -2,7 +2,7 @@ from flask import request
 from flask_sqlalchemy import SQLAlchemy
 from .models import SQLPage, SQLCard, SQLSound, db
 from .interface import PageIF
-import logging
+import logging, json
 
 
 def loadLogging(logConfig: dict) -> None:
@@ -32,7 +32,7 @@ def getCookie(db:SQLAlchemy) -> int:
 
 ## Navigation
 def movePage(db:SQLAlchemy,page_id:int, move:int) -> int:
-  """Get the previous or next page.
+  """Get the previous or next page after collecting masked pages cookies.
 
   Args:
       db (SQLAlchemy): SQLA databse.
@@ -42,9 +42,16 @@ def movePage(db:SQLAlchemy,page_id:int, move:int) -> int:
   Returns:
       int: Id of the page after move.
   """
-  listOfPageId = [ page.id for page in PageIF(db=db).getList() ]
-  return listOfPageId[(listOfPageId.index(int(page_id)) + move) % len(listOfPageId)]
+  maskPages = request.cookies.get('maskPages')
+  maskPages = [ int(id) for id in json.loads(maskPages)] if maskPages else []
 
+  listOfPageId = [ page.id
+                    for page in PageIF(db=db).getList()
+                      if page.id not in maskPages ]
+
+  return listOfPageId[
+            (listOfPageId.index(int(page_id)) + move) % len(listOfPageId)
+          ]
 
 def initDatabase(db:SQLAlchemy) -> None:
   """Initiates the given database if empty.

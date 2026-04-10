@@ -24,12 +24,6 @@ function updateMainPage(element) {
   loadPagesCookies();
 }
 
-// function setMainPage() {
-//   let cookie = getCookie('mainPage');
-//   document.querySelectorAll("#mainPage-select > option").forEach(
-//     (e) =>( e.value == cookie ) ? e.setAttribute('selected','true') : null )
-// }
-
 function loadPagesCookies() {
   let mainPageId = getCookie('mainPage');
   document.querySelectorAll('input[type="checkbox"]').forEach(chkBox => chkBox.disabled = false);

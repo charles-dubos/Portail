@@ -44,8 +44,7 @@
 {% endfor %}
 </div>
 <div id='localTab' class="tabPage settings-menu is-center pure-form-aligned">
-    <form class="pure-form"
-            method="post">
+    <form class="pure-form" >
         <div class="pure-g">
             <div class="pure-u-3-5"> Nom de la page </div>
             <div class="pure-u-1-5"> Page principale </div>
@@ -76,18 +75,7 @@
             </li>
         {% endfor %}
         </ul>
-        {# <label for='mainPage-select'>Page principale</label>
-        <select name="mainPage"
-                id="mainPage-select"
-                onchange="updateMainPage(this)"> 
-            {% for page in pages %}
-            <option value="{{ page.id }}">
-                {{ page.title }}
-            </option>
-            {% endfor %}
-        </select> #}
     </form>
-    </div>
     <div class="pure-control-group"> 
         <button class="pure-button"
                 id="toggleMuted"
