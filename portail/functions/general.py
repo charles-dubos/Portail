@@ -2,7 +2,7 @@ from flask import request
 from flask_sqlalchemy import SQLAlchemy
 from .models import SQLPage, SQLCard, SQLSound, db
 from .interface import PageIF
-import logging, json
+import sys, logging, json
 
 
 def loadLogging(logConfig: dict) -> None:
@@ -10,7 +10,7 @@ def loadLogging(logConfig: dict) -> None:
   """
   logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-    filename=logConfig['LOGFILE_PATH'],
+    stream=sys.stdout,
     level=getattr( logging, logConfig['LOGLEVEL'] )
   )
 

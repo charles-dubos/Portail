@@ -18,7 +18,6 @@ def create_app(test_config=None) -> Flask:
     app.config.from_mapping(
         SECRET_KEY='dev',
         DATABASE_NAME=os.path.join(app.instance_path, 'monSite.db'),
-        LOGFILE_PATH=os.path.join(app.instance_path, 'monSite.log'),
         LOGLEVEL=['NOTSET','DEBUG','INFO','WARNING','ERROR','CRITICAL'][1]
     )
 
