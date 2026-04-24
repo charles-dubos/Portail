@@ -34,4 +34,13 @@ function loadSwipes() {
       linkTo(null, document.getElementById('kbdPageDown'));
     };
   })
+
+  window.addEventListener('wheel', function(e){
+    console.log(e);
+    if(e.deltaX > 1){
+      linkTo(null, document.getElementById('kbdPageUp'));
+    }else if(e.deltaX < -1){
+      linkTo(null, document.getElementById('kbdPageDown'));
+    };
+  })
 }
