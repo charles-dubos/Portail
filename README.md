@@ -1,4 +1,4 @@
-# site_pi.dubs
+# Portail de liens
 
 Site en Flask avec pages de liens.
 Pour voir la doc, `mkdocs serve`
