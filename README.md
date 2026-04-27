@@ -4,7 +4,7 @@ Site en Flask avec pages de liens.
 
 ## Utilisation en WSGI (prod)
 
-Créer l'environnement et nstaller l'app avec la commande:
+Créer l'environnement et installer l'app avec la commande:
 ```bash
 python3 -m venv .venv 
 && source .venv/bin/activate
@@ -17,7 +17,7 @@ Une fois installée, lancer l'application avec la commande
 
 ## Configuration et fonctionnement
 
-### Configuration  # A CORRIGER
+### Configuration 
 
 Il y a 3 niveaux de configuration:
 
