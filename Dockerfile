@@ -9,6 +9,8 @@ WORKDIR $APP_PATH
 
 ADD     . $APP_PATH
 
+RUN     pip install -r requirements.txt
+
 EXPOSE  8000
 
 CMD     ["gunicorn", \
