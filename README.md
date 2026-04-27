@@ -1,8 +1,6 @@
 # Portail de liens
 
 Site en Flask avec pages de liens.
-Pour voir la doc, `mkdocs serve`
-Your documentation should shortly be available at: https://charles-dubos.github.io/portail.dubs/.
 
 ## Utilisation en WSGI (prod)
 
