@@ -215,5 +215,9 @@ def create_app(test_config=None) -> Flask:
                             activeTabIndex=activeTabIndex
                             )
         
+    @app.route( '/health', methods=['GET'] )
+    def health() -> Response:
+        return 'OK', 200
+        
     Minify(app=app, html=True, js=True, cssless=True)
     return app

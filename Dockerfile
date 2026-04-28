@@ -1,4 +1,4 @@
-FROM    python:3-alpine
+FROM    python:alpine
 LABEL   maintainer="Papa Dub's" \
         version="26.04" \
         description="Conteneur portail WSGI Gunicorn"
@@ -9,7 +9,7 @@ WORKDIR $APP_PATH
 
 ADD     . $APP_PATH
 
-RUN     pip install -e .
+RUN     pip install --upgrade pip && pip install -e .
 
 EXPOSE  8000
 
@@ -18,4 +18,4 @@ CMD     ["gunicorn", \
          "portail:create_app()" ]
 
 HEALTHCHECK --interval=10s --timeout=5s --retries=3 \
-        CMD curl http://127.0.0.1:8000 || exit 1
+        CMD wget http://127.0.0.1:8000/health || exit 1
