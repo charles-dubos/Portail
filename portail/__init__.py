@@ -14,11 +14,17 @@ def create_app(test_config=None) -> Flask:
     Returns:
         Flask: Generated Flask app.
     """
+
+    logging.basicConfig(
+        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+        stream=sys.stderr,
+        level=getattr( logging, os.getenv('PORTAIL_LOGLEVEL', 'INFO') )
+    )
+
+
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_mapping(
-        SECRET_KEY='dev',
-        DATABASE_NAME=os.path.join(app.instance_path, 'monSite.db'),
-        LOGLEVEL=['NOTSET','DEBUG','INFO','WARNING','ERROR','CRITICAL'][1]
+        SECRET_KEY=os.getenv('PORTAIL_SECRETKEY', 'dev')
     )
 
     if test_config is None:
@@ -28,10 +34,10 @@ def create_app(test_config=None) -> Flask:
 
     os.makedirs(app.instance_path, exist_ok=True)
 
-    # Load config and database
-    loadLogging( logConfig=app.config )
-
-    app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{app.config['DATABASE_NAME']}'
+    # Load database
+    app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{
+        os.getenv('PORTAIL_SQLITE_FILE', os.path.join(app.instance_path, 'monSite.db'))
+    }'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
     db.init_app(app)

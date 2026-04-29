@@ -23,9 +23,9 @@ Il y a 3 niveaux de configuration:
 
 Localisation | Contenu | Type | Nom
 ---|---|---|---
-Serveur | Pages et cartes | Fichier | `monSite.json` (défini dans `general.py`)
+Serveur | Configuration générale | Variables d'enironnement (opt) | `PORTAIL_LOGLEVEL`, `PORTAIL_SECRETKEY`, `PORTAIL_SQLITE_FILE`
+Serveur | Pages et cartes | Fichier | `monSite.db`
 Client | Configurations locales (page princiale et sons) | Cookie | `config`
-Client | Son muet ou non | Stockage JS persistant sur le serveur | `localStorage`
 
 ### Utilisation
 

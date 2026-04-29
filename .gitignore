@@ -9,5 +9,3 @@ pyvenv.cfg
 
 # Non-permanent files
 instance/
-*.log
-monSite.json

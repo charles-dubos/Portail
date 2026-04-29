@@ -2,18 +2,7 @@ from flask import request
 from flask_sqlalchemy import SQLAlchemy
 from .models import SQLPage, SQLCard, SQLSound, db
 from .interface import PageIF
-import sys, logging, json
-
-
-def loadLogging(logConfig: dict) -> None:
-  """Configures logging.
-  """
-  logging.basicConfig(
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-    stream=sys.stderr,
-    level=getattr( logging, logConfig['LOGLEVEL'] )
-  )
-
+import sys, json
 
 # FONCTIONS
 def getCookie(db:SQLAlchemy) -> int:
