@@ -15,13 +15,9 @@ def create_app(test_config=None) -> Flask:
         Flask: Generated Flask app.
     """
 
-    logging.basicConfig(
-        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-        level=getattr( logging, os.getenv('PORTAIL_LOGLEVEL', 'INFO') )
-    )
-
-
     app = Flask(__name__, instance_relative_config=True)
+
+    app.logger.setLevel(getattr( logging, os.getenv('PORTAIL_LOGLEVEL', 'INFO') ))
     app.config.from_mapping(
         SECRET_KEY=os.getenv('PORTAIL_SECRETKEY', 'dev')
     )
@@ -109,7 +105,7 @@ def create_app(test_config=None) -> Flask:
 
         if request.method == 'POST':
             data = dict( request.form.items( multi=False ) )
-            logging.debug( f'Méthode POST utilisée avec les données {data.keys()}' )
+            app.logger.debug( f'Méthode POST utilisée avec les données {data.keys()}' )
             if 'delete-card' in data.keys() :
                 try:
                     CardIF(db=db, id=data['current']).delete()
@@ -138,7 +134,7 @@ def create_app(test_config=None) -> Flask:
                 except Exception:
                     message += f"Impossible de créer la carte {data['name']}"
             
-        if message: logging.warn(message)
+        if message: app.logger.warn(message)
 
         return render_template('pages/edit.html.j2',
                             sounds=SoundIF(db=db).getList(),
@@ -164,11 +160,11 @@ def create_app(test_config=None) -> Flask:
 
         if request.method == 'POST':
             data = dict( request.form.items( multi=False ) )
-            logging.debug( f'Méthode POST utilisée avec les données {data.keys()}' )
+            app.logger.debug( f'Méthode POST utilisée avec les données {data.keys()}' )
             activeTabIndex=1
 
             if request.form.get('form') == 'pages':
-                logging.info("Enregistrement des pages")
+                app.logger.info("Enregistrement des pages")
 
                 pagesOrder = [ int(pageId[:-6])
                                 for pageId in request.form.keys()
@@ -180,7 +176,7 @@ def create_app(test_config=None) -> Flask:
                         background_url=request.form[f"{page.id}-background_url"],
                         order=pagesOrder.index(page.id)+1
                     )
-                    logging.debug( f"Enregistrement de {page.id} : titre à {request.form[f"{page.id}-title"]} et image à {request.form[f"{page.id}-background_url"]}" )
+                    app.logger.debug( f"Enregistrement de {page.id} : titre à {request.form[f"{page.id}-title"]} et image à {request.form[f"{page.id}-background_url"]}" )
 
             elif request.form.get('form') == 'newPage':
                 try:
@@ -188,7 +184,7 @@ def create_app(test_config=None) -> Flask:
                         title=request.form['new-title'],
                         background_url=request.form['new-background_url']
                     )
-                    logging.info( f"Création de la page {page.id} : '{request.form['new-title']}' avec l'image '{request.form['new-background_url']}'" )
+                    app.logger.info( f"Création de la page {page.id} : '{request.form['new-title']}' avec l'image '{request.form['new-background_url']}'" )
                 except Exception:
                     message += f"Impossible de créer la page {request.form['new-title']}"
 
@@ -206,11 +202,11 @@ def create_app(test_config=None) -> Flask:
                             url=request.form[f"{sound.context}-url"],
                             volume=request.form[f"{sound.context}-volume"],
                         )
-                        logging.debug( f"Enregistrement de {sound.context} : url à {request.form[f"{sound.context}-url"]} et volume à {request.form[f"{sound.context}-volume"]}" )
+                        app.logger.debug( f"Enregistrement de {sound.context} : url à {request.form[f"{sound.context}-url"]} et volume à {request.form[f"{sound.context}-volume"]}" )
                     except Exception:
                         message += f"Impossible modifier les sons."
 
-        if message: logging.warn(message)
+        if message: app.logger.warn(message)
         
         return render_template('pages/settings.html.j2',
                             sounds=SoundIF(db=db).getList(),
