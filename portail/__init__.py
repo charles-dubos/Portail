@@ -17,7 +17,6 @@ def create_app(test_config=None) -> Flask:
 
     logging.basicConfig(
         format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-        stream=sys.stderr,
         level=getattr( logging, os.getenv('PORTAIL_LOGLEVEL', 'INFO') )
     )
 
