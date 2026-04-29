@@ -9,14 +9,14 @@ ENV     PATH="$VIRTUAL_ENV/bin:$PATH"
 
 WORKDIR $APP_PATH
 
-ADD     . $APP_PATH
-
 RUN     apk update \
  &&     apk add --no-cache python3 py3-pip \
  &&     python3 -m venv ${VIRTUAL_ENV} \
  &&     pip install --upgrade pip \
  &&     pip install -e . \
  &&     mkdir ./instance
+
+ADD     . $APP_PATH
 
 EXPOSE  8000
 
