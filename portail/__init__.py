@@ -18,6 +18,10 @@ def create_app(test_config=None) -> Flask:
     app = Flask(__name__, instance_relative_config=True)
 
     app.logger.setLevel(getattr( logging, os.getenv('PORTAIL_LOGLEVEL', 'INFO') ))
+    gunicorn_logger = logging.getLogger('gunicorn.error')
+    gunicorn_logger.setLevel(app.logger.level)
+    app.logger.handlers = gunicorn_logger.handlers
+
     app.config.from_mapping(
         SECRET_KEY=os.getenv('PORTAIL_SECRETKEY', 'dev')
     )
