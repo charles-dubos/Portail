@@ -38,15 +38,20 @@ body {
   --edit-color: color-mix(in srgb, var(--bg-color), var(--fg-color));
   --edit-filter: color-mix(in srgb, var(--edit-color), transparent 50%); 
 
-    margin: 0.1px;
-    line-height: 1.7em;
-    color: var(--fg-color);
-    font-size: 13px;
-    background: var(--bg-color);
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center top;
-    background-attachment: fixed;
+  margin: 0.1px;
+  line-height: 1.7em;
+  color: var(--fg-color);
+  font-size: 13px;
+  background: var(--bg-color);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center top;
+  background-attachment: fixed;
+}
+
+.soft-display {
+  opacity: 0;
+  transition: opacity 0.8s allow-discrete;
 }
 
 h1,
