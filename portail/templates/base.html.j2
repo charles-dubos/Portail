@@ -40,7 +40,13 @@
 {% endfor %}
 </head>
 
-<body class="darkmode" style="opacity:0;">
+<body>
+
+<div id="loader">
+  <div class="dots"></div>
+</div>
+
+<main class="darkmode" style="opacity:0;">
 
     <div class="header">
         <div class="pure-g home-menu header-menu">
@@ -67,6 +73,7 @@
     <div class="footer home-menu portrait pure-g is-center">
     {{ nav()|indent('\t',True) }}
     </div>
+</main>
 </body>
 </html>
 
@@ -76,7 +83,8 @@
 
 <script>
     window.addEventListener('load', () => {
-        document.querySelector('body').style.opacity = '1';
+        document.querySelector('#loader').remove();
+        document.querySelector('main').style.opacity = '1';
         document.querySelectorAll('.soft-display').forEach( e => e.style.opacity = '1')
     });
 </script>
