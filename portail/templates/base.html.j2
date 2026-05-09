@@ -78,7 +78,11 @@
 </html>
 
 <script src="{{url_for('static', filename='js/loadAfter.js')}}"></script>
-<script type="text/javascript">profileMode();appMuted.updateButton();darkMode.updateButton();</script>
+<script type="text/javascript">
+    profileMode();
+    darkMode.updateButton();
+    appMuted.updateButton();
+</script>
 {% block postscript %}{% endblock postscript %}
 
 <script>

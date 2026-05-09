@@ -4,6 +4,7 @@
 /* Variables globales */
 
 var selectedChannel = "";
+var currentAudio = null;
 
 // Gestion du switch de son (en local)
 const appMuted = {
@@ -20,7 +21,6 @@ const appMuted = {
     this.updateButton();
   }
 }
-
 
 // Gestion du switch de dark mode (en local)
 const darkMode = {
@@ -59,19 +59,16 @@ const darkMode = {
 
 // makes playing audio return a promise
 function waitAudio(audioId){
-  const sound=document.getElementById(audioId);
+  if (currentAudio) { 
+    currentAudio.pause();
+    currentAudio.currentTime = 0;}
+  currentAudio=document.getElementById(audioId);
   return new Promise(res=>{
-    sound.volume=sound.getAttribute('data-volume');
-    sound.play();
-    sound.onended = res;
+    appMuted.updateButton();
+    currentAudio.volume=currentAudio.getAttribute('data-volume');
+    currentAudio.play();
+    currentAudio.onended = res;
   })
-}
-
-// makes playing audio not blocking
-function playAudio(audioId){
-  const sound=document.getElementById(audioId);
-  sound.volume=sound.getAttribute('data-volume');
-  sound.play();
 }
 
 // Son en quittant
