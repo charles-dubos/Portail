@@ -26,16 +26,18 @@ const appMuted = {
 const darkMode = {
   state() { return getCookie('darkmode') },
   updateButton() {
-    document.getElementById("toggleDarkmode").children[0].classList.remove('fa-moon','fa-sun', 'fa-circle-half-stroke');
-    switch (this.state()) {
-      case "true":
-        document.getElementById("toggleDarkmode").children[0].classList.add('fa-moon');
-        break;
-      case "false":
-        document.getElementById("toggleDarkmode").children[0].classList.add('fa-sun');
-        break;
-      default:
-        document.getElementById("toggleDarkmode").children[0].classList.add('fa-circle-half-stroke');
+    if (document.getElementById("toggleDarkmode") != null) {
+      document.getElementById("toggleDarkmode").children[0].classList.remove('fa-moon','fa-sun', 'fa-circle-half-stroke');
+      switch (this.state()) {
+        case "true":
+          document.getElementById("toggleDarkmode").children[0].classList.add('fa-moon');
+          break;
+        case "false":
+          document.getElementById("toggleDarkmode").children[0].classList.add('fa-sun');
+          break;
+        default:
+          document.getElementById("toggleDarkmode").children[0].classList.add('fa-circle-half-stroke');
+      }
     }
   },
   switch() {
