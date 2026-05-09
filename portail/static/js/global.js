@@ -66,13 +66,11 @@ function waitAudio(audioId){
   return new Promise(res=>{
     appMuted.updateButton();
     currentAudio.volume=currentAudio.getAttribute('data-volume');
-    currentAudio.play();
+    currentAudio.play()
+      .catch( (e) => console.log("Cannot play audio: "+e.message));
     currentAudio.onended = res;
   })
 }
-
-// Son en quittant
-window.addEventListener("beforeunload", async function () { await waitAudio('changePage') });
 
 
 /* Gestion de cookies */
