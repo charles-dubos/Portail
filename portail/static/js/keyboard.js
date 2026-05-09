@@ -4,7 +4,6 @@ const MOUSE_TIMEOUT_MS = 1500;
 
 /* Variables globales */
 var kbdEnterTimer = null;
-// var mouseMoveTimer = null;
 
 
 /* Touches clavier */
@@ -123,8 +122,6 @@ function enableMouseOnChilds() {
   document.querySelectorAll('.cards-container').forEach(
     (cardContainer) => cardContainer.classList.add('enable-mouse')
   );
-  // if ( mouseMoveTimer ) clearTimeout(mouseMoveTimer);
-  // mouseMoveTimer = setTimeout('disableMouseOnChilds()', MOUSE_TIMEOUT_MS);
 }
 
 function disableMouseOnChilds() {
@@ -132,5 +129,4 @@ function disableMouseOnChilds() {
   document.querySelectorAll('.cards-container').forEach(
     (cardContainer) => cardContainer.classList.remove('enable-mouse')
   );
-  // mouseMoveTimer = null
 }
