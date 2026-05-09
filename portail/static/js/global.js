@@ -69,8 +69,9 @@ function waitAudio(audioId){
     appMuted.updateButton();
     currentAudio.volume=currentAudio.getAttribute('data-volume');
     currentAudio.play()
-      .catch( (e) => console.log("Cannot play audio: "+e.message));
-    currentAudio.onended = res;
+      .then( () => {currentAudio.onended = res;} )
+      .catch( (e) => {console.log("Cannot play audio: "+e.message); res();}
+    );
   })
 }
 
