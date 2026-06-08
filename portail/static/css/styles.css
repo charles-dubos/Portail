@@ -265,10 +265,10 @@ textarea {
 #selectedChannelDisplay {
   position:fixed;
   bottom:0;
-  right:0;
-  /* background-color: var(--bg-menu-color); */
-  color: var(--emph-menu-color);
-  font-size: 2rem;
+  left:0;
+  color: var(--bg-menu-color);
+    text-shadow: 0 0 0.1vw var(--emph-menu-color);
+  font-size: 1.5rem;
   padding: 5px;
   border-radius: 5px;
   z-index: 2;
